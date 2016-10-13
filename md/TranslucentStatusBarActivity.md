@@ -8,7 +8,7 @@
 
 ---------
 首先创建一个demo，在LinearLayout布局中显示一个全屏的ImageView：
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -39,7 +39,7 @@ getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
 
 ###**方案一** FLAG_TRANSLUCENT_STATUS全屏布局
 在values-v19目录下增加一个style：
-```
+```xml
     <style name="AppTheme" parent="@style/BaseAppTheme">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
@@ -47,7 +47,7 @@ getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
     </style>
 ```
 或者使用java代码实现：
-```
+```java
 // 在UI线程任何时候都可以调用
     private void setTranslucentSystemUI() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -63,7 +63,7 @@ getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
  
 可以看到，图片已经延伸至状态栏和导航栏下面了，效果类似QQ空间头部背景图片。
 有很多布局是不能这样显示的，因为状态栏的信息会覆盖住布局顶部的内容，于是我们在根布局设置一个属性：
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -82,7 +82,7 @@ getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
 ###**方案二** 通过Window.setStatusBarColor(int)设置状态栏颜色
 
  Android5.1加入了新的方法来设置状态栏和导航栏背景色
-```
+```java
     private void setTranslucentSystemUI() {
         Window window = getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -119,7 +119,7 @@ getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
 `View.setSystemUiVisibility(visibility)`设置状态栏与导航栏显示与否
 在SDK16加入了一些属性（`View.SYSTEM_UI_FLAG_XXX`）来控制系统UI（状态栏和导航栏）
 
-```
+```java
     private void setSystemUIVisible(boolean visible) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             return;
@@ -153,7 +153,7 @@ getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
 
 ###**方案四** Window.setAttributes(params)
 还有一个方式动态切换全屏和非全屏（其实也是状态栏的显示与否）：
-```
+```java
     private void setFullScreenEnable(boolean enable) {
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
