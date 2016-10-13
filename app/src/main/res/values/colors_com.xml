@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    
+    
+    <!--  ################### PinGo的公共颜色（开始）################### -->
+    
+    <!-- 通用的文字颜色 -->
+    <color name="com_text_tx1">#333333</color>                 <!-- 正文 -->
+    <color name="com_text_tx2">#777777</color>                   <!-- 强文字 -->
+    <color name="com_text_tx3">#a6a6a6</color>                      <!-- 弱文字 -->
+<!-- @Deprecated    <color name="com_text_strong_tip">#ffaf40</color>                <!** 强提示性文字 **> -->
+    <color name="com_text_tips">#ccc</color>            <!-- 弱文字，白色 -->
+    <color name="com_text_th">#ff5454</color>           <!-- 主题颜色，粉红 -->
+    <color name="com_text_to">#ffaf40</color>           <!--  主题用于话题链接 -->
+    <color name="com_text_lk">#576b95</color>           <!-- 文字链接色，主要用于评论昵称 -->
+    
+    
+    <!-- 通用背景颜色 -->
+    <color name="com_bg_th">#fe2a66</color>                             <!-- 主题色 -->
+    <color name="com_bg_li1">#ffe5e5e5</color>                         <!-- 分割线 -->
+<!-- @Deprecated    <color name="com_bg_divider_1">#ffdddddd</color>                    <!** 分割线 **> -->
+    <color name="com_bg1">#f0f0f0</color>                                  <!-- 背景色,用于分割模块底色 -->
+    <color name="com_bg2">#ffffff</color>                                     <!-- 背景色 -->
+    <color name="com_bg3">#f7f7f7</color>                                  <!-- 文章图片的默认图颜色 -->
+    
+    <color name="com_trans_60">#99ffffff</color>
+    
+    <!--  ################### PinGo的公共颜色（结束）################### -->
+
+
+    
+    <!-- 公共背景颜色 -->
+    <color name="com_bg_white">#ffffff</color> 
+<!-- @Deprecated    <color name="com_bg_gray_1">#fafafa</color><!** 比com_bg_gray浅一点 **>  -->
+    <color name="com_bg_gray_2">#e5e5e5</color><!-- 比com_bg_gray深一点 -->  
+<!-- @Deprecated    <color name="com_bg_gray_3">#f7f7f7</color> -->
+<!-- @Deprecated    <color name="com_bg_green">#4cbec1</color> -->
+    <color name="com_bg_black">#000000</color>
+    <color name="com_bg_translucence_white">#1fffffff</color>
+<!-- @Deprecated    <color name="com_bg_yellow">#ffe744</color> -->
+<!-- @Deprecated    <color name="com_bg_pink">#ff4878</color> -->
+    
+    <!-- UI组建背景 -->
+    <color name="com_bg_dlg">#fafafa</color>
+<!-- @Deprecated    <color name="com_bg_menu">#fafafa</color>     -->
+<!-- @Deprecated    <color name="com_bg_popup">#e5e5e5</color> -->
+<!-- @Deprecated    <color name="com_bg_popup_hover">#d4d4d4</color>     -->
+<!-- @Deprecated    <color name="com_bg_title_hover">#5ec5c7</color><!** title或者所有的蓝色背景的hover颜色 **> -->
+    
+    <!-- 背景渐变色 -->
+<!-- @Deprecated    <color name="com_bg_red_left">#e23f86</color><!** 红色渐变左边颜色 **> -->
+<!-- @Deprecated    <color name="com_bg_red_right">#f86768</color><!** 红色渐变右边颜色 **> -->
+
+    <!-- 公共字体颜色 -->
+    <color name="com_text_black">#000000</color>
+    <color name="com_text_black_1">#333333</color> <!-- 浅一点 -->
+    <color name="com_text_black_trans">#20000000</color>
+    <color name="com_text_white">#ffffff</color>
+    <color name="com_text_white_trans">#7fffffff</color> 
+<!-- @Deprecated    <color name="com_text_green">#4cbec1</color> -->
+    <color name="com_text_red">#e95c52</color>
+    <color name="com_text_gray_0">#666666</color> <!-- 深一点 --> 
+    <color name="com_text_gray_1">#999999</color> <!-- 浅一点 -->
+    <color name="com_text_hint">#6f999999</color> <!-- 编辑框默认文本颜色textColorHint -->
+<!-- @Deprecated    <color name="com_text_menu">#000000</color> -->
+    <color name="com_text_yellow">#ffaf40</color>
+    
+    <!-- 公共分界线颜色 -->
+    <color name="com_divider_gray_0">#e5e5e5</color> <!-- 浅一点 --> 
+    <color name="com_divider_gray_1">#cfcfcf</color> <!-- 深一点 -->
+    
+    <!-- 透明背景颜色 -->
+    <color name="com_transparent">#00000000</color>
+
+    <!-- 公共弹框蒙层背景色 -->
+    <color name="com_popwindow_bg">#7f000000</color>
+    
+    <!-- 预览图片的蒙层颜色 -->
+    <color name="com_image_mongoli">#33000000</color>
+    
+<!-- @Deprecated    <color name="com_layer_black">#7f000000</color> -->
+    
+</resources>

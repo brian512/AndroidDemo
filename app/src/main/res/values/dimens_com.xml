@@ -1,0 +1,84 @@
+<resources>
+
+    
+    
+    
+    <!--  ################### PinGo的公共尺寸（开始）################### -->
+    
+    <!-- 文字大小 1.x版本沿用 -->
+    <dimen name="com_text_size_content">18sp</dimen>  <!-- 正文字号：36px -->
+    <dimen name="com_text_size_tips">12sp</dimen>     <!-- 最小字号：24px -->
+    
+    <!-- 文字 -->
+    <dimen name="com_text_fxl">17sp</dimen>              <!-- 正文字号：大 -->
+    <dimen name="com_text_fl">15sp</dimen>                <!-- 正文字号：中偏大 -->
+    <dimen name="com_text_fm">13sp</dimen>              <!-- 正文字号：中 -->
+    <dimen name="com_text_fs">12sp</dimen>                <!-- 正文字号：小 -->
+    <dimen name="com_text_fxs">10sp</dimen>              <!-- 正文字号：最小 -->
+    
+    <dimen name="com_space_grid">2dp</dimen>              <!-- 九宫格间距 -->
+    <!-- 间距 -->
+    <dimen name="com_space_unit">8dp</dimen>              <!-- 页面间距一般都只这个间距的整数倍 -->
+    <dimen name="com_space_unit2">16dp</dimen>          <!-- 2 * 单位间距 -->
+    <dimen name="com_space_unit3">24dp</dimen>          <!-- 3 * 单位间距 -->
+    <dimen name="com_space_unit4">32dp</dimen>          <!-- 4 * 单位间距 -->
+    <dimen name="com_space_unit5">40dp</dimen>          <!-- 5 * 单位间距 -->
+    <dimen name="com_space_unit6">48dp</dimen>          <!-- 6 * 单位间距 -->
+    <dimen name="com_space_unit_half">4dp</dimen>       <!-- 0.5 * 单位间距 -->
+    <dimen name="com_space_unit1_half">12dp</dimen>       <!-- 1.5 * 单位间距 -->
+    
+    <!-- listview的item的通用高度 -->
+    <dimen name="com_list_item_height">64dp</dimen>             <!-- 适用于大于等于三行数据的情况 -->
+<!-- @Deprecated    <dimen name="com_list_item_height_sm">64dp</dimen>      <!** 适用于量行数据的情况 **> -->
+    <!--  ################### PinGo的公共尺寸（结束）################### -->
+    
+
+    <!-- 一般提标题 -->
+<!-- @Deprecated    <dimen name="com_text_size_title">16sp</dimen> -->
+    
+    <!-- 输入框 -->
+<!-- @Deprecated    <dimen name="com_text_size_edit">16sp</dimen> -->
+    
+    <!-- 按钮字体 -->
+<!-- @Deprecated    <dimen name="com_text_size_btn">15sp</dimen> -->
+    
+    <!-- 设置 -->
+    <dimen name="com_text_size_setting">18sp</dimen>
+    
+    <!-- 通知消息中的文字大小 -->
+<!-- @Deprecated    <dimen name="com_text_size_alarm">13sp</dimen> -->
+    
+    <!-- 引导中的文字大小 -->
+<!-- @Deprecated    <dimen name="com_text_size_guide">13sp</dimen> -->
+    
+    <!-- 通用圆角半径大小 -->
+<!-- @Deprecated    <dimen name="com_radius">3dp</dimen> -->
+<!-- @Deprecated    <dimen name="com_radius_big">8dp</dimen> -->
+  
+    
+    <!-- 菜单对话框相关 -->
+    <dimen name="com_menu_dialog_item_height">40dp</dimen>
+    <dimen name="com_menu_dialog_item_margin_left">20dp</dimen>
+    <dimen name="com_menu_dialog_item_text_size">16sp</dimen>
+
+    <!-- 设置页、用户个人页的Item条目大小 -->
+    <dimen name="com_line_item_height">56dp</dimen>
+    
+    <!-- 头像相关，目前头像定义有三套大小。。。。 -->
+<!-- @Deprecated    <dimen name="head_icon_size_72">72dp</dimen>        <!** 漂流瓶背部的个人头像使用 **> -->
+    <dimen name="head_icon_size_64">64dp</dimen>        <!-- 列表页面的头像使用 -->
+<!-- @Deprecated    <dimen name="head_icon_size_60">60dp</dimen>        <!** profiel页使用 **> -->
+<!-- @Deprecated    <dimen name="head_icon_size_56">56dp</dimen>        <!** 漂流瓶背部的点人的人头的像使用 **> -->
+<!-- @Deprecated    <dimen name="head_icon_size_38">38dp</dimen>  -->
+<!-- @Deprecated    <dimen name="head_icon_size_32">32dp</dimen>        <!** 专题详情页点赞的人的头像 **> -->
+    <dimen name="head_icon_size_hl">64dp</dimen>         
+    <dimen name="head_icon_size_hm">48dp</dimen>       
+    <dimen name="head_icon_size_hs">32dp</dimen>        
+    <dimen name="head_icon_size_hxs">24dp</dimen>        
+    
+    <!-- 通用的圆角半径 -->
+    <dimen name="com_radius_big">4dp</dimen>                <!-- 大圆角：图标大于128X128（px）时使用 -->
+<!-- @Deprecated    <dimen name="com_radius_normal">2dp</dimen>          <!**  中圆角：图标大于48X48（px），小于128X128（px）时使用 **>    -->
+<!-- @Deprecated    <dimen name="com_radius_small">1dp</dimen>              <!** 小圆角：图标大于24X24（px），小于48X48（px）时使用 **>  -->
+    
+</resources>

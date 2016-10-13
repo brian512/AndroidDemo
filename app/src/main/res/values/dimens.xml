@@ -1,0 +1,69 @@
+
+<resources>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- body content -->
+    <dimen name="body_padding_medium">10dp</dimen>
+    <dimen name="body_padding_large">10dp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_xlarge">18sp</dimen>
+    <dimen name="speaker_image_size">36dp</dimen>
+    <dimen name="speaker_image_padding">8dp</dimen>
+    <dimen name="vendor_image_size">100dp</dimen>
+    <dimen name="actionbar_height">45dip</dimen>
+    <dimen name="actionbar_item_height">45dip</dimen>
+    <dimen name="actionbar_item_width">45dip</dimen>
+    <dimen name="slidingmenu_offset">200dp</dimen>
+    <dimen name="list_padding">10dp</dimen>
+    <dimen name="shadow_width">100dp</dimen>
+    
+    
+    <!-- head content -->
+	<dimen name="head_height">40dp</dimen>
+	<dimen name="head_size_text">20sp</dimen>
+	<dimen name="head_size_title">22sp</dimen>
+	<dimen name="head_width_button">35dp</dimen>
+	<dimen name="head_height_button">35dp</dimen>
+	<dimen name="head_margin">2dp</dimen>
+	
+	
+	<!-- listview item -->
+	<dimen name="item_paddingBottom">8dp</dimen>
+	<dimen name="item_paddingTop">8dp</dimen>
+	<dimen name="item_paddingRight">16dp</dimen>
+	<dimen name="item_paddingLeft">16dp</dimen>
+	
+	<dimen name="item_description_paddingLeft">20dp</dimen>
+	<dimen name="item_msg_paddingTop">8dp</dimen>
+	
+	<dimen name="item_size_title">18sp</dimen>
+	<dimen name="item_size_description">14sp</dimen>
+	<dimen name="item_size_msg">12sp</dimen>
+	
+	<!-- person center -->
+	<dimen name="header_img_height">300dp</dimen>
+	<dimen name="header_img_marginTop">-100dp</dimen>
+	<dimen name="header_img_visibleHeight">-100dp</dimen>
+	
+	<dimen name="user_head_width">100dp</dimen>
+	<dimen name="user_head_height">100dp</dimen>
+	<dimen name="user_head_marginTop">40dp</dimen>
+	<dimen name="user_head_marginBottom">10dp</dimen>
+	
+	<dimen name="et_userid_width">120dp</dimen>
+	
+	<dimen name="circle_border_width">2dp</dimen>
+	<dimen name="user_center_size_menu">18sp</dimen>
+	<dimen name="user_center_size_info">16sp</dimen>
+	
+	<dimen name="user_center_menu_height">40dp</dimen>
+	<dimen name="user_center_menu_marginLeft">20dp</dimen>
+	<dimen name="user_center_menu_marginRight">20dp</dimen>
+
+
+	<dimen name="navigator_common_height">40dp</dimen>
+	
+</resources>

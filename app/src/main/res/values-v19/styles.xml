@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="@style/BaseAppTheme">
+    </style>
+
+    <style name="TranslucentStatusBarTheme" parent="@style/BaseAppTheme">
+        <!--<item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>-->
+        <item name="android:background">@color/red</item>
+    </style>
+</resources>
