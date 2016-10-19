@@ -72,17 +72,21 @@ public class MarkableProgressBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 //        super.onDraw(canvas);
+
+        // 首先绘制背景
         mPaint.setColor(mColorBg);
         canvas.drawRect(0, 0, getMeasuredWidth(), getMeasuredHeight(), mPaint);
 
+        // 再绘制进度
         mPaint.setColor(mColorProgress);
         long timeCount = mLastCountTime;
-        if (mStartTime != 0) {
+        if (mStartTime != 0) { // 中间暂停的时间需要处理掉，这里的累计时长是用之前的累计时长+本次时长。
             timeCount = mLastCountTime + System.currentTimeMillis() - mStartTime;
         }
         float percent = timeCount / (mMaxTime*1f);
         mCurrProgressWidth = percent * mW; // 绘制时计算当前需要绘制的长度
 
+        // 若已到最大时间，则停止进度条刷新并回调
         if (mCurrProgressWidth > mW) {
             mCurrProgressWidth = mW;
             mHandle.removeMessages(MSG_DRAW);
@@ -93,11 +97,13 @@ public class MarkableProgressBar extends View {
         }
         canvas.drawRect(getPaddingLeft(), getPaddingTop(), getPaddingLeft() + mCurrProgressWidth, mH + getPaddingTop(), mPaint);
 
+        // 最后绘制打点标记
         mPaint.setColor(Color.WHITE);
         for (Mark mark : mMarkList) {
             canvas.drawRect(mark.left, getPaddingTop(), mark.right, mH + getPaddingTop(), mPaint);
         }
 
+        // 是否已达到最小时长，需要回调
         if (timeCount < mMinTime && mMinMark != null) {
             canvas.drawRect(mMinMark.left, getPaddingTop(), mMinMark.right, mH + getPaddingTop(), mPaint);
         } else {
@@ -107,10 +113,12 @@ public class MarkableProgressBar extends View {
             }
         }
 
+        // 进度回调
         if (mProgressListener != null) {
             mProgressListener.onProgress(percent);
         }
 
+        // 进度显示
 //        mPaint.setColor(Color.RED);
 //        mPaint.setTextSize(20);
 //        canvas.drawText("" + (int)(percent*100), 0, getHeight() / 2, mPaint);
