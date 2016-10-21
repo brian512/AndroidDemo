@@ -44,4 +44,7 @@
     <color name="pathbg">#f1eee9</color>
     <color name="pathbg2">#d0c3b7</color>
 
+    <color name="dark_gray">#3d454c</color>
+    <color name="dark_gray_pressed">#373e44</color>
+    <color name="darker_gray">#1f2226</color>
 </resources>

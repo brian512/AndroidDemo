@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- Action-bar looking view -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_dimen"
+        android:background="@color/dark_gray" >
+
+        <ImageView
+            android:id="@+id/drawer_indicator1"
+            android:layout_width="@dimen/actionbar_dimen"
+            android:layout_height="@dimen/actionbar_dimen"
+            android:layout_marginLeft="10dp"
+            android:foregroundGravity="center"
+            android:layout_gravity="start"
+            android:scaleType="centerInside" />
+
+
+        <ImageView
+            android:id="@+id/drawer_indicator2"
+            android:layout_width="@dimen/actionbar_dimen"
+            android:layout_height="@dimen/actionbar_dimen"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:foregroundGravity="center"
+            android:scaleType="centerInside" />
+    </FrameLayout>
+
+    <!-- Content -->
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/view_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Content" />
+
+        <TextView
+            android:id="@+id/drawer_content"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/darker_gray"
+            android:gravity="center"
+            android:text="Drawer"
+            android:textColor="@color/light_gray" />
+    </android.support.v4.widget.DrawerLayout>
+
+</LinearLayout>

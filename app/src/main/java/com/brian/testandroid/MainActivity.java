@@ -5,7 +5,11 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ListView;
 
+import com.brian.testandroid.activity.BannerViewActivity;
+import com.brian.testandroid.activity.DrawerArrowActivity;
 import com.brian.testandroid.activity.MarkableProgressBarActivity;
+import com.brian.testandroid.activity.PraiseViewActivity;
+import com.brian.testandroid.activity.ScrollingImageActivity;
 import com.brian.testandroid.activity.TabLayoutActivity;
 import com.brian.testandroid.activity.TranslucentStatusBarActivity;
 import com.brian.testandroid.common.BaseActivity;
@@ -34,6 +38,10 @@ public class MainActivity extends BaseActivity {
         initListView();
 
         // 需要在AndroidManifest.xml注册activity
+        mDatas.add(new Item(BannerViewActivity.class, "测试轮播图BannerView"));
+        mDatas.add(new Item(PraiseViewActivity.class, "测试点赞效果"));
+        mDatas.add(new Item(DrawerArrowActivity.class, "测试DrawerArrow"));
+        mDatas.add(new Item(ScrollingImageActivity.class, "测试循环滚动图片"));
         mDatas.add(new Item(MarkableProgressBarActivity.class, "测试可打点进度条"));
         mDatas.add(new Item(TranslucentStatusBarActivity.class, "测试沉浸式状态栏"));
         mDatas.add(new Item(TabLayoutActivity.class, "测试TabLayout"));

@@ -23,7 +23,11 @@
         </activity>
 
         <activity android:name=".activity.TabLayoutActivity"/>
+        <activity android:name=".activity.BannerViewActivity"/>
         <activity android:name=".activity.MarkableProgressBarActivity"/>
+        <activity android:name=".activity.ScrollingImageActivity"/>
+        <activity android:name=".activity.PraiseViewActivity"/>
+        <activity android:name=".activity.DrawerArrowActivity"/>
         <activity android:name=".activity.TranslucentStatusBarActivity"
             android:theme="@style/TranslucentStatusBarTheme"/>
     </application>

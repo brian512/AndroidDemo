@@ -1,6 +1,6 @@
 <resources>
 
-    
+    <dimen name="actionbar_dimen">48dp</dimen>
     
     
     <!--  ################### PinGo的公共尺寸（开始）################### -->
