@@ -5,3 +5,7 @@
 - [MarkableProgressBarActivity](./md/MarkableProgressBarActivity.md)
 - [TranslucentStatusBarActivity](./md/TranslucentStatusBarActivity.md)
 - [TabLayoutActivity](./md/TabLayoutActivity.md)
+- [BannerViewActivity](./md/BannerViewActivity.md)
+- [DrawerArrowActivity](./md/DrawerArrowActivity.md)
+- [PraiseViewActivity](./md/PraiseViewActivity.md)
+- [ScrollingImageActivity](./md/ScrollingImageActivity.md)
