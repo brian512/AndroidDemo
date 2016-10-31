@@ -1,10 +1,10 @@
 ##[Android沉浸式状态栏的实现方案探讨](http://blog.csdn.net/brian512/article/details/52755539)
 
 多次尝试实现Android沉浸式状态栏，资料很多也很杂。并且有好几种实现方案，网上有好些资料把几种方案都混在一起，暂时把效果实现了，但是遇到问题后就蛋疼了。于是，这两天我就把从根源上把这几种方案的原理都整理了一下。主要有四种方案，有的方案还可以细分：
-1. WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS；
-2. Window.setStatusBarColor(int)；
-3. View.setSystemUiVisibility(visibility);
-4. Window.setAttributes(params)；
+ 1. WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS；
+ 2. Window.setStatusBarColor(int)；
+ 3. View.setSystemUiVisibility(visibility);
+ 4. Window.setAttributes(params)；
 
 ---------
 首先创建一个demo，在LinearLayout布局中显示一个全屏的ImageView：

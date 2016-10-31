@@ -9,3 +9,4 @@
 - [DrawerArrowActivity](./md/DrawerArrowActivity.md)
 - [PraiseViewActivity](./md/PraiseViewActivity.md)
 - [ScrollingImageActivity](./md/ScrollingImageActivity.md)
+- [DialogFragmentActivity](./md/DialogFragmentActivity.md)
