@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.brian.testandroid.activity.BannerViewActivity;
+import com.brian.testandroid.activity.DayNightActivity;
 import com.brian.testandroid.activity.DialogFragmentActivity;
 import com.brian.testandroid.activity.DrawerArrowActivity;
 import com.brian.testandroid.activity.MarkableProgressBarActivity;
@@ -39,6 +40,7 @@ public class MainActivity extends BaseActivity {
         initListView();
 
         // 需要在AndroidManifest.xml注册activity
+        mDatas.add(new Item(DayNightActivity.class, "测试夜晚模式"));
         mDatas.add(new Item(DialogFragmentActivity.class, "测试DialogFragment"));
         mDatas.add(new Item(BannerViewActivity.class, "测试轮播图BannerView"));
         mDatas.add(new Item(PraiseViewActivity.class, "测试点赞效果"));

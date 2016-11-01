@@ -4,7 +4,7 @@ package com.brian.testandroid.common;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 
 import com.brian.testandroid.util.LogUtil;
@@ -16,7 +16,7 @@ import com.brian.testandroid.util.LogUtil;
  * 
  * @author ls
  */
-public class BaseActivity extends FragmentActivity {
+public class BaseActivity extends AppCompatActivity {
 
     protected static final String TAG = BaseActivity.class.getSimpleName();
 
@@ -51,8 +51,8 @@ public class BaseActivity extends FragmentActivity {
      * onCreate
      */
     @Override
-    protected void onCreate(Bundle arg0) {
-        super.onCreate(arg0);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         LogUtil.log(TAG, "onCreate：" + getClass().getSimpleName());
 
         sTopActivity = this; // 确保最新一个Activity创建后，TopActivity立马指向它，此时一些操作可以在onCreate函数执行
@@ -122,15 +122,12 @@ public class BaseActivity extends FragmentActivity {
         super.onStop();
     }
 
-    private Handler mUIHandler;
-    public Handler getUIHandler() {
-        if (mUIHandler == null) {
-            mUIHandler = sTopActivity.getWindow().getDecorView().getHandler();
-            if (mUIHandler == null) {
-                mUIHandler = new Handler();
-            }
+    public static Handler getUIHandler() {
+        Handler handler = sTopActivity.getWindow().getDecorView().getHandler();
+        if (handler == null) {
+            handler = new Handler();
         }
-        return mUIHandler;
+        return handler;
     }
 
 }

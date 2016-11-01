@@ -6,24 +6,17 @@
               android:orientation="vertical">
 
     <TextView
+        android:id="@+id/dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="提示"
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold"
         android:textSize="22sp"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/bg_gray"/>
-
     <TextView
+        android:id="@+id/dialog_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="我就是DialogFragment，效果如何？"
-        android:textSize="20sp"/>
+        android:textSize="18sp"/>
 
 </LinearLayout>

@@ -48,8 +48,8 @@
     <color name="dark_gray_pressed">#373e44</color>
     <color name="darker_gray">#1f2226</color>
 
-    <color name="title_bar">#5CACEE</color>
-    <color name="maintext">#000000</color>
-    <color name="mainbg">#ffffff</color>
+    <color name="title_bar">#1f2226</color>
+    <color name="maintext">#fff</color>
+    <color name="mainbg">#444</color>
 
 </resources>

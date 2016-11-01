@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@color/mainbg"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:padding="5dp"
+        android:text="标题"
+        android:textColor="@color/maintext"
+        android:background="@color/title_bar"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_margin="5dp"
+        android:text="点击下面的按钮测试夜间模式切换"
+        android:textColor="@color/maintext"/>
+
+    <Button
+        android:id="@+id/btn_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ligtht_mode"/>
+
+</LinearLayout>

@@ -30,6 +30,7 @@
         <activity android:name=".activity.PraiseViewActivity"/>
         <activity android:name=".activity.DrawerArrowActivity"/>
         <activity android:name=".activity.DialogFragmentActivity"/>
+        <activity android:name=".activity.DayNightActivity"/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">AndroidDemo</string>
-    <string name="ligtht_mode">Day</string>
+    <string name="ligtht_mode">Night</string>
 </resources>
