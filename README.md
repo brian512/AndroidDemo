@@ -3,16 +3,19 @@
 每增加一个知识点，就在listview插入一条数据（还需要在AndroidManifest.xml注册activity）作为入口。
 目前已有的demo：
 - [DayNightActivity](./md/DayNightActivity.md)
-![DayNightActivity.gif](.\art\DayNightActivity.gif)
+
+![DayNightActivity.gif](art/DayNightActivity.gif)
 
 - [MarkableProgressBarActivity](./md/MarkableProgressBarActivity.md)
-![MarkableProgressBarActivity.gif](.\art\MarkableProgressBarActivity.gif)
+
+![MarkableProgressBarActivity.gif](art/MarkableProgressBarActivity.gif)
 
 - [TranslucentStatusBarActivity](./md/TranslucentStatusBarActivity.md)
 - [TabLayoutActivity](./md/TabLayoutActivity.md)
 - [BannerViewActivity](./md/BannerViewActivity.md)
 - [DrawerArrowActivity](./md/DrawerArrowActivity.md)
-![DrawerArrowActivity.gif](.\art\DrawerArrowActivity.gif)
+
+![DrawerArrowActivity.gif](art/DrawerArrowActivity.gif)
 
 - [PraiseViewActivity](./md/PraiseViewActivity.md)
 - [ScrollingImageActivity](./md/ScrollingImageActivity.md)
