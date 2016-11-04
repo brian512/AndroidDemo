@@ -31,6 +31,7 @@
         <activity android:name=".activity.DrawerArrowActivity"/>
         <activity android:name=".activity.DialogFragmentActivity"/>
         <activity android:name=".activity.DayNightActivity"/>
+        <activity android:name=".activity.RecyclerViewActivity"/>
     </application>
 
 </manifest>

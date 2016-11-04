@@ -11,6 +11,7 @@ import com.brian.testandroid.activity.DialogFragmentActivity;
 import com.brian.testandroid.activity.DrawerArrowActivity;
 import com.brian.testandroid.activity.MarkableProgressBarActivity;
 import com.brian.testandroid.activity.PraiseViewActivity;
+import com.brian.testandroid.activity.RecyclerViewActivity;
 import com.brian.testandroid.activity.ScrollingImageActivity;
 import com.brian.testandroid.activity.TabLayoutActivity;
 import com.brian.testandroid.activity.TranslucentStatusBarActivity;
@@ -40,6 +41,7 @@ public class MainActivity extends BaseActivity {
         initListView();
 
         // 需要在AndroidManifest.xml注册activity
+        mDatas.add(new Item(RecyclerViewActivity.class, "测试RecyclerView"));
         mDatas.add(new Item(DayNightActivity.class, "测试夜晚模式"));
         mDatas.add(new Item(DialogFragmentActivity.class, "测试DialogFragment"));
         mDatas.add(new Item(BannerViewActivity.class, "测试轮播图BannerView"));
