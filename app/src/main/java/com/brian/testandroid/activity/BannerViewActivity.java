@@ -18,10 +18,12 @@ import java.util.ArrayList;
  */
 public class BannerViewActivity extends BaseActivity {
 
+    private CyclicRollView mViewPager;
+
     @Override
-    protected void onCreate(Bundle arg0) {
-        super.onCreate(arg0);
-        CyclicRollView viewPager = new CyclicRollView(this);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mViewPager = new CyclicRollView(this);
 
         final ArrayList<String> datas = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -43,13 +45,13 @@ public class BannerViewActivity extends BaseActivity {
                 return view;
             }
         };
-        viewPager.setSwitchInterval(1500);
-        viewPager.setSwitchSpeed(500);
-        viewPager.setCurrentItem(2);
+        mViewPager.setSwitchInterval(1500);
+        mViewPager.setSwitchSpeed(500);
+        mViewPager.setCurrentItem(2);
         adapter.initListWithDatas(datas);//init data
-        viewPager.setAdapter(adapter);
+        mViewPager.setAdapter(adapter);
 
-        viewPager.setOnItemClickListener(new CyclicRollView.OnItemClickListener() {
+        mViewPager.setOnItemClickListener(new CyclicRollView.OnItemClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Toast.makeText(BannerViewActivity.this, "position=" + position, Toast.LENGTH_SHORT).show();
@@ -57,6 +59,12 @@ public class BannerViewActivity extends BaseActivity {
             }
         });
 
-        setContentView(viewPager);
+        setContentView(mViewPager);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mViewPager.release();
+        super.onDestroy();
     }
 }

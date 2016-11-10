@@ -386,9 +386,13 @@ public class CyclicRollView extends FrameLayout {
     
     @Override
     protected void onDetachedFromWindow() {
+        release();
         super.onDetachedFromWindow();
-        mHandler.removeCallbacksAndMessages(null);
+    }
+
+    public void release() {
         mAdapter.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
     }
     
     private int mLastX;
