@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.brian.testandroid.activity.BannerViewActivity;
+import com.brian.testandroid.activity.CameraActivity;
 import com.brian.testandroid.activity.DayNightActivity;
 import com.brian.testandroid.activity.DialogFragmentActivity;
 import com.brian.testandroid.activity.DrawerArrowActivity;
@@ -41,6 +42,7 @@ public class MainActivity extends BaseActivity {
         initListView();
 
         // 需要在AndroidManifest.xml注册activity
+        mDatas.add(new Item(CameraActivity.class, "测试相机预览"));
         mDatas.add(new Item(RecyclerViewActivity.class, "测试RecyclerView"));
         mDatas.add(new Item(DayNightActivity.class, "测试夜晚模式"));
         mDatas.add(new Item(DialogFragmentActivity.class, "测试DialogFragment"));
