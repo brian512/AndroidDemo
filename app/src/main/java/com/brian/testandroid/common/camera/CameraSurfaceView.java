@@ -21,10 +21,13 @@ public class CameraSurfaceView extends AutoFitGLSurfaceView implements SurfaceTe
         setEGLContextClientVersion(2); // 设置OpenGL ES版本为2.0
 
         mCameraRenderer = new CameraRecordRenderer(context);
-        mCameraRenderer.setOnFrameAvailableListener(this); // 为mSurfaceTexture设置回调
-
+        mCameraRenderer.setOnFrameAvailableListener(this);
         setRenderer(mCameraRenderer); // 设置
         setRenderMode(RENDERMODE_WHEN_DIRTY); // 有数据更新 或者 requestRender时才更新
+    }
+
+    public CameraRecordRenderer getRenderer() {
+        return mCameraRenderer;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class CameraSurfaceView extends AutoFitGLSurfaceView implements SurfaceTe
             @Override
             public void run() {
                 // 跨进程 清空 Renderer数据
-                mCameraRenderer.notifyPausing();
+                mCameraRenderer.release();
             }
         });
 
@@ -45,4 +48,5 @@ public class CameraSurfaceView extends AutoFitGLSurfaceView implements SurfaceTe
     public void onFrameAvailable(SurfaceTexture surfaceTexture) {
         requestRender(); // 有数据来时请求渲染
     }
+
 }

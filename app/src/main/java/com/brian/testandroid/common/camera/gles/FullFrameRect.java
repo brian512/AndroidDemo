@@ -95,11 +95,11 @@ public class FullFrameRect {
      * Creates a texture object suitable for use with drawFrame().
      */
     public int createTexture() {
-        return GlUtil.createTexture(mFilter.getTextureTarget());
+        return GLUtil.createTexture(mFilter.getTextureTarget());
     }
 
     public int createTexture(Bitmap bitmap) {
-        return GlUtil.createTexture(mFilter.getTextureTarget(), bitmap);
+        return GLUtil.createTexture(mFilter.getTextureTarget(), bitmap);
     }
 
     public void scaleMVPMatrix(float x, float y) {

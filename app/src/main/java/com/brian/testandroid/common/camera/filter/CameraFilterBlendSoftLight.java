@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.DrawableRes;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.camera.gles.GlUtil;
+import com.brian.testandroid.common.camera.gles.GLUtil;
 
 public class CameraFilterBlendSoftLight extends CameraFilterBlend {
 
@@ -15,7 +15,7 @@ public class CameraFilterBlendSoftLight extends CameraFilterBlend {
     @Override
     protected int createProgram(Context applicationContext) {
 
-        return GlUtil.createProgram(applicationContext, R.raw.vertex_shader_two_input,
+        return GLUtil.createProgram(applicationContext, R.raw.vertex_shader_two_input,
                 R.raw.fragment_shader_ext_blend_soft_light);
     }
 }

@@ -3,7 +3,7 @@ package com.brian.testandroid.common.camera.filter;
 import android.opengl.GLES20;
 
 import com.brian.testandroid.common.camera.gles.Drawable2d;
-import com.brian.testandroid.common.camera.gles.GlUtil;
+import com.brian.testandroid.common.camera.gles.GLUtil;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -76,10 +76,10 @@ public class FilterGroup<T extends IFilter> implements IFilter {
 
             ///////////////// create FrameBufferTextures
             GLES20.glGenTextures(1, mFrameBufferTextures, i);
-            GlUtil.checkGlError("glGenTextures");
+            GLUtil.checkGlError("glGenTextures");
 
             GLES20.glBindTexture(getTextureTarget(), mFrameBufferTextures[i]);
-            GlUtil.checkGlError("glBindTexture " + mFrameBufferTextures[i]);
+            GLUtil.checkGlError("glBindTexture " + mFrameBufferTextures[i]);
 
             GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, width, height, 0,
                     GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
@@ -92,35 +92,35 @@ public class FilterGroup<T extends IFilter> implements IFilter {
                     GLES20.GL_CLAMP_TO_EDGE);
             GLES20.glTexParameterf(getTextureTarget(), GLES20.GL_TEXTURE_WRAP_T,
                     GLES20.GL_CLAMP_TO_EDGE);
-            GlUtil.checkGlError("glTexParameter");
+            GLUtil.checkGlError("glTexParameter");
 
             ////////////////////////// create FrameBuffer
             GLES20.glGenFramebuffers(1, mFrameBuffers, i);
-            GlUtil.checkGlError("glGenFramebuffers");
+            GLUtil.checkGlError("glGenFramebuffers");
 
             GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFrameBuffers[i]);
-            GlUtil.checkGlError("glBindFramebuffer " + mFrameBuffers[i]);
+            GLUtil.checkGlError("glBindFramebuffer " + mFrameBuffers[i]);
 
             ////////////////////////// create DepthBuffer
             GLES20.glGenRenderbuffers(1, mRenderBuffers, 0);
-            GlUtil.checkGlError("glRenderbuffers");
+            GLUtil.checkGlError("glRenderbuffers");
 
             GLES20.glBindRenderbuffer(GLES20.GL_RENDERBUFFER, mRenderBuffers[i]);
-            GlUtil.checkGlError("glBindRenderbuffer");
+            GLUtil.checkGlError("glBindRenderbuffer");
 
             GLES20.glRenderbufferStorage(GLES20.GL_RENDERBUFFER, GLES20.GL_DEPTH_COMPONENT16, width,
                     height);
-            GlUtil.checkGlError("glRenderbufferStorage");
+            GLUtil.checkGlError("glRenderbufferStorage");
             /////////////
 
             GLES20.glFramebufferRenderbuffer(GLES20.GL_FRAMEBUFFER, GLES20.GL_DEPTH_ATTACHMENT,
                     GLES20.GL_RENDERBUFFER, mRenderBuffers[i]);
-            GlUtil.checkGlError("glFramebufferRenderbuffer");
+            GLUtil.checkGlError("glFramebufferRenderbuffer");
 
             GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0,
                     GLES20.GL_TEXTURE_2D /*getTextureTarget()*/, mFrameBufferTextures[i], 0);
 
-            GlUtil.checkGlError("glFramebufferTexture2D");
+            GLUtil.checkGlError("glFramebufferTexture2D");
 
             int status = GLES20.glCheckFramebufferStatus(GLES20.GL_FRAMEBUFFER);
             if (status != GLES20.GL_FRAMEBUFFER_COMPLETE) {
@@ -131,7 +131,7 @@ public class FilterGroup<T extends IFilter> implements IFilter {
             GLES20.glBindTexture(getTextureTarget(), 0);
             GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
 
-            GlUtil.checkGlError("prepareFramebuffer done");
+            GLUtil.checkGlError("prepareFramebuffer done");
         }
     }
 

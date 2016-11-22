@@ -5,7 +5,7 @@ import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.camera.gles.GlUtil;
+import com.brian.testandroid.common.camera.gles.GLUtil;
 
 import java.nio.FloatBuffer;
 
@@ -47,7 +47,7 @@ public class CameraFilter extends AbstractFilter implements IFilter {
 
     @Override
     protected int createProgram(Context applicationContext) {
-        return GlUtil.createProgram(applicationContext, R.raw.vertex_shader,
+        return GLUtil.createProgram(applicationContext, R.raw.vertex_shader,
                 R.raw.fragment_shader_ext);
     }
 
@@ -65,7 +65,7 @@ public class CameraFilter extends AbstractFilter implements IFilter {
                        int vertexCount, int coordsPerVertex, int vertexStride, float[] texMatrix,
                        FloatBuffer texBuffer, int textureId, int texStride) {
 
-        GlUtil.checkGlError("draw start");
+        GLUtil.checkGlError("draw start");
 
         useProgram();
 
@@ -73,8 +73,7 @@ public class CameraFilter extends AbstractFilter implements IFilter {
 
         //runningOnDraw();
 
-        bindGLSLValues(mvpMatrix, vertexBuffer, coordsPerVertex, vertexStride, texMatrix, texBuffer,
-                texStride);
+        bindGLSLValues(mvpMatrix, vertexBuffer, coordsPerVertex, vertexStride, texMatrix, texBuffer, texStride);
 
         drawArrays(firstVertex, vertexCount);
 
@@ -88,7 +87,7 @@ public class CameraFilter extends AbstractFilter implements IFilter {
     @Override
     protected void useProgram() {
         GLES20.glUseProgram(mProgramHandle);
-        //GlUtil.checkGlError("glUseProgram");
+        //GLUtil.checkGlError("glUseProgram");
     }
 
     @Override
@@ -105,11 +104,9 @@ public class CameraFilter extends AbstractFilter implements IFilter {
         GLES20.glUniformMatrix4fv(muMVPMatrixLoc, 1, false, mvpMatrix, 0);
         GLES20.glUniformMatrix4fv(muTexMatrixLoc, 1, false, texMatrix, 0);
         GLES20.glEnableVertexAttribArray(maPositionLoc);
-        GLES20.glVertexAttribPointer(maPositionLoc, coordsPerVertex, GLES20.GL_FLOAT, false,
-                vertexStride, vertexBuffer);
+        GLES20.glVertexAttribPointer(maPositionLoc, coordsPerVertex, GLES20.GL_FLOAT, false, vertexStride, vertexBuffer);
         GLES20.glEnableVertexAttribArray(maTextureCoordLoc);
-        GLES20.glVertexAttribPointer(maTextureCoordLoc, 2, GLES20.GL_FLOAT, false, texStride,
-                texBuffer);
+        GLES20.glVertexAttribPointer(maTextureCoordLoc, 2, GLES20.GL_FLOAT, false, texStride, texBuffer);
     }
 
     @Override

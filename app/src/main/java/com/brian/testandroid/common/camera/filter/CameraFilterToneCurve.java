@@ -6,7 +6,7 @@ import android.graphics.PointF;
 import android.opengl.GLES20;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.camera.gles.GlUtil;
+import com.brian.testandroid.common.camera.gles.GLUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,12 +39,12 @@ public class CameraFilterToneCurve extends CameraFilter {
         setGreenControlPoints(mGreenControlPoints);
         setBlueControlPoints(mBlueControlPoints);
 
-        mToneCurveTextureId = GlUtil.createTexture(GLES20.GL_TEXTURE_2D);
+        mToneCurveTextureId = GLUtil.createTexture(GLES20.GL_TEXTURE_2D);
     }
 
     @Override
     protected int createProgram(Context applicationContext) {
-        return GlUtil.createProgram(applicationContext, R.raw.vertex_shader,
+        return GLUtil.createProgram(applicationContext, R.raw.vertex_shader,
                 R.raw.fragment_shader_ext_tone_curve);
     }
 

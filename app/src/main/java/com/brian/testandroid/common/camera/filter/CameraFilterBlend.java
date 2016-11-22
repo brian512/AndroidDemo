@@ -7,7 +7,7 @@ import android.opengl.GLES20;
 import android.support.annotation.DrawableRes;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.camera.gles.GlUtil;
+import com.brian.testandroid.common.camera.gles.GLUtil;
 
 import java.nio.FloatBuffer;
 
@@ -23,12 +23,12 @@ public class CameraFilterBlend extends CameraFilter {
         options.inScaled = false;    // No pre-scaling
         final Bitmap bitmap =
                 BitmapFactory.decodeResource(context.getResources(), drawableId, options);
-        mExtraTextureId = GlUtil.createTexture(GLES20.GL_TEXTURE_2D, bitmap);
+        mExtraTextureId = GLUtil.createTexture(GLES20.GL_TEXTURE_2D, bitmap);
     }
 
     @Override
     protected int createProgram(Context applicationContext) {
-        return GlUtil.createProgram(applicationContext, R.raw.vertex_shader_two_input,
+        return GLUtil.createProgram(applicationContext, R.raw.vertex_shader_two_input,
                 R.raw.fragment_shader_ext_blend);
     }
 

@@ -3,7 +3,7 @@ package com.brian.testandroid.common.camera.filter;//package me.relex.camerafilt
 //import android.content.Context;
 //import android.opengl.GLES10;
 //import me.relex.camerafilter.R;
-//import me.relex.camerafilter.gles.GlUtil;
+//import me.relex.camerafilter.gles.GLUtil;
 //
 //public class ImageFilterBlur extends CameraFilterGroup {
 //    public ImageFilterBlur(Context applicationContext) {
@@ -15,7 +15,7 @@ package com.brian.testandroid.common.camera.filter;//package me.relex.camerafilt
 //    }
 //
 //    @Override protected int createProgram(Context applicationContext) {
-//        return GlUtil.createProgram(applicationContext, R.raw.vertex_shader,
+//        return GLUtil.createProgram(applicationContext, R.raw.vertex_shader,
 //                R.raw.fragment_shader_2d_kernel);
 //    }
 //}

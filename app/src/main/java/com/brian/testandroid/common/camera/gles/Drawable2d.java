@@ -32,9 +32,9 @@ public class Drawable2d {
             1.0f, 1.0f      // 3 top right
     };
     private static final FloatBuffer FULL_RECTANGLE_BUF =
-            GlUtil.createFloatBuffer(FULL_RECTANGLE_COORDS);
+            GLUtil.createFloatBuffer(FULL_RECTANGLE_COORDS);
     private static final FloatBuffer FULL_RECTANGLE_TEX_BUF =
-            GlUtil.createFloatBuffer(FULL_RECTANGLE_TEX_COORDS);
+            GLUtil.createFloatBuffer(FULL_RECTANGLE_TEX_COORDS);
 
     private FloatBuffer mVertexArray;
     private FloatBuffer mTexCoordArray;

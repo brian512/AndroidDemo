@@ -10,8 +10,13 @@ import android.widget.Button;
 import com.brian.testandroid.R;
 import com.brian.testandroid.common.BaseActivity;
 import com.brian.testandroid.common.camera.CameraHelperAsy;
+import com.brian.testandroid.common.camera.CameraRecordRenderer;
 import com.brian.testandroid.common.camera.CameraSurfaceView;
+import com.brian.testandroid.common.camera.video.EncoderConfig;
+import com.brian.testandroid.util.PathUtil;
 import com.brian.testandroid.util.PermissionUtil;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,14 +82,42 @@ public class CameraActivity extends BaseActivity {
 
                     }
                 });
+                mCameraSurfaceView.queueEvent(new Runnable() {
+                    @Override
+                    public void run() {
+                        CameraRecordRenderer renderer = mCameraSurfaceView.getRenderer();
+                        renderer.stopRecord();
+                    }
+                });
             }
         });
         mRecordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mCameraSurfaceView.queueEvent(new Runnable() {
+                    @Override
+                    public void run() {
+                        CameraRecordRenderer renderer = mCameraSurfaceView.getRenderer();
+                        if (mIsRecording) {
+                            renderer.stopRecord();
+                        } else {
+                            renderer.setEncoderConfig(new EncoderConfig(new File(PathUtil.getCacheDir(), "video-" + System.currentTimeMillis() + ".mp4"), 720, 1280,
+                                    2*720*1280 /* 1 Mb/s */));
+                            renderer.startRecordVideo("");
+                        }
+                        mIsRecording = !mIsRecording;
+                    }
+                });
+                if (mRecordBtn.getText().equals("录像")) {
+                    mRecordBtn.setText("停止");
+                } else {
+                    mRecordBtn.setText("录像");
+                }
             }
         });
     }
+
+    private boolean mIsRecording = false;
 
     @Override protected void onResume() {
         super.onResume();

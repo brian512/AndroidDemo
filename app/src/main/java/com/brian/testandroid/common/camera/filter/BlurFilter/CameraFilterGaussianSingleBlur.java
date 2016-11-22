@@ -5,7 +5,7 @@ import android.opengl.GLES20;
 
 import com.brian.testandroid.R;
 import com.brian.testandroid.common.camera.filter.CameraFilter;
-import com.brian.testandroid.common.camera.gles.GlUtil;
+import com.brian.testandroid.common.camera.gles.GLUtil;
 
 import java.nio.FloatBuffer;
 
@@ -26,7 +26,7 @@ class CameraFilterGaussianSingleBlur extends CameraFilter {
 
     @Override
     protected int createProgram(Context applicationContext) {
-        return GlUtil.createProgram(applicationContext, R.raw.vertex_shader_blur,
+        return GLUtil.createProgram(applicationContext, R.raw.vertex_shader_blur,
                 R.raw.fragment_shader_ext_blur);
     }
 

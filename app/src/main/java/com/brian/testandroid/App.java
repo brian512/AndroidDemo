@@ -23,6 +23,13 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         setStrictModeEnable(false);
+
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
     }
 
     private void setStrictModeEnable(boolean enable) {
