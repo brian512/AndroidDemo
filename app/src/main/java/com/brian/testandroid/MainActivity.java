@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.brian.testandroid.activity.BannerViewActivity;
+import com.brian.testandroid.activity.BombViewActivity;
 import com.brian.testandroid.activity.CameraActivity;
 import com.brian.testandroid.activity.DayNightActivity;
 import com.brian.testandroid.activity.DialogFragmentActivity;
@@ -48,6 +49,7 @@ public class MainActivity extends BaseActivity {
         mDatas.add(new Item(DialogFragmentActivity.class, "测试DialogFragment"));
         mDatas.add(new Item(BannerViewActivity.class, "测试轮播图BannerView"));
         mDatas.add(new Item(PraiseViewActivity.class, "测试点赞效果"));
+        mDatas.add(new Item(BombViewActivity.class, "测试烟花效果"));
         mDatas.add(new Item(DrawerArrowActivity.class, "测试DrawerArrow"));
         mDatas.add(new Item(ScrollingImageActivity.class, "测试循环滚动图片"));
         mDatas.add(new Item(MarkableProgressBarActivity.class, "测试可打点进度条"));
