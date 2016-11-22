@@ -45,6 +45,7 @@
         <activity android:name=".activity.MarkableProgressBarActivity"/>
         <activity android:name=".activity.ScrollingImageActivity"/>
         <activity android:name=".activity.PraiseViewActivity"/>
+        <activity android:name=".activity.BombViewActivity"/>
         <activity android:name=".activity.DrawerArrowActivity"/>
         <activity android:name=".activity.DialogFragmentActivity"/>
         <activity android:name=".activity.DayNightActivity"/>
