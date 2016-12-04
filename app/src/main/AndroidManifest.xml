@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <uses-feature
@@ -51,6 +52,7 @@
         <activity android:name=".activity.DayNightActivity"/>
         <activity android:name=".activity.RecyclerViewActivity"/>
         <activity android:name=".activity.CameraActivity"/>
+        <activity android:name=".activity.PermissionsActivity"/>
     </application>
 
 </manifest>

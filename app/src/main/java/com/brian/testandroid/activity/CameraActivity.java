@@ -14,7 +14,7 @@ import com.brian.testandroid.common.camera.CameraRecordRenderer;
 import com.brian.testandroid.common.camera.CameraSurfaceView;
 import com.brian.testandroid.common.camera.video.EncoderConfig;
 import com.brian.testandroid.util.PathUtil;
-import com.brian.testandroid.util.PermissionUtil;
+import com.brian.testandroid.common.PermissionHelper;
 
 import java.io.File;
 
@@ -45,7 +45,7 @@ public class CameraActivity extends BaseActivity {
 
 //        mCameraSurfaceView.setAspectRatio(3, 4);
 
-        PermissionUtil.checkCameraPermission(this);
+        PermissionHelper.checkCameraPermission(this);
 
         initListeners();
     }

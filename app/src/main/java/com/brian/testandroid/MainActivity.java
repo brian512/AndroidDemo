@@ -12,6 +12,7 @@ import com.brian.testandroid.activity.DayNightActivity;
 import com.brian.testandroid.activity.DialogFragmentActivity;
 import com.brian.testandroid.activity.DrawerArrowActivity;
 import com.brian.testandroid.activity.MarkableProgressBarActivity;
+import com.brian.testandroid.activity.PermissionsActivity;
 import com.brian.testandroid.activity.PraiseViewActivity;
 import com.brian.testandroid.activity.RecyclerViewActivity;
 import com.brian.testandroid.activity.ScrollingImageActivity;
@@ -43,6 +44,7 @@ public class MainActivity extends BaseActivity {
         initListView();
 
         // 需要在AndroidManifest.xml注册activity
+        mDatas.add(new Item(PermissionsActivity.class, "测试权限请求"));
         mDatas.add(new Item(CameraActivity.class, "测试相机预览"));
         mDatas.add(new Item(RecyclerViewActivity.class, "测试RecyclerView"));
         mDatas.add(new Item(DayNightActivity.class, "测试夜晚模式"));
