@@ -2,20 +2,18 @@ package com.brian.testandroid.common;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 
-import com.brian.testandroid.common.Env;
+import com.brian.testandroid.util.LogUtil;
+import com.brian.testandroid.util.PermissionUtil;
 import com.brian.testandroid.util.ResourceUtil;
 import com.brian.testandroid.view.CommonDialogFragment;
-
-import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * 封装6.0 需要动态请求的权限
@@ -57,124 +55,151 @@ public class PermissionHelper {
      */
     public static final int PERMISSION_REQUEST_CODE_READ_PHONE_STATE = 5;
 
+    /**
+     * 应用初始化所需权限，PHONE_STATE 和 WRITE_EXTERNAL_STORAGE_REQUEST
+     */
     public static final int PERMISSION_REQUEST_CODE_INIT = 6;
 
-    /**
-     * 检查写权限
-     *
-     * @param activity
-     */
-    public static boolean checkWritePermission(Activity activity) {
-        // SDK 小于23默认已经授权
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-        Activity context = activity;
 
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            //申请WRITE_EXTERNAL_STORAGE权限
-            ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
-            return false;
+    public static class PermissionCallback implements PermissionUtil.IPermissionCallback {
+
+        /**
+         * 覆写该方法需要处理点击事件，调用执行权限请求
+         * @param request
+         */
+        @Override
+        public void onShowRequestPermissionRationale(final PermissionUtil.PermissionRequest request) {
+            Activity activity = PermissionUtil.getActivity(request.requestHolder);
+            if (null == activity) {
+                return;
+            }
+
+            AlertDialog dialog = new AlertDialog.Builder(activity)
+                    .setMessage(request.rationale)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            PermissionUtil.executePermissionsRequest(request);
+                        }
+                    }).create();
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    LogUtil.d("onCancel");
+                    PermissionUtil.executePermissionsRequest(request);
+                }
+            });
+            dialog.show();
         }
-        return true;
+
+        @Override
+        public void onPermissionsDenied(final PermissionUtil.PermissionRequest request) {
+            Activity activity = PermissionUtil.getActivity(request.requestHolder);
+            if (null == activity) {
+                return;
+            }
+            boolean shouldShowRationale = true;
+            for (String perm : request.perms) {
+                shouldShowRationale = shouldShowRationale && PermissionUtil.shouldShowRequestPermissionRationale(request.requestHolder, perm);
+            }
+
+            if (!shouldShowRationale) {
+                AlertDialog dialog = new AlertDialog.Builder(activity)
+                        .setMessage(request.rationale + "\n跳转设置页面授予权限？")
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                PermissionUtil.startSettingForResult(request.requestHolder, request.requestCode);
+                            }
+                        }).create();
+                dialog.setCancelable(false);
+                dialog.show();
+            }
+        }
+
+        /**
+         * 部分权限被授权才会被调用，若全部权限被授予则会调用onAllPermissionsGranted
+         */
+        @Override
+        public void onPermissionsGranted(PermissionUtil.PermissionRequest request) {
+        }
+
+        @Override
+        public void onAllPermissionsGranted(int requestCode) {
+        }
     }
 
     /**
      * 检查定位权限
      */
-    public static boolean checkLocationPermission(Activity activity) {
+    public static boolean checkLocationPermission(Activity activity, PermissionUtil.IPermissionCallback callback) {
         // SDK 小于23默认已经授权
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            return true;
+
+        if (!PermissionUtil.hasPermissions(activity, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            String rationale = "需要定位权限";
+            return checkPermission(activity, callback, rationale, PERMISSION_REQUEST_CODE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
         }
-        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE_LOCATION);
-        return false;
+        return true;
     }
 
     /**
-     * 照相机权限
+     * 权限
      */
-    public static boolean checkCameraPermission(Activity activity) {
+    public static boolean checkPermission(Activity activity, PermissionUtil.IPermissionCallback callback, int code, String... permissions) {
+        return checkPermission(activity, callback, null, code, permissions);
+    }
+
+    /**
+     * 权限
+     */
+    public static boolean checkPermission(Activity activity, PermissionUtil.IPermissionCallback callback, String rationale, int code, String... permissions) {
         // SDK 小于23默认已经授权
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
-        boolean permissionCamera = ContextCompat.checkSelfPermission(Env.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
-        if (!permissionCamera) {
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_CAMERA);
+        if (!PermissionUtil.hasPermissions(activity, permissions)) {
+            PermissionUtil.requestPermissions(activity, callback, rationale, code, permissions);
             return false;
         }
         return true;
     }
 
     /**
-     * 检查录音权限
+     * 相机权限：CAMERA
      */
-    public static boolean checkAudioPermission(Activity activity) {
-        // SDK 小于23默认已经授权
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-        boolean permissionAudio = ContextCompat.checkSelfPermission(Env.getContext(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
-        if (!permissionAudio) {
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSION_REQUEST_CODE_AUDIO);
-            return false;
-        }
-
-        return true;
+    public static boolean checkCameraPermission(Activity activity, PermissionUtil.IPermissionCallback callback) {
+        String rationale = "相机预览需要相机权限";
+        return checkPermission(activity, callback, rationale, PERMISSION_REQUEST_CODE_CAMERA, Manifest.permission.CAMERA);
     }
 
     /**
-     * 检查直播需要的相机和麦克风权限
+     * 录音权限：RECORD_AUDIO
      */
-    public static boolean checkRecordPermission(Activity activity) {
-        // SDK 小于23默认已经授权
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-        boolean permissionCamera = ContextCompat.checkSelfPermission(Env.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
-        boolean permissionAudio = ContextCompat.checkSelfPermission(Env.getContext(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
-        if (!permissionCamera || !permissionAudio) {
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO}, PERMISSION_REQUEST_CODE_CAMERA_AND_AUDIO);
-            return false;
-        } else {
-            return true;
-        }
+    public static boolean checkAudioPermission(Activity activity, PermissionUtil.IPermissionCallback callback) {
+        String rationale = "需要录音权限";
+        return checkPermission(activity, callback, rationale, PERMISSION_REQUEST_CODE_AUDIO, Manifest.permission.RECORD_AUDIO);
     }
 
-    public static boolean checkReadPhoneStatePermission(Activity activity) {
-        // SDK 小于23默认已经授权
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-
-        boolean permission = ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED;
-        if (!permission) {
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE_READ_PHONE_STATE);
-            return false;
-        }
-        return true;
+    /**
+     * 视频录制权限：CAMERA 和 RECORD_AUDIO
+     */
+    public static boolean checkRecordPermission(Activity activity, PermissionUtil.IPermissionCallback callback) {
+        String rationale = "录制视频需要相机和录音权限";
+        return checkPermission(activity, callback, rationale, PERMISSION_REQUEST_CODE_CAMERA_AND_AUDIO, Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO);
     }
 
-    public static boolean checkInitPermission(Activity activity) {
-        // SDK 小于23默认已经授权
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-
-        String[] perms = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-        // 手机状态和写SDCARD的权限是必须的
-        if (EasyPermissions.hasPermissions(activity, perms)) {
-            return true;
-        } else {
-            EasyPermissions.requestPermissions(activity, "需要存储数据到设备！", PERMISSION_REQUEST_CODE_INIT, perms);
-            return false;
-        }
+    public static boolean checkInitPermission(Activity activity, PermissionUtil.IPermissionCallback callback) {
+        String rationale = "读取设备ID和文件存储是应用需要的最基本的权限";
+        return checkPermission(activity, callback, rationale, PERMISSION_REQUEST_CODE_INIT, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     public static void showPermissionDetail(FragmentActivity activity, int tipResID, boolean isToFinishActivityOnCancel) {
@@ -212,7 +237,10 @@ public class PermissionHelper {
                     }
                 })
                 .show();
+    }
 
+    public static void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        PermissionUtil.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 }

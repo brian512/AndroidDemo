@@ -3,19 +3,20 @@ package com.brian.testandroid.util;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.StringRes;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 
-import java.util.Arrays;
-
-import pub.devrel.easypermissions.EasyPermissions;
+import java.util.ArrayList;
 
 /**
  * Created by brian on 2016/12/4.
@@ -23,6 +24,20 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class PermissionUtil {
     private static final String TAG = "PermissionUtil";
+
+    public interface IPermissionCallback {
+
+        void onShowRequestPermissionRationale(PermissionRequest request);
+
+        void onPermissionsDenied(PermissionRequest request);
+
+        void onPermissionsGranted(PermissionRequest request);
+
+        void onAllPermissionsGranted(int requestCode);
+
+    }
+
+    private static SparseArray<PermissionRequest> mRequestMap = new SparseArray<>();
 
     /**
      * Check if the calling context has a set of permissions.
@@ -40,9 +55,7 @@ public class PermissionUtil {
         }
 
         for (String perm : perms) {
-            boolean hasPerm = (ContextCompat.checkSelfPermission(context, perm) ==
-                    PackageManager.PERMISSION_GRANTED);
-            if (!hasPerm) {
+            if (ContextCompat.checkSelfPermission(context, perm) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
         }
@@ -50,12 +63,8 @@ public class PermissionUtil {
         return true;
     }
 
-    public static void requestPermissions(final Object object, String rationale,
-                                          final int requestCode, final String... perms) {
-        requestPermissions(object, rationale,
-                android.R.string.ok,
-                android.R.string.cancel,
-                requestCode, perms);
+    public static void requestPermissions(final Object object, IPermissionCallback callback, final int requestCode, final String... perms) {
+        requestPermissions(object, callback, null, requestCode, perms);
     }
 
     /**
@@ -63,54 +72,34 @@ public class PermissionUtil {
      *
      * @param object         Activity or Fragment requesting permissions. Should implement
      *                       {@link android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback}
-     *                       or
-     *                       {@link android.support.v13.app.FragmentCompat.OnRequestPermissionsResultCallback}
      * @param rationale      a message explaining why the application needs this set of permissions, will
      *                       be displayed if the user rejects the request the first time.
-     * @param positiveButton custom text for positive button
-     * @param negativeButton custom text for negative button
      * @param requestCode    request code to track this request, must be < 256.
      * @param perms          a set of permissions to be requested.
      */
-    public static void requestPermissions(final Object object, String rationale,
-                                          @StringRes int positiveButton,
-                                          @StringRes int negativeButton,
+    public static void requestPermissions(final Object object, IPermissionCallback callback, String rationale,
                                           final int requestCode, final String... perms) {
 
         checkCallingObjectSuitability(object);
 
+        PermissionRequest request = new PermissionRequest();
+        request.requestHolder = object;
+        request.requestCode = requestCode;
+        request.rationale = rationale;
+        request.perms = perms;
+        request.callback = callback;
+
+        mRequestMap.put(requestCode, request);
+
         boolean shouldShowRationale = false;
         for (String perm : perms) {
-            shouldShowRationale =
-                    shouldShowRationale || shouldShowRequestPermissionRationale(object, perm);
+            shouldShowRationale = shouldShowRationale || shouldShowRequestPermissionRationale(object, perm);
         }
 
-        if (shouldShowRationale) {
-            Activity activity = getActivity(object);
-            if (null == activity) {
-                return;
-            }
-
-            AlertDialog dialog = new AlertDialog.Builder(activity)
-                    .setMessage(rationale)
-                    .setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            executePermissionsRequest(object, perms, requestCode);
-                        }
-                    })
-                    .setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // act as if the permissions were denied
-                            if (object instanceof EasyPermissions.PermissionCallbacks) {
-                                ((EasyPermissions.PermissionCallbacks) object).onPermissionsDenied(requestCode, Arrays.asList(perms));
-                            }
-                        }
-                    }).create();
-            dialog.show();
+        if (callback != null && shouldShowRationale && !TextUtils.isEmpty(rationale)) {
+            callback.onShowRequestPermissionRationale(request);
         } else {
-            executePermissionsRequest(object, perms, requestCode);
+            executePermissionsRequest(request);
         }
     }
 
@@ -132,20 +121,22 @@ public class PermissionUtil {
     }
 
     @TargetApi(23)
-    private static void executePermissionsRequest(Object object, String[] perms, int requestCode) {
-        checkCallingObjectSuitability(object);
+    public static void executePermissionsRequest(PermissionRequest request) {
+        checkCallingObjectSuitability(request.requestHolder);
 
+        Object object = request.requestHolder;
+        LogUtil.d("requestCode=" + request.requestCode);
         if (object instanceof Activity) {
-            ActivityCompat.requestPermissions((Activity) object, perms, requestCode);
+            ActivityCompat.requestPermissions((Activity) object, request.perms, request.requestCode);
         } else if (object instanceof Fragment) {
-            ((Fragment) object).requestPermissions(perms, requestCode);
+            ((Fragment) object).requestPermissions(request.perms, request.requestCode);
         } else if (object instanceof android.app.Fragment) {
-            ((android.app.Fragment) object).requestPermissions(perms, requestCode);
+            ((android.app.Fragment) object).requestPermissions(request.perms, request.requestCode);
         }
     }
 
     @TargetApi(11)
-    private static Activity getActivity(Object object) {
+    public static Activity getActivity(Object object) {
         if (object instanceof Activity) {
             return ((Activity) object);
         } else if (object instanceof Fragment) {
@@ -156,6 +147,8 @@ public class PermissionUtil {
             return null;
         }
     }
+
+
 
     @TargetApi(23)
     public static boolean shouldShowRequestPermissionRationale(Object object, String perm) {
@@ -168,5 +161,72 @@ public class PermissionUtil {
         } else {
             return false;
         }
+    }
+
+    public static void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                                  @NonNull int[] grantResults) {
+
+        // Make a collection of granted and denied permissions from the request.
+        ArrayList<String> granted = new ArrayList<>();
+        ArrayList<String> denied = new ArrayList<>();
+        for (int i = 0; i < permissions.length; i++) {
+            String perm = permissions[i];
+            if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                granted.add(perm);
+            } else {
+                denied.add(perm);
+            }
+        }
+
+        PermissionRequest request = mRequestMap.get(requestCode);
+        request.grantResults = grantResults;
+        // iterate through all receivers
+        if (request.callback != null) {
+            // Report granted permissions, if granted partly
+            if (!granted.isEmpty() && !denied.isEmpty()) {
+                request.callback.onPermissionsGranted(request);
+            }
+
+            // Report denied permissions, if any.
+            if (!denied.isEmpty()) {
+                request.callback.onPermissionsDenied(request);
+            }
+
+            // If 100% successful, call annotated methods
+            if (!granted.isEmpty() && denied.isEmpty()) {
+                request.callback.onAllPermissionsGranted(requestCode);
+            }
+        }
+
+    }
+
+    public static void startSettingForResult(Object object, int requestCode) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+
+        if (object instanceof Activity) {
+            Activity activity = (Activity) object;
+            Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+            intent.setData(uri);
+            activity.startActivityForResult(intent, requestCode);
+        } else if (object instanceof Fragment) {
+            Fragment fragment = (Fragment) object;
+            Uri uri = Uri.fromParts("package", fragment.getContext().getPackageName(), null);
+            intent.setData(uri);
+            fragment.startActivityForResult(intent, requestCode);
+        } else if (object instanceof android.app.Fragment) {
+            android.app.Fragment fragment = (android.app.Fragment) object;
+            Uri uri = Uri.fromParts("package", fragment.getActivity().getPackageName(), null);
+            intent.setData(uri);
+            fragment.startActivityForResult(intent, requestCode);
+        }
+    }
+
+    public static class PermissionRequest {
+        public Object requestHolder;
+        public int requestCode;
+        public String rationale;
+        public String[] perms;
+        public IPermissionCallback callback;
+        int[] grantResults;
     }
 }

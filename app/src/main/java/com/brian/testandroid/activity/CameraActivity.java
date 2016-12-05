@@ -45,7 +45,7 @@ public class CameraActivity extends BaseActivity {
 
 //        mCameraSurfaceView.setAspectRatio(3, 4);
 
-        PermissionHelper.checkCameraPermission(this);
+        PermissionHelper.checkCameraPermission(this, null);
 
         initListeners();
     }

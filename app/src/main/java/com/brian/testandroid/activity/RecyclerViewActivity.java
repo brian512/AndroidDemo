@@ -40,6 +40,8 @@ public class RecyclerViewActivity extends BaseActivity {
         mRecyclerView.setClipToPadding(false);
         mRecyclerView.getAdapter().bindDatas(getDummyDatas());
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
+        boolean dragable = true;
+        boolean swipeable = true;
         mRecyclerView.setItemTouchHelperListener(new DefaultItemTouchHelper.OnItemTouchCallbackListener() {
 
             @Override
@@ -57,7 +59,7 @@ public class RecyclerViewActivity extends BaseActivity {
                 mRecyclerView.getAdapter().notifyItemMoved(srcPosition, targetPosition);
                 return true;
             }
-        }, false, false);
+        }, dragable, swipeable);
         mRecyclerView.setOnItemSelectedListener(new HorizontalRecyclerView.OnItemSelectedLitener() {
             @Override
             public void onItemSelected(View view, int position) {
