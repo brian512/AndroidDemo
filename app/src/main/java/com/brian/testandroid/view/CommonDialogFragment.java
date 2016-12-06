@@ -1,12 +1,12 @@
 package com.brian.testandroid.view;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -24,13 +24,14 @@ public class CommonDialogFragment extends DialogFragment {
 
     private CharSequence mTitleText = "提示";
     private CharSequence mContentText = "";
-    private CharSequence mCancelText = "";
-    private CharSequence mConfirmText = "确定";
+    private CharSequence mNegativeButtonText = "";
+    private CharSequence mPositiveButtonText = "确定";
 
     private boolean mCancelable = false;
 
-    private DialogInterface.OnClickListener mConfirmListener;
-    private DialogInterface.OnClickListener mCancelListener;
+    private DialogInterface.OnClickListener mPositiveButtonListener;
+    private DialogInterface.OnClickListener mNegativeButtonListener;
+    private DialogInterface.OnDismissListener mOnDismissListener;
 
     @NonNull
     @Override
@@ -44,9 +45,17 @@ public class CommonDialogFragment extends DialogFragment {
         textTv.setText(mContentText);
         builder.setView(view)
                 .setCancelable(mCancelable)
-                .setPositiveButton(mConfirmText, mConfirmListener)
-                .setNegativeButton(mCancelText, mCancelListener);
+                .setPositiveButton(mPositiveButtonText, mPositiveButtonListener)
+                .setNegativeButton(mNegativeButtonText, mNegativeButtonListener);
         return builder.create();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (mOnDismissListener != null) {
+            mOnDismissListener.onDismiss(dialog);
+        }
     }
 
     public static CommonDialogFragment create(FragmentManager fragmentManager) {
@@ -60,23 +69,13 @@ public class CommonDialogFragment extends DialogFragment {
         return dialogFragment;
     }
 
-    public CommonDialogFragment setTitleText(CharSequence text) {
+    public CommonDialogFragment setTitle(CharSequence text) {
         mTitleText = text;
         return this;
     }
 
-    public CommonDialogFragment setContentText(CharSequence text) {
+    public CommonDialogFragment setMessage(CharSequence text) {
         mContentText = text;
-        return this;
-    }
-
-    public CommonDialogFragment setPositiveBtnText(CharSequence text) {
-        mConfirmText = text;
-        return this;
-    }
-
-    public CommonDialogFragment setNegativeBtnText(CharSequence text) {
-        mCancelText = text;
         return this;
     }
 
@@ -85,13 +84,32 @@ public class CommonDialogFragment extends DialogFragment {
         return this;
     }
 
-    public CommonDialogFragment setPositiveBtnListener(DialogInterface.OnClickListener listener) {
-        mConfirmListener = listener;
+//    public CommonDialogFragment setPositiveButton(int resId, DialogInterface.OnClickListener listener) {
+//        mPositiveButtonListener = listener;
+//        mPositiveButtonText = getResources().getText(resId);
+//        return this;
+//    }
+//
+//    public CommonDialogFragment setNegativeButton(int resId, DialogInterface.OnClickListener listener) {
+//        mNegativeButtonListener = listener;
+//        mNegativeButtonText = getResources().getText(resId);
+//        return this;
+//    }
+
+    public CommonDialogFragment setPositiveButton(CharSequence text, DialogInterface.OnClickListener listener) {
+        mPositiveButtonListener = listener;
+        mPositiveButtonText = text;
         return this;
     }
 
-    public CommonDialogFragment setNegativeBtnListener(DialogInterface.OnClickListener listener) {
-        mCancelListener = listener;
+    public CommonDialogFragment setNegativeButton(CharSequence text, DialogInterface.OnClickListener listener) {
+        mNegativeButtonListener = listener;
+        mNegativeButtonText = text;
+        return this;
+    }
+
+    public CommonDialogFragment setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
+        mOnDismissListener = onDismissListener;
         return this;
     }
 

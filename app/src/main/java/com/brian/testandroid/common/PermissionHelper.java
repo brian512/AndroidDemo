@@ -2,17 +2,11 @@ package com.brian.testandroid.common;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 
-import com.brian.testandroid.util.LogUtil;
 import com.brian.testandroid.util.PermissionUtil;
-import com.brian.testandroid.util.ResourceUtil;
 import com.brian.testandroid.view.CommonDialogFragment;
 
 /**
@@ -74,22 +68,17 @@ public class PermissionHelper {
                 return;
             }
 
-            AlertDialog dialog = new AlertDialog.Builder(activity)
+            CommonDialogFragment.create(activity.getFragmentManager())
+                    .setPositiveButton(activity.getText(android.R.string.ok), null)
                     .setMessage(request.rationale)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    .setTitle("权限提醒")
+                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onDismiss(DialogInterface dialog) {
                             PermissionUtil.executePermissionsRequest(request);
                         }
-                    }).create();
-            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    LogUtil.d("onCancel");
-                    PermissionUtil.executePermissionsRequest(request);
-                }
-            });
-            dialog.show();
+                    })
+                    .show();
         }
 
         @Override
@@ -104,22 +93,23 @@ public class PermissionHelper {
             }
 
             if (!shouldShowRationale) {
-                AlertDialog dialog = new AlertDialog.Builder(activity)
-                        .setMessage(request.rationale + "\n跳转设置页面授予权限？")
-                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                CommonDialogFragment.create(activity.getFragmentManager())
+                        .setPositiveButton(activity.getText(android.R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                PermissionUtil.startSettingForResult(request.requestHolder, request.requestCode);
+                            }
+                        })
+                        .setNegativeButton(activity.getText(android.R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
                             }
                         })
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                PermissionUtil.startSettingForResult(request.requestHolder, request.requestCode);
-                            }
-                        }).create();
-                dialog.setCancelable(false);
-                dialog.show();
+                        .setMessage(request.rationale + "\n跳转设置页面授予权限？")
+                        .setTitle("权限提醒")
+                        .setDialogCancelable(false)
+                        .show();
             }
         }
 
@@ -167,6 +157,9 @@ public class PermissionHelper {
             return true;
         }
         if (!PermissionUtil.hasPermissions(activity, permissions)) {
+            if (callback == null) {
+                callback = new PermissionCallback();
+            }
             PermissionUtil.requestPermissions(activity, callback, rationale, code, permissions);
             return false;
         }
@@ -200,43 +193,6 @@ public class PermissionHelper {
     public static boolean checkInitPermission(Activity activity, PermissionUtil.IPermissionCallback callback) {
         String rationale = "读取设备ID和文件存储是应用需要的最基本的权限";
         return checkPermission(activity, callback, rationale, PERMISSION_REQUEST_CODE_INIT, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-    }
-
-    public static void showPermissionDetail(FragmentActivity activity, int tipResID, boolean isToFinishActivityOnCancel) {
-        showPermissionDetail(activity, ResourceUtil.getString(tipResID), isToFinishActivityOnCancel);
-    }
-
-    /**
-     * 显示请求权限对话框
-     */
-    public static void showPermissionDetail(final FragmentActivity activity, String tipStr, final boolean isToFinishActivityOnCancel) {
-        CommonDialogFragment.create(activity.getSupportFragmentManager())
-                .setTitleText("权限请求")
-                .setContentText(tipStr)
-                .setPositiveBtnText("设置")
-                .setNegativeBtnText("取消")
-                .setPositiveBtnListener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent localIntent = new Intent();
-                        localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-                        localIntent.setData(Uri.fromParts("package", activity.getPackageName(), null));
-                        activity.startActivity(localIntent);
-                    }
-                })
-                .setNegativeBtnListener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (isToFinishActivityOnCancel) {
-                            dialog.cancel();
-                            activity.finish();
-                        } else {
-                            dialog.cancel();
-                        }
-                    }
-                })
-                .show();
     }
 
     public static void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

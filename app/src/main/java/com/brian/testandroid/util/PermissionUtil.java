@@ -197,7 +197,7 @@ public class PermissionUtil {
                 request.callback.onAllPermissionsGranted(requestCode);
             }
         }
-
+        mRequestMap.remove(requestCode); // 请求结束则移除，否则会引起内存泄漏
     }
 
     public static void startSettingForResult(Object object, int requestCode) {

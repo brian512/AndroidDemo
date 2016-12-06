@@ -25,15 +25,15 @@ public class DialogFragmentActivity extends BaseActivity {
         show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonDialogFragment.create(getSupportFragmentManager())
-                        .setPositiveBtnListener(new DialogInterface.OnClickListener() {
+                CommonDialogFragment.create(getFragmentManager())
+                        .setPositiveButton(getText(android.R.string.ok), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 ToastUtil.showMsg("好哇");
                             }
                         })
-                        .setContentText("第三方撒你看风景啊快乐")
-                        .setTitleText("标题哈哈")
+                        .setMessage("第三方撒你看风景啊快乐")
+                        .setTitle("标题哈哈")
                         .show();
             }
         });
