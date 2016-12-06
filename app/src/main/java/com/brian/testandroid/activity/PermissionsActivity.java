@@ -8,11 +8,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.BaseActivity;
-import com.brian.testandroid.common.PermissionHelper;
-import com.brian.testandroid.util.LogUtil;
-import com.brian.testandroid.util.PermissionUtil;
-import com.brian.testandroid.util.ToastUtil;
+import com.brian.common.BaseActivity;
+import com.brian.common.PermissionHelper;
+import com.brian.common.util.LogUtil;
+import com.brian.common.util.PermissionUtil;
+import com.brian.common.util.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

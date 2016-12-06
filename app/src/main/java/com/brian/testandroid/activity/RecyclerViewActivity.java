@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.BaseActivity;
-import com.brian.testandroid.util.DeviceUtil;
-import com.brian.testandroid.util.LogUtil;
-import com.brian.testandroid.util.ToastUtil;
-import com.brian.testandroid.view.swiperecycleview.DefaultItemTouchHelper;
-import com.brian.testandroid.view.swiperecycleview.HorizontalRecyclerView;
+import com.brian.common.BaseActivity;
+import com.brian.common.util.DeviceUtil;
+import com.brian.common.util.LogUtil;
+import com.brian.common.util.ToastUtil;
+import com.brian.common.view.swiperecycleview.DefaultItemTouchHelper;
+import com.brian.common.view.swiperecycleview.HorizontalRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.brian.testandroid.common.camera.CameraSurfaceView
+    <com.brian.common.camera.CameraSurfaceView
         android:id="@+id/camera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.brian.testandroid.common.BaseActivity;
-import com.brian.testandroid.view.bannerview.CyclicRollView;
-import com.brian.testandroid.view.bannerview.CyclicViewAdapter;
+import com.brian.common.BaseActivity;
+import com.brian.common.view.bannerview.CyclicRollView;
+import com.brian.common.view.bannerview.CyclicViewAdapter;
 
 import java.util.ArrayList;
 

@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.BaseActivity;
-import com.brian.testandroid.util.DayNightHelper;
+import com.brian.common.BaseActivity;
+import com.brian.common.util.DayNightHelper;
 
 /**
  * 测试夜晚模式

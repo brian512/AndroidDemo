@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.brian.testandroid.common.BaseActivity;
-import com.brian.testandroid.util.ToastUtil;
-import com.brian.testandroid.view.CommonDialogFragment;
+import com.brian.common.BaseActivity;
+import com.brian.common.util.ToastUtil;
+import com.brian.common.view.CommonDialogFragment;
 
 /**
  * 测试DialogFragment

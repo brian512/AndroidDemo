@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.BaseActivity;
-import com.brian.testandroid.view.PraiseView;
+import com.brian.common.BaseActivity;
+import com.brian.common.view.PraiseView;
 
 /**
  * 测试点赞效果
