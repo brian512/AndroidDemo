@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.BaseActivity;
-import com.brian.testandroid.util.DeviceUtil;
-import com.brian.testandroid.util.LogUtil;
-import com.brian.testandroid.util.ToastUtil;
-import com.brian.testandroid.view.swiperecycleview.DefaultItemTouchHelper;
-import com.brian.testandroid.view.swiperecycleview.HorizontalRecyclerView;
+import com.brian.common.BaseActivity;
+import com.brian.common.util.DeviceUtil;
+import com.brian.common.util.LogUtil;
+import com.brian.common.util.ToastUtil;
+import com.brian.common.view.swiperecycleview.DefaultItemTouchHelper;
+import com.brian.common.view.swiperecycleview.HorizontalRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +40,8 @@ public class RecyclerViewActivity extends BaseActivity {
         mRecyclerView.setClipToPadding(false);
         mRecyclerView.getAdapter().bindDatas(getDummyDatas());
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
+        boolean dragable = true;
+        boolean swipeable = true;
         mRecyclerView.setItemTouchHelperListener(new DefaultItemTouchHelper.OnItemTouchCallbackListener() {
 
             @Override
@@ -57,7 +59,7 @@ public class RecyclerViewActivity extends BaseActivity {
                 mRecyclerView.getAdapter().notifyItemMoved(srcPosition, targetPosition);
                 return true;
             }
-        }, false, false);
+        }, dragable, swipeable);
         mRecyclerView.setOnItemSelectedListener(new HorizontalRecyclerView.OnItemSelectedLitener() {
             @Override
             public void onItemSelected(View view, int position) {

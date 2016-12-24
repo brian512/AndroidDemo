@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.BaseActivity;
-import com.brian.testandroid.view.AnimImageButton;
-import com.brian.testandroid.view.MarkableProgressBar;
+import com.brian.common.BaseActivity;
+import com.brian.common.view.AnimImageButton;
+import com.brian.common.view.MarkableProgressBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

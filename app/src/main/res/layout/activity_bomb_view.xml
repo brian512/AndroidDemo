@@ -6,7 +6,7 @@
     android:background="@color/black"
     android:orientation="vertical">
 
-    <com.brian.testandroid.view.BombView
+    <com.brian.common.view.BombView
         android:id="@+id/bombview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

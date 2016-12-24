@@ -9,7 +9,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.BaseActivity;
+import com.brian.common.BaseActivity;
 
 public class TranslucentStatusBarActivity extends BaseActivity {
 

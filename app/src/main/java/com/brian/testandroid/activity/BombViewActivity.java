@@ -3,8 +3,8 @@ package com.brian.testandroid.activity;
 import android.os.Bundle;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.BaseActivity;
-import com.brian.testandroid.view.BombView;
+import com.brian.common.BaseActivity;
+import com.brian.common.view.BombView;
 
 /**
  * 测试烟花效果

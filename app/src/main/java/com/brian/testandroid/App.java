@@ -5,7 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
 
-import com.brian.testandroid.common.Env;
+import com.brian.common.Env;
 
 public class App extends Application {
 

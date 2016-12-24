@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/black">
     
-    <com.brian.testandroid.view.MarkableProgressBar
+    <com.brian.common.view.MarkableProgressBar
         android:id="@+id/progressbar"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
@@ -36,11 +36,11 @@
         android:textSize="24sp"
         android:text="reset"/>
 
-    <com.brian.testandroid.view.AnimImageButton
+    <com.brian.common.view.AnimImageButton
         android:id="@+id/anim_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher"
+        android:src="@mipmap/ic_launcher"
         android:layout_centerInParent="true"
         android:padding="30dp"/>
 

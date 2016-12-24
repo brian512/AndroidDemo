@@ -8,19 +8,18 @@ import android.view.View;
 import android.widget.Button;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.BaseActivity;
-import com.brian.testandroid.common.camera.CameraHelperAsy;
-import com.brian.testandroid.common.camera.CameraRecordRenderer;
-import com.brian.testandroid.common.camera.CameraSurfaceView;
-import com.brian.testandroid.common.camera.video.EncoderConfig;
-import com.brian.testandroid.util.PathUtil;
-import com.brian.testandroid.common.PermissionHelper;
+import com.brian.common.BaseActivity;
+import com.brian.common.camera.CameraHelperAsy;
+import com.brian.common.camera.CameraRecordRenderer;
+import com.brian.common.camera.CameraSurfaceView;
+import com.brian.common.camera.video.EncoderConfig;
+import com.brian.common.util.PathUtil;
+import com.brian.common.PermissionHelper;
 
 import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * 测试相机预览
@@ -45,7 +44,7 @@ public class CameraActivity extends BaseActivity {
 
 //        mCameraSurfaceView.setAspectRatio(3, 4);
 
-        PermissionHelper.checkCameraPermission(this);
+        PermissionHelper.checkCameraPermission(this, new PermissionHelper.PermissionCallback());
 
         initListeners();
     }
@@ -132,6 +131,6 @@ public class CameraActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+        PermissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

@@ -19,15 +19,14 @@ import com.brian.testandroid.activity.ScrollingImageActivity;
 import com.brian.testandroid.activity.TabLayoutActivity;
 import com.brian.testandroid.activity.VRImageActivity;
 import com.brian.testandroid.activity.TranslucentStatusBarActivity;
-import com.brian.testandroid.common.BaseActivity;
-import com.brian.testandroid.common.CommonAdapter;
+import com.brian.common.BaseActivity;
+import com.brian.common.CommonAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends BaseActivity {
 
@@ -78,14 +77,6 @@ public class MainActivity extends BaseActivity {
         };
 
         mListView.setAdapter(mAdapter);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        // Forward results to EasyPermissions
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     class Item {

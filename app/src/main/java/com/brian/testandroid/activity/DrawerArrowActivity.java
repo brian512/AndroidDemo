@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.brian.testandroid.R;
-import com.brian.testandroid.util.ResourceUtil;
-import com.brian.testandroid.view.DrawerArrowDrawable;
-import com.brian.testandroid.view.SwitchDrawable;
+import com.brian.common.util.ResourceUtil;
+import com.brian.common.view.DrawerArrowDrawable;
+import com.brian.common.view.SwitchDrawable;
 
 /**
  * 测试DrawerArrow
