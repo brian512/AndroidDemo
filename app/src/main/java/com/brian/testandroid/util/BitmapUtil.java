@@ -566,7 +566,7 @@ public class BitmapUtil {
 
         /*
          * 处理流程
-		 * 1、处理旋转
+		 * image1、处理旋转
 		 * 2、缩放到合适尺寸
 		 * 3、居中截取指定的范围
 		 *
@@ -637,7 +637,7 @@ public class BitmapUtil {
             return null;
         }
 
-        if (width <= 0 || height <= 0 || x >= width || y >= height) {
+        if (width <= 0 || height <= 0) {
             throw new IllegalArgumentException("size is error");
         }
         try {
@@ -657,7 +657,7 @@ public class BitmapUtil {
      * @return
      */
     @TargetApi(17)
-    public static Bitmap blurBitmapUseSysApi(Bitmap bitmap) {
+    public static Bitmap blurBitmapUseSysApi(Bitmap bitmap, float blurR) {
 
         //Let's create an empty bitmap with the same size of the bitmap we want to blur
         Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
@@ -680,7 +680,7 @@ public class BitmapUtil {
             Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
 
             // Set the radius of the blur
-            blurScript.setRadius(25.f);
+            blurScript.setRadius(blurR);
 
             // Perform the Renderscript
             blurScript.setInput(allIn);
@@ -969,9 +969,9 @@ public class BitmapUtil {
 //    private static int getOption(int bitmapWidth ,int bitmapHeight){
 //        int max = bitmapWidth > bitmapHeight ? bitmapWidth:bitmapHeight;
 //        if(max < MAX_VALUE){
-//            return 1;
+//            return image1;
 //        }else{
-//            return max / MAX_VALUE + 1;
+//            return max / MAX_VALUE + image1;
 //        }
 //    }
 

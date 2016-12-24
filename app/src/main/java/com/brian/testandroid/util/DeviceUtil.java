@@ -79,7 +79,7 @@ public class DeviceUtil {
     /**
      * 状态栏的高度；注：上面获取的屏幕高度包含了状态栏的高度
      * PS：
-     * 1、有些时候获取不到
+     * image1、有些时候获取不到
      * 2、注意此函数不能在Activity的onCreate执行，否则获取状态栏高度为0
      */
     private static int sStatusHeight = 0;
@@ -181,7 +181,7 @@ public class DeviceUtil {
 
         String str1 = "/proc/cpuinfo";
         String str2 = "";
-        String[] cpuInfo = {"", ""}; // 1-cpu型号 //2-cpu频率
+        String[] cpuInfo = {"", ""}; // image1-cpu型号 //2-cpu频率
         String[] arrayOfString;
         try {
             FileReader fr = new FileReader(str1);
@@ -390,10 +390,10 @@ public class DeviceUtil {
                 + "vold.fstab");
 
         // mount命令语法: dev_mount <label> <mount_point> <part> <sysfs_path1...>
-        // mount命令示例: dev_mount sdcard /mnt/sdcard 1
-        // /devices/platform/mmci-omap-hs.1/mmc_host/mmc0
+        // mount命令示例: dev_mount sdcard /mnt/sdcard image1
+        // /devices/platform/mmci-omap-hs.image1/mmc_host/mmc0
         final String MOUNT = "dev_mount";
-        // final int INDEX_LABEL = 1;
+        // final int INDEX_LABEL = image1;
         final int INDEX_MOUNT_POINT = 2;
         // final int INDEX_PARTITION = 3;
         final int INDEX_SYSFS_PATH = 4;

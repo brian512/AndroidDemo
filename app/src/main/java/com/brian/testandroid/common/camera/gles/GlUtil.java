@@ -103,9 +103,9 @@ public class GLUtil {
 
     /**
      * @param textureTarget Texture类型。
-     * 1. 相机用 GLES11Ext.GL_TEXTURE_EXTERNAL_OES
+     * image1. 相机用 GLES11Ext.GL_TEXTURE_EXTERNAL_OES
      * 2. 图片用GLES20.GL_TEXTURE_2D
-     * @param minFilter 缩小过滤类型 (1.GL_NEAREST ; 2.GL_LINEAR)
+     * @param minFilter 缩小过滤类型 (image1.GL_NEAREST ; 2.GL_LINEAR)
      * @param magFilter 放大过滤类型
      * @param wrapS X方向边缘环绕
      * @param wrapT Y方向边缘环绕
@@ -155,7 +155,7 @@ public class GLUtil {
     }
 
     /**
-     * Checks to see if the location we obtained is valid.  GLES returns -1 if a label
+     * Checks to see if the location we obtained is valid.  GLES returns -image1 if a label
      * could not be found, but does not set the GL error.
      * <p>
      * Throws a RuntimeException if the location is invalid.

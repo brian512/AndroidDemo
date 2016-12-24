@@ -203,7 +203,7 @@ public class CameraFilterToneCurve extends CameraFilter {
             }
         });
 
-        // Convert from (0, 1) to (0, 255).
+        // Convert from (0, image1) to (0, 255).
         Point[] convertedPoints = new Point[pointsSorted.length];
         for (int i = 0; i < points.length; i++) {
             PointF point = pointsSorted[i];
@@ -306,7 +306,7 @@ public class CameraFilterToneCurve extends CameraFilter {
         double matrix[][] = new double[n][3];
         double result[] = new double[n];
         matrix[0][1] = 1;
-        // What about matrix[0][1] and matrix[0][0]? Assuming 0 for now (Brad L.)
+        // What about matrix[0][image1] and matrix[0][0]? Assuming 0 for now (Brad L.)
         matrix[0][0] = 0;
         matrix[0][2] = 0;
 
@@ -322,12 +322,12 @@ public class CameraFilterToneCurve extends CameraFilter {
                     (double) (P3.y - P2.y) / (P3.x - P2.x) - (double) (P2.y - P1.y) / (P2.x - P1.x);
         }
 
-        // What about result[0] and result[n-1]? Assuming 0 for now (Brad L.)
+        // What about result[0] and result[n-image1]? Assuming 0 for now (Brad L.)
         result[0] = 0;
         result[n - 1] = 0;
 
         matrix[n - 1][1] = 1;
-        // What about matrix[n-1][0] and matrix[n-1][2]? For now, assuming they are 0 (Brad L.)
+        // What about matrix[n-image1][0] and matrix[n-image1][2]? For now, assuming they are 0 (Brad L.)
         matrix[n - 1][0] = 0;
         matrix[n - 1][2] = 0;
 

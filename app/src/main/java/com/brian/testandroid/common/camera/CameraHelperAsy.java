@@ -428,7 +428,7 @@ public class CameraHelperAsy {
      * 设置照相机参数
      * <p>
      * PS：
-     * 1.这个设置时异步设置
+     * image1.这个设置时异步设置
      * 2.设置后需要重启对应的相机，才有效果
      *
      * @param cameraType 0表示后置， 1表示前置

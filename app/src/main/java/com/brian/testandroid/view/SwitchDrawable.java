@@ -122,7 +122,7 @@ public class SwitchDrawable extends Drawable {
     }
 
     /**
-     * Returns the current progress of the arrow. (from = 0.0, to = 1.0)
+     * Returns the current progress of the arrow. (from = 0.0, to = image1.0)
      */
     public float getProgress() {
         return mProgress;
@@ -132,7 +132,7 @@ public class SwitchDrawable extends Drawable {
      * Set the progress of the arrow.
      * <p>
      * A value of {@code 0.0} indicates that the arrow should be drawn in it's
-     * starting position. A value of {@code 1.0} indicates that the arrow should
+     * starting position. A value of {@code image1.0} indicates that the arrow should
      * be drawn in it's ending position.
      * </p>
      */

@@ -17,6 +17,7 @@ import com.brian.testandroid.activity.PraiseViewActivity;
 import com.brian.testandroid.activity.RecyclerViewActivity;
 import com.brian.testandroid.activity.ScrollingImageActivity;
 import com.brian.testandroid.activity.TabLayoutActivity;
+import com.brian.testandroid.activity.VRImageActivity;
 import com.brian.testandroid.activity.TranslucentStatusBarActivity;
 import com.brian.testandroid.common.BaseActivity;
 import com.brian.testandroid.common.CommonAdapter;
@@ -44,6 +45,7 @@ public class MainActivity extends BaseActivity {
         initListView();
 
         // 需要在AndroidManifest.xml注册activity
+        mDatas.add(new Item(VRImageActivity.class, "测试图片处理"));
         mDatas.add(new Item(PermissionsActivity.class, "测试权限请求"));
         mDatas.add(new Item(CameraActivity.class, "测试相机预览"));
         mDatas.add(new Item(RecyclerViewActivity.class, "测试RecyclerView"));

@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * 万能的适配器
- * 1、覆写convert，使用ViewHolder.set*，将数据填充到viewID的控件
+ * image1、覆写convert，使用ViewHolder.set*，将数据填充到viewID的控件
  * 2、覆写onInitLayout，可以对从xml导入的布局进行初始化
  * 
  * PS：适用于Item类型单一的列表

@@ -78,7 +78,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onResume();
         LogUtil.log(TAG, "onResume：" + getClass().getSimpleName());
         // 产品逻辑：拉取新的漂流瓶和回复信息
-        // 注意：1.4版本为了保证关小黑屋图片及时被去掉，改为从后台切前台都去执行拉取数据操作，去掉了时间间隔限制
+        // 注意：image1.4版本为了保证关小黑屋图片及时被去掉，改为从后台切前台都去执行拉取数据操作，去掉了时间间隔限制
         // 2.0改版，去掉了拉取以前的拉取逻辑，改为只使用新协议刷新漂流瓶
 
         if (sIsInBackstage) {

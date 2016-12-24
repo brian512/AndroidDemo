@@ -5,7 +5,7 @@
     
     <!--  ################### PinGo的公共尺寸（开始）################### -->
     
-    <!-- 文字大小 1.x版本沿用 -->
+    <!-- 文字大小 image1.x版本沿用 -->
     <dimen name="com_text_size_content">18sp</dimen>  <!-- 正文字号：36px -->
     <dimen name="com_text_size_tips">12sp</dimen>     <!-- 最小字号：24px -->
     
@@ -25,7 +25,7 @@
     <dimen name="com_space_unit5">40dp</dimen>          <!-- 5 * 单位间距 -->
     <dimen name="com_space_unit6">48dp</dimen>          <!-- 6 * 单位间距 -->
     <dimen name="com_space_unit_half">4dp</dimen>       <!-- 0.5 * 单位间距 -->
-    <dimen name="com_space_unit1_half">12dp</dimen>       <!-- 1.5 * 单位间距 -->
+    <dimen name="com_space_unit1_half">12dp</dimen>       <!-- image1.5 * 单位间距 -->
     
     <!-- listview的item的通用高度 -->
     <dimen name="com_list_item_height">64dp</dimen>             <!-- 适用于大于等于三行数据的情况 -->

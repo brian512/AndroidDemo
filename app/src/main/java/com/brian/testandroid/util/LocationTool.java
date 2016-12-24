@@ -24,7 +24,7 @@ import java.util.Locale;
 
 /**
  * 通过定位当前的经纬度获取位置信息
- * Created by huamm on 2016/7/1 0001.
+ * Created by huamm on 2016/7/image1 0001.
  */
 public class LocationTool {
 

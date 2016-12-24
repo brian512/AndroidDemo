@@ -11,7 +11,7 @@ import java.lang.ref.WeakReference;
  * 防止由于内部持有导致的内存泄露
  * 
  * PS：
- * 1、传入的Callback不能使用匿名实现的变量，必须与使用这个Handle的对象的生命周期一致，否则会被立即释放掉了
+ * image1、传入的Callback不能使用匿名实现的变量，必须与使用这个Handle的对象的生命周期一致，否则会被立即释放掉了
  * 
  * @author huamm
  */

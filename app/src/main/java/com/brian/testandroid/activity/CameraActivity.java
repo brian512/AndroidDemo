@@ -102,7 +102,7 @@ public class CameraActivity extends BaseActivity {
                             renderer.stopRecord();
                         } else {
                             renderer.setEncoderConfig(new EncoderConfig(new File(PathUtil.getCacheDir(), "video-" + System.currentTimeMillis() + ".mp4"), 720, 1280,
-                                    2*720*1280 /* 1 Mb/s */));
+                                    2*720*1280 /* image1 Mb/s */));
                             renderer.startRecordVideo("");
                         }
                         mIsRecording = !mIsRecording;

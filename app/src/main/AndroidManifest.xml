@@ -53,6 +53,7 @@
         <activity android:name=".activity.RecyclerViewActivity"/>
         <activity android:name=".activity.CameraActivity"/>
         <activity android:name=".activity.PermissionsActivity"/>
+        <activity android:name=".activity.VRImageActivity"/>
     </application>
 
 </manifest>

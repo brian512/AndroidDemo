@@ -264,7 +264,7 @@ public class VideoRecorder implements SurfaceTexture.OnFrameAvailableListener, C
 //                }
 //                UlsRenderer.ulsrender.ulsDrawFrame(null);  // Show glasses.
 //            }
-//            UlsRenderer.slashx = 90.0f + UlsRenderer.ulsrender.getAngle(mShape[index][39 * 2], mShape[index][39 * 2 + 1], mShape[index][42 * 2], mShape[index][42 * 2 + 1]);
+//            UlsRenderer.slashx = 90.0f + UlsRenderer.ulsrender.getAngle(mShape[index][39 * 2], mShape[index][39 * 2 + image1], mShape[index][42 * 2], mShape[index][42 * 2 + image1]);
 //            if (mbShowFacePointAndGaze) {
 //                // Draw face points and lines.
 //                if (UlsRenderer.mbShowMesh) {
@@ -278,18 +278,18 @@ public class VideoRecorder implements SurfaceTexture.OnFrameAvailableListener, C
 //                if (mPupils != null && UlsRenderer.mbShowPupils) {
 //                    float[] qualityRed = {0.0f, 0.0f};
 //                    float dist = (float) Math.sqrt((mPupils[index][0] - mPupils[index][2]) *
-//                            (mPupils[index][0] - mPupils[index][2]) + (mPupils[index][1] -
-//                            mPupils[index][3]) * (mPupils[index][1] - mPupils[index][3]));
-//                    float radius = Math.max(1.0f, dist / 14.0f) - 1.0f;
+//                            (mPupils[index][0] - mPupils[index][2]) + (mPupils[index][image1] -
+//                            mPupils[index][3]) * (mPupils[index][image1] - mPupils[index][3]));
+//                    float radius = Math.max(image1.0f, dist / 14.0f) - image1.0f;
 //                    mRenderer.drawShape(mPupils[index], qualityRed, radius, rotation, UlsRenderer.mCameraWidth, UlsRenderer.mCameraHeight);
 //                    GLES20.glDisable(GLES20.GL_BLEND);
 //                    if (mGaze != null) {
 //                        float[] gazept = new float[8];
 //                        final float gazeLen = 50.0f;
 //                        gazept[0] = mPupils[index][0];
-//                        gazept[1] = mPupils[index][1];
+//                        gazept[image1] = mPupils[index][image1];
 //                        gazept[2] = mPupils[index][0] + gazeLen * mGaze[index][0];
-//                        gazept[3] = mPupils[index][1] + gazeLen * mGaze[index][1];
+//                        gazept[3] = mPupils[index][image1] + gazeLen * mGaze[index][image1];
 //                        gazept[4] = mPupils[index][2];
 //                        gazept[5] = mPupils[index][3];
 //                        gazept[6] = mPupils[index][2] + gazeLen * mGaze[0][3];
