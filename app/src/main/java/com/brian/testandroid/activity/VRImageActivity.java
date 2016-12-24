@@ -16,15 +16,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.brian.common.BaseActivity;
+import com.brian.common.ThreadPoolManager;
+import com.brian.common.util.BitmapUtil;
+import com.brian.common.util.DeviceUtil;
+import com.brian.common.util.LogUtil;
+import com.brian.common.util.ToastUtil;
+import com.brian.common.util.UIUtil;
 import com.brian.testandroid.R;
-import com.brian.testandroid.common.BaseActivity;
 import com.brian.testandroid.common.BasePreference;
-import com.brian.testandroid.common.ThreadPoolManager;
-import com.brian.testandroid.util.BitmapUtil;
-import com.brian.testandroid.util.DeviceUtil;
-import com.brian.testandroid.util.LogUtil;
-import com.brian.testandroid.util.ToastUtil;
-import com.brian.testandroid.util.UIUtil;
 
 import java.io.File;
 
@@ -70,8 +70,6 @@ public class VRImageActivity extends BaseActivity {
 
         initData();
 
-        getScreenshots();
-
         mImageView = (ImageView) findViewById(R.id.image);
         mOK = (Button) findViewById(R.id.ok);
         mSelect = (Button) findViewById(R.id.select);
@@ -91,6 +89,14 @@ public class VRImageActivity extends BaseActivity {
                 doParse();
             }
         });
+
+        getScreenshots();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getScreenshots();
     }
 
     private void initData() {
@@ -120,6 +126,7 @@ public class VRImageActivity extends BaseActivity {
             ToastUtil.showMsg("先选择图片");
             return;
         }
+        mImagePath.setText(mImageUri.toString().substring(mImageUri.toString().lastIndexOf("/")));
         saveData();
         final int startX = UIUtil.dp2Px(Integer.valueOf(mStartX.getText().toString()));
         final int startY = UIUtil.dp2Px(Integer.valueOf(mStartY.getText().toString()));
@@ -212,7 +219,6 @@ public class VRImageActivity extends BaseActivity {
             //to do find the path of pic
             LogUtil.log("uri=" + uri);
             mImageUri = uri;
-            mImagePath.setText(uri.toString());
 
             doParse();
         }
@@ -223,10 +229,17 @@ public class VRImageActivity extends BaseActivity {
     private void getScreenshots() {
         File pix = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File screenshots = new File(pix, "Screenshots");
-        LogUtil.log("" + screenshots);
+        LogUtil.log("screenshots=" + screenshots);
         if (screenshots.isDirectory()) {
             File[] children = screenshots.listFiles();
-            LogUtil.log("" + children);
+            LogUtil.log("children=" + children);
+            if (children != null && children.length > 0 ) {
+                for (File c : children) {
+                    LogUtil.log("" + c);
+                }
+                mImageUri = Uri.fromFile(children[children.length-1]);
+                doParse();
+            }
         }
     }
 }

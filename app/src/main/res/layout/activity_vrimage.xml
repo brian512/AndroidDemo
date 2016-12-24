@@ -106,9 +106,9 @@
         android:layout_height="wrap_content">
         <Button
             android:id="@+id/select"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="select image"/>
+            android:text="select"/>
 
         <TextView
             android:id="@+id/imagePath"

@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
+import com.brian.common.Env;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
