@@ -3,6 +3,7 @@ package com.brian.testandroid.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
@@ -96,15 +97,18 @@ public class VRImageActivity extends BaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        getScreenshots();
+        if (!mHasPickImage) {
+            getScreenshots();
+            mHasPickImage = false;
+        }
     }
 
     private void initData() {
         BasePreference preference = BasePreference.initPreference("");
         mStartX.setText(preference.getString("mStartX", "105"));
-        mStartY.setText(preference.getString("mStartY", "290"));
+        mStartY.setText(preference.getString("mStartY", "315"));
         mWidth.setText(preference.getString("mWidth", "150"));
-        mHeight.setText(preference.getString("mHeight", "200"));
+        mHeight.setText(preference.getString("mHeight", "150"));
         mBright.setText(preference.getString("mBright", "50"));
         mBlurR.setText(preference.getString("mBlurR", "1"));
         mOffset.setText(preference.getString("mOffset", "2.5"));
@@ -143,6 +147,8 @@ public class VRImageActivity extends BaseActivity {
                 if (bitmap == null) {
                     return;
                 }
+                LogUtil.log("bitmap.getWidth()=" + bitmap.getWidth());
+                LogUtil.log("getScreenWidth=" + DeviceUtil.getScreenWidth(getApplicationContext()));
                 if (bitmap.getWidth() == DeviceUtil.getScreenWidth(getApplicationContext())) {
                     bitmap = clipImage(bitmap, startX, startY, width, height);
                 }
@@ -170,6 +176,9 @@ public class VRImageActivity extends BaseActivity {
     }
 
     private Bitmap getDealedImage(Bitmap sourceBitmap, int bright, int transparent, float blurR, int offset) {
+
+        dealPixels(sourceBitmap);
+
         Bitmap secondBitmap = getTransparentBitmap(sourceBitmap, transparent);
         Bitmap bitmap = Bitmap.createBitmap(sourceBitmap.getWidth(), sourceBitmap.getHeight() + offset, Bitmap.Config.ARGB_8888);
         Rect baseRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
@@ -180,7 +189,95 @@ public class VRImageActivity extends BaseActivity {
         canvas.drawBitmap(sourceBitmap, sourceRect, baseRect, getBrightPaint(bright));
         canvas.drawBitmap(secondBitmap, secondRect, baseRect, getBrightPaint(bright));
 
+//        return sourceBitmap;
         return BitmapUtil.blurBitmapUseSysApi(bitmap, blurR);
+    }
+
+    private void dealPixels(Bitmap sourceBitmap) {
+        int redCount = 0;
+        int greenCount = 0;
+        int blueCount = 0;
+
+        int width = sourceBitmap.getWidth();
+        int height = sourceBitmap.getHeight();
+        int lastRed = 0;
+        int lastGreen = 0;
+        int lastBlue = 0;
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                int pixel = sourceBitmap.getPixel(col, row);// ARGB
+                int red = Color.red(pixel); // same as (pixel >> 16) &0xff
+                int green = Color.green(pixel); // same as (pixel >> 8) &0xff
+                int blue = Color.blue(pixel); // same as (pixel & 0xff)
+
+                redCount += red;
+                greenCount += green;
+                blueCount += blue;
+                if (col == width-1) {
+                    redCount=redCount/width;
+                    greenCount=greenCount/width;
+                    blueCount=blueCount/width;
+
+//                    LogUtil.log("row:" + row
+//                            + "  redCount=" + redCount
+//                            + ",greenCount=" + greenCount
+//                            + ",blueCount=" + blueCount
+//                    );
+                    int delta = 10;
+                    if ((lastRed+lastBlue+lastGreen > 0)
+                            && redCount < lastRed-delta
+                            && greenCount < lastGreen-delta
+                            && blueCount < lastBlue-delta
+                            &&(redCount+greenCount+blueCount) < (lastRed+lastBlue+lastGreen)-45
+                            ) {
+                        LogUtil.e("row:" + row);
+                        replaceRowPixels(sourceBitmap, row);
+                    } else {
+                        lastRed = redCount;
+                        lastGreen = greenCount;
+                        lastBlue = blueCount;
+                    }
+
+                    redCount = 0;
+                    greenCount = 0;
+                    blueCount = 0;
+                }
+            }
+        }
+    }
+
+    private void replaceRowPixels(Bitmap sourceBitmap, int row) {
+        if (row <= 1) {
+            return;
+        }
+
+        for (int i = 0; i < sourceBitmap.getWidth(); i++) {
+            int prePixel = sourceBitmap.getPixel(i, row-1);// ARGB
+            int prered = Color.red(prePixel); // same as (pixel >> 16) &0xff
+            int pregreen = Color.green(prePixel); // same as (pixel >> 8) &0xff
+            int preblue = Color.blue(prePixel); // same as (pixel & 0xff)
+
+            int pixel = sourceBitmap.getPixel(i, row);// ARGB
+            int red = Color.red(pixel); // same as (pixel >> 16) &0xff
+            int green = Color.green(pixel); // same as (pixel >> 8) &0xff
+            int blue = Color.blue(pixel); // same as (pixel & 0xff)
+
+            try {
+                sourceBitmap.setPixel(i, row,
+                        Color.rgb(getInt(prered, red),
+                                getInt(pregreen, green) ,
+                                getInt(preblue, blue))
+                );
+            } catch (Exception e) {}
+
+        }
+    }
+
+    private int getInt(int preV, int v) {
+//        LogUtil.log("preV=" + preV + "; v=" + v + "; result=" + (preV+v)/2);
+        return Math.min(255, (preV + v + 100)/2);
+//        return preV;
+//        return (preV+v)/2;
     }
 
     public static Paint getBrightPaint(int brightness) {
@@ -209,6 +306,7 @@ public class VRImageActivity extends BaseActivity {
         return sourceImg;
     }
 
+    private boolean mHasPickImage = false;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_PICK_IMAGE) {
@@ -219,6 +317,7 @@ public class VRImageActivity extends BaseActivity {
             //to do find the path of pic
             LogUtil.log("uri=" + uri);
             mImageUri = uri;
+            mHasPickImage = true;
 
             doParse();
         }
