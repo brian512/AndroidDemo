@@ -10,7 +10,11 @@ android {
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
         versionCode 1
-        versionName "image1.0"
+        versionName "1.0"
+
+        ndk {
+            abiFilters "armeabi"
+        }
     }
     buildTypes {
         release {
@@ -18,6 +22,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+//    externalNativeBuild {
+//        ndkBuild {
+//            path file("src\\main\\jni\\Android.mk")
+//        }
+//    }
+
+    sourceSets.main {
+        jni.srcDirs = [] //屏蔽gradle的jni生成过程
+        jniLibs.srcDir 'src/main/libs'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.properties'
+        pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.xml'
+        pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.properties'
+        pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.xml'
+
+        pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.xml'
+    }
+
 }
 
 dependencies {
@@ -27,4 +53,11 @@ dependencies {
 
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+
+//    compile group: 'org.bytedeco', name: 'javacv-platform', version: '1.3.1'
+
+    compile group: 'org.bytedeco', name: 'javacv', version: '1.3.1'
+    compile group: 'org.bytedeco', name: 'javacpp', version: '1.3.1'
+//    compile group: 'org.bytedeco.javacpp-presets', name: 'opencv', version: '3.0.0-1.1', classifier: 'android-arm'
+    compile group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: '3.1.2-1.2', classifier: 'android-arm'
 }
