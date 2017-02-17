@@ -4,6 +4,7 @@ package com.brian.testandroid;
 import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
+import android.support.multidex.MultiDex;
 
 import com.brian.common.Env;
 
@@ -17,6 +18,8 @@ public class App extends Application {
         // app start here
         Env.setAppStartTime();
         super.attachBaseContext(base);
+
+        MultiDex.install(this);
     }
 
     @Override

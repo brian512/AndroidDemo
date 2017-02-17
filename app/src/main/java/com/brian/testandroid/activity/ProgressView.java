@@ -1,4 +1,4 @@
-package com.brian.testandroid.record;
+package com.brian.testandroid.activity;
 
 import android.app.Activity;
 import android.content.Context;

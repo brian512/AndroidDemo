@@ -42,42 +42,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.brian.testandroid.record.RecorderParameters.RESOLUTION_HIGH_VALUE;
+import static com.brian.testandroid.record.RecorderParameters.RESOLUTION_LOW_VALUE;
+import static com.brian.testandroid.record.RecorderParameters.RESOLUTION_MEDIUM_VALUE;
 import static com.googlecode.javacv.cpp.opencv_highgui.cvCreateFileCapture;
 import static com.googlecode.javacv.cpp.opencv_highgui.cvQueryFrame;
 
 
 public class Util {
     public static ContentValues videoContentValues = null;
-
-    public static String getRecordingTimeFromMillis(long millis) {
-        String strRecordingTime = null;
-        int seconds = (int) (millis / 1000);
-        int minutes = seconds / 60;
-        int hours = minutes / 60;
-
-        if (hours >= 0 && hours < 10)
-            strRecordingTime = "0" + hours + ":";
-        else
-            strRecordingTime = hours + ":";
-
-        if (hours > 0)
-            minutes = minutes % 60;
-
-        if (minutes >= 0 && minutes < 10)
-            strRecordingTime += "0" + minutes + ":";
-        else
-            strRecordingTime += minutes + ":";
-
-        seconds = seconds % 60;
-
-        if (seconds >= 0 && seconds < 10)
-            strRecordingTime += "0" + seconds;
-        else
-            strRecordingTime += seconds;
-
-        return strRecordingTime;
-
-    }
 
 
     public static int determineDisplayOrientation(Activity activity, int defaultCameraId) {
@@ -147,8 +120,8 @@ public class Util {
 
     public static String createImagePath(Context context) {
         long dateTaken = System.currentTimeMillis();
-        String title = CONSTANTS.FILE_START_NAME + dateTaken;
-        String filename = title + CONSTANTS.IMAGE_EXTENSION;
+        String title = "Picture_" + dateTaken;
+        String filename = title + ".jpg";
 
         String dirPath = Environment.getExternalStorageDirectory() + "/Android/data/" + context.getPackageName() + "/video";
         File file = new File(dirPath);
@@ -160,8 +133,8 @@ public class Util {
 
     public static String createFinalPath(Context context) {
         long dateTaken = System.currentTimeMillis();
-        String title = CONSTANTS.FILE_START_NAME + dateTaken;
-        String filename = title + CONSTANTS.VIDEO_EXTENSION;
+        String title = "Video_" + dateTaken;
+        String filename = title + ".mp4";
         String filePath = genrateFilePath(context, String.valueOf(dateTaken), true, null);
 
         ContentValues values = new ContentValues(7);
@@ -175,24 +148,8 @@ public class Util {
         return filePath;
     }
 
-    public static void deleteTempVideo(Context context) {
-        final String dirPath = Environment.getExternalStorageDirectory() + "/Android/data/" + context.getPackageName() + "/video";
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                File file = new File(dirPath);
-                if (file != null && file.isDirectory()) {
-                    for (File file2 : file.listFiles()) {
-                        file2.delete();
-                    }
-                }
-            }
-        }).start();
-    }
-
     private static String genrateFilePath(Context context, String uniqueId, boolean isFinalPath, File tempFolderPath) {
-        String fileName = CONSTANTS.FILE_START_NAME + uniqueId + CONSTANTS.VIDEO_EXTENSION;
+        String fileName = "Video_" + uniqueId + ".mp4";
         String dirPath = Environment.getExternalStorageDirectory() + "/Android/data/" + context.getPackageName() + "/video";
         if (isFinalPath) {
             File file = new File(dirPath);
@@ -204,19 +161,6 @@ public class Util {
         return filePath;
     }
 
-    public static String createTempPath(Context context, File tempFolderPath) {
-        long dateTaken = System.currentTimeMillis();
-        String filePath = genrateFilePath(context, String.valueOf(dateTaken), false, tempFolderPath);
-        return filePath;
-    }
-
-
-    public static File getTempFolderPath() {
-        File tempFolder = new File(CONSTANTS.TEMP_FOLDER_PATH + "_" + System.currentTimeMillis());
-        return tempFolder;
-    }
-
-
     public static List<Camera.Size> getResolutionList(Camera camera) {
         Parameters parameters = camera.getParameters();
         List<Camera.Size> previewSizes = parameters.getSupportedPreviewSizes();
@@ -227,45 +171,17 @@ public class Util {
 
     public static RecorderParameters getRecorderParameter(int currentResolution) {
         RecorderParameters parameters = new RecorderParameters();
-        if (currentResolution == CONSTANTS.RESOLUTION_HIGH_VALUE) {
+        if (currentResolution == RESOLUTION_HIGH_VALUE) {
             parameters.setAudioBitrate(128000);
             parameters.setVideoQuality(0);
-        } else if (currentResolution == CONSTANTS.RESOLUTION_MEDIUM_VALUE) {
+        } else if (currentResolution == RESOLUTION_MEDIUM_VALUE) {
             parameters.setAudioBitrate(128000);
             parameters.setVideoQuality(5);
-        } else if (currentResolution == CONSTANTS.RESOLUTION_LOW_VALUE) {
+        } else if (currentResolution == RESOLUTION_LOW_VALUE) {
             parameters.setAudioBitrate(96000);
             parameters.setVideoQuality(20);
         }
         return parameters;
-    }
-
-    public static int calculateMargin(int previewWidth, int screenWidth) {
-        int margin = 0;
-        if (previewWidth <= CONSTANTS.RESOLUTION_LOW) {
-            margin = (int) (screenWidth * 0.12);
-        } else if (previewWidth > CONSTANTS.RESOLUTION_LOW && previewWidth <= CONSTANTS.RESOLUTION_MEDIUM) {
-            margin = (int) (screenWidth * 0.08);
-        } else if (previewWidth > CONSTANTS.RESOLUTION_MEDIUM && previewWidth <= CONSTANTS.RESOLUTION_HIGH) {
-            margin = (int) (screenWidth * 0.08);
-        }
-        return margin;
-
-
-    }
-
-    public static int setSelectedResolution(int previewHeight) {
-        int selectedResolution = 0;
-        if (previewHeight <= CONSTANTS.RESOLUTION_LOW) {
-            selectedResolution = 0;
-        } else if (previewHeight > CONSTANTS.RESOLUTION_LOW && previewHeight <= CONSTANTS.RESOLUTION_MEDIUM) {
-            selectedResolution = 1;
-        } else if (previewHeight > CONSTANTS.RESOLUTION_MEDIUM && previewHeight <= CONSTANTS.RESOLUTION_HIGH) {
-            selectedResolution = 2;
-        }
-        return selectedResolution;
-
-
     }
 
     public static class ResolutionComparator implements Comparator<Camera.Size> {
@@ -278,71 +194,8 @@ public class Util {
         }
     }
 
-
-    public static void concatenateMultipleFiles(String inpath, String outpath) {
-        File Folder = new File(inpath);
-        File files[];
-        files = Folder.listFiles();
-
-        if (files.length > 0) {
-            for (int i = 0; i < files.length; i++) {
-                Reader in = null;
-                Writer out = null;
-                try {
-                    in = new FileReader(files[i]);
-                    out = new FileWriter(outpath, true);
-                    in.close();
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-
-    public static String getEncodingLibraryPath(Context paramContext) {
-        return paramContext.getApplicationInfo().nativeLibraryDir + "/libencoding.so";
-    }
-
-    private static HashMap<String, String> getMetaData() {
-        HashMap<String, String> localHashMap = new HashMap<String, String>();
-        localHashMap.put("creation_time", new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSSZ").format(new Date()));
-        return localHashMap;
-    }
-
     public static int getTimeStampInNsFromSampleCounted(int paramInt) {
         return (int) (paramInt / 0.0441D);
-    }
-
-
-    public static void saveReceivedFrame(SavedFrames frame) {
-        File cachePath = new File(frame.getCachePath());
-        BufferedOutputStream bos;
-        try {
-            bos = new BufferedOutputStream(new FileOutputStream(cachePath));
-            if (bos != null) {
-                bos.write(frame.getFrameBytesData());
-                bos.flush();
-                bos.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            cachePath = null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            cachePath = null;
-        }
-    }
-
-    public static Toast showToast(Context context, String textMessage, int timeDuration) {
-        if (null == context) {
-            return null;
-        }
-        textMessage = (null == textMessage ? "Oops! " : textMessage.trim());
-        Toast t = Toast.makeText(context, textMessage, timeDuration);
-        t.show();
-        return t;
     }
 
     /**
@@ -420,9 +273,83 @@ public class Util {
         dialog.show();
     }
 
-    public IplImage getFrame(String filePath) {
-        CvCapture capture = cvCreateFileCapture(filePath);
-        IplImage image = cvQueryFrame(capture);
-        return image;
+    public static byte[] rotateYUV420Degree90(byte[] data, int imageWidth, int imageHeight) {
+
+        byte[] yuv = new byte[imageWidth * imageHeight * 3 / 2];
+        // Rotate the Y luma
+        int i = 0;
+        for (int x = 0; x < imageWidth; x++) {
+            for (int y = imageHeight - 1; y >= 0; y--) {
+                yuv[i] = data[y * imageWidth + x];
+                i++;
+            }
+
+        }
+        // Rotate the U and V color components
+        i = imageWidth * imageHeight * 3 / 2 - 1;
+        for (int x = imageWidth - 1; x > 0; x = x - 2) {
+            for (int y = 0; y < imageHeight / 2; y++) {
+                yuv[i] = data[(imageWidth * imageHeight) + (y * imageWidth) + x];
+                i--;
+                yuv[i] = data[(imageWidth * imageHeight) + (y * imageWidth) + (x - 1)];
+                i--;
+            }
+        }
+        return yuv;
+    }
+
+    public static byte[] rotateYUV420Degree180(byte[] data, int imageWidth, int imageHeight) {
+        byte[] yuv = new byte[imageWidth * imageHeight * 3 / 2];
+        int i = 0;
+        int count = 0;
+
+        for (i = imageWidth * imageHeight - 1; i >= 0; i--) {
+            yuv[count] = data[i];
+            count++;
+        }
+
+        i = imageWidth * imageHeight * 3 / 2 - 1;
+        for (i = imageWidth * imageHeight * 3 / 2 - 1; i >= imageWidth
+                * imageHeight; i -= 2) {
+            yuv[count++] = data[i - 1];
+            yuv[count++] = data[i];
+        }
+        return yuv;
+    }
+
+    public static byte[] rotateYUV420Degree270(byte[] data, int imageWidth, int imageHeight) {
+        byte[] yuv = new byte[imageWidth * imageHeight * 3 / 2];
+        int nWidth = 0, nHeight = 0;
+        int wh = 0;
+        int uvHeight = 0;
+        if (imageWidth != nWidth || imageHeight != nHeight) {
+            nWidth = imageWidth;
+            nHeight = imageHeight;
+            wh = imageWidth * imageHeight;
+            uvHeight = imageHeight >> 1;//uvHeight = height / 2
+        }
+
+        //旋转Y
+        int k = 0;
+        for (int i = 0; i < imageWidth; i++) {
+            int nPos = 0;
+            for (int j = 0; j < imageHeight; j++) {
+                yuv[k] = data[nPos + i];
+                k++;
+                nPos += imageWidth;
+            }
+        }
+
+        for (int i = 0; i < imageWidth; i += 2) {
+            int nPos = wh;
+            for (int j = 0; j < uvHeight; j++) {
+                yuv[k] = data[nPos + i];
+                yuv[k + 1] = data[nPos + i + 1];
+                k += 2;
+                nPos += imageWidth;
+            }
+        }
+        //这一部分可以直接旋转270度，但是图像颜色不对
+        return rotateYUV420Degree180(yuv, imageWidth, imageHeight);
     }
 }

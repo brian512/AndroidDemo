@@ -6,6 +6,10 @@ import com.googlecode.javacv.cpp.avcodec;
 
 public class RecorderParameters {
 
+    public final static int RESOLUTION_HIGH_VALUE = 2;
+    public final static int RESOLUTION_MEDIUM_VALUE = 1;
+    public final static int RESOLUTION_LOW_VALUE = 0;
+
     private static boolean AAC_SUPPORTED = Build.VERSION.SDK_INT >= 10;
     //private int videoCodec = avcodec.AV_CODEC_ID_H264;
     private int videoCodec = avcodec.AV_CODEC_ID_MPEG4;

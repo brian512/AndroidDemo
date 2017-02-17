@@ -22,7 +22,7 @@ import com.brian.testandroid.activity.ScrollingImageActivity;
 import com.brian.testandroid.activity.TabLayoutActivity;
 import com.brian.testandroid.activity.TranslucentStatusBarActivity;
 import com.brian.testandroid.activity.VRImageActivity;
-import com.brian.testandroid.record.FFmpegRecorderActivity;
+import com.brian.testandroid.activity.FFmpegRecorderActivity;
 
 import java.util.ArrayList;
 import java.util.List;

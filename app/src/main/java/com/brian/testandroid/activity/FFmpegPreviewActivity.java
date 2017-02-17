@@ -1,4 +1,4 @@
-package com.brian.testandroid.record;
+package com.brian.testandroid.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -31,7 +31,7 @@ public class FFmpegPreviewActivity extends Activity implements TextureView.Surfa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ffmpeg_preview);
+        setContentView(R.layout.activity_recorder_preview);
 
         cancelBtn = (Button) findViewById(R.id.play_cancel);
         cancelBtn.setOnClickListener(this);
