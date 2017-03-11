@@ -2,7 +2,7 @@ package com.brian.testandroid.record;
 
 import android.os.Build;
 
-import com.googlecode.javacv.cpp.avcodec;
+import org.bytedeco.javacpp.avcodec;
 
 public class RecorderParameters {
 
@@ -59,6 +59,13 @@ public class RecorderParameters {
 
     public int getVideoFrameRate() {
         return videoFrameRate;
+    }
+
+    /**
+     * 每一帧的视频间隔，ns
+     */
+    public long getVideoFrameTime() {
+        return 1000000L / videoFrameRate;
     }
 
     public void setVideoFrameRate(int videoFrameRate) {
@@ -121,5 +128,24 @@ public class RecorderParameters {
         this.vidioHeight = vidioHeight;
     }
 
+
+    private static RecorderParameters getParameter(int currentResolution) {
+        RecorderParameters parameters = new RecorderParameters();
+        if (currentResolution == RESOLUTION_HIGH_VALUE) {
+            parameters.setAudioBitrate(128000);
+            parameters.setVideoQuality(0);
+        } else if (currentResolution == RESOLUTION_MEDIUM_VALUE) {
+            parameters.setAudioBitrate(128000);
+            parameters.setVideoQuality(5);
+        } else if (currentResolution == RESOLUTION_LOW_VALUE) {
+            parameters.setAudioBitrate(96000);
+            parameters.setVideoQuality(20);
+        }
+        return parameters;
+    }
+
+    public static RecorderParameters getDefaultParameter() {
+        return getParameter(RESOLUTION_MEDIUM_VALUE);
+    }
 
 }

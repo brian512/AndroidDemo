@@ -4,9 +4,9 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 
-import com.googlecode.javacv.FrameRecorder;
+import org.bytedeco.javacv.FFmpegFrameRecorder;
+import org.bytedeco.javacv.FrameRecorder;
 
-import java.nio.Buffer;
 import java.nio.ShortBuffer;
 
 /**
@@ -20,16 +20,16 @@ public class AudioRecordRunnable implements Runnable {
     private AudioRecord mAudioRecord;
 
     private boolean runAudioThread = true;
-    private boolean recording = true;
+    private boolean recording = false;
 
     private int mCount = 0;
     //音频时间戳
     public volatile long mAudioTimestamp = 0L;
     public volatile long mAudioTimeRecorded;
 
-    private FrameRecorder mRecorder;
+    private FFmpegFrameRecorder mRecorder;
 
-    public AudioRecordRunnable(FrameRecorder recorder, int sampleRate) {
+    public AudioRecordRunnable(FFmpegFrameRecorder recorder, int sampleRate) {
         mRecorder = recorder;
 
         int mBufferSize = AudioRecord.getMinBufferSize(sampleRate,
@@ -41,19 +41,23 @@ public class AudioRecordRunnable implements Runnable {
 
     public void setRecordState(boolean isOn) {
         recording = isOn;
-        runAudioThread = isOn;
     }
 
     public void start() {
         Thread thread = new Thread(this);
         thread.start();
+        runAudioThread = true;
+    }
+
+    public void stop() {
+        runAudioThread = false;
     }
 
     @Override
     public void run() {
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
         //判断音频录制是否被初始化
-        while (mAudioRecord.getState() == 0) {
+        while (mAudioRecord.getState() == AudioRecord.STATE_UNINITIALIZED) {
             try {
                 Thread.sleep(100L);
             } catch (InterruptedException localInterruptedException) {
@@ -73,7 +77,7 @@ public class AudioRecordRunnable implements Runnable {
                 try {
                     synchronized (mAudioRecordLock) {
                         mCount += shortBuffer.limit();
-                        mRecorder.record(0, new Buffer[]{shortBuffer});
+                        mRecorder.recordSamples(shortBuffer);
                     }
                 } catch (FrameRecorder.Exception e) {
                     e.printStackTrace();

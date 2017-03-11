@@ -21,32 +21,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.brian.testandroid.R;
-import com.googlecode.javacv.cpp.opencv_core.IplImage;
-import com.googlecode.javacv.cpp.opencv_highgui.CvCapture;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.text.SimpleDateFormat;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import static com.brian.testandroid.record.RecorderParameters.RESOLUTION_HIGH_VALUE;
 import static com.brian.testandroid.record.RecorderParameters.RESOLUTION_LOW_VALUE;
 import static com.brian.testandroid.record.RecorderParameters.RESOLUTION_MEDIUM_VALUE;
-import static com.googlecode.javacv.cpp.opencv_highgui.cvCreateFileCapture;
-import static com.googlecode.javacv.cpp.opencv_highgui.cvQueryFrame;
 
 
 public class Util {
@@ -202,7 +186,6 @@ public class Util {
      * 公共弹窗
      *
      * @param context :Context 传入当前调用该方法的activity实例
-     * @param msg     :String 要显示的显示文字
      * @param type    :int 显示类型1：仅为确定，2：有“确定”、“取消”两个操作
      * @param handler :Handler 传入的需要回调的handler信息，可作为回调方法是用，msg.what = 1时为操作完成状态符
      */

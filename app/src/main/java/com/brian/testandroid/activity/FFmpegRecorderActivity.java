@@ -42,26 +42,31 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.brian.common.Env;
+import com.brian.common.util.LogUtil;
 import com.brian.testandroid.R;
 import com.brian.testandroid.record.AudioRecordRunnable;
-import com.brian.testandroid.record.NewFFmpegFrameRecorder;
+import com.brian.testandroid.record.FrameData;
 import com.brian.testandroid.record.RecorderParameters;
-import com.brian.testandroid.record.SavedFrames;
 import com.brian.testandroid.record.Util;
-import com.googlecode.javacv.FrameRecorder;
-import com.googlecode.javacv.cpp.opencv_core.IplImage;
+import com.getkeepsafe.relinker.ReLinker;
+
+import org.bytedeco.javacv.FFmpegFrameRecorder;
+import org.bytedeco.javacv.Frame;
+import org.bytedeco.javacv.FrameRecorder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
 
 import static com.brian.testandroid.record.Util.rotateYUV420Degree270;
 import static com.brian.testandroid.record.Util.rotateYUV420Degree90;
-import static com.googlecode.javacv.cpp.opencv_core.IPL_DEPTH_8U;
+import static org.bytedeco.javacpp.avutil.AV_PIX_FMT_NV21;
 
 public class FFmpegRecorderActivity extends Activity implements OnClickListener, OnTouchListener {
 
@@ -84,15 +89,15 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
     boolean nextEnabled = false;
 
     //录制视频和保存音频的类
-    private volatile NewFFmpegFrameRecorder videoRecorder;
+    private volatile FFmpegFrameRecorder videoRecorder;
 
     //判断是否是前置摄像头
     private boolean isPreviewOn = false;
     private Camera mCamera;
 
     //预览的宽高和屏幕宽高
-    private int previewWidth = 480, screenWidth = 480;
-    private int previewHeight = 480, screenHeight = 800;
+    private int previewWidth = 480, screenWidth = 720;
+    private int previewHeight = 640, screenHeight = 1280;
 
     //录制音频的线程
     private AudioRecordRunnable audioRecordRunnable;
@@ -101,8 +106,6 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
     private Camera cameraDevice;
     private CameraView cameraView;
     Parameters cameraParameters = null;
-    //IplImage对象,用于存储摄像头返回的byte[]，以及图片的宽高，depth，channel等
-    private IplImage yuvIplImage = null;
     //分别为 默认摄像头（后置）、默认调用摄像头的分辨率、被选择的摄像头（前置或者后置）
     int defaultCameraId = -1, defaultScreenResolution = -1, cameraSelection = 0;
 
@@ -138,7 +141,7 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
     private long mLastAudioTimestamp = 0L;
     private long frameTime = 0L;
     //每一幀的数据结构
-    private SavedFrames lastSavedframe = new SavedFrames(null, 0L);
+    private final FrameData mLastFrameData = new FrameData();
     //视频时间戳
     private long mVideoTimestamp = 0L;
     //时候保存过视频文件
@@ -153,6 +156,18 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
     private ImageView stateImageView;
 
     private byte[] firstData = null;
+
+    private Frame mFrameData = new Frame(previewWidth, previewHeight, Frame.DEPTH_UBYTE, 2);
+
+    static {
+        Context context = Env.getContext();
+        ReLinker.recursively().loadLibrary(context, "avcodec");
+        ReLinker.recursively().loadLibrary(context, "avformat");
+        ReLinker.recursively().loadLibrary(context, "jniswresample");
+        ReLinker.recursively().loadLibrary(context, "avutil");
+        ReLinker.recursively().loadLibrary(context, "jniavutil");
+    }
+
 
     private Handler mHandler;
 
@@ -216,7 +231,7 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
 
     //neon库对opencv做了优化
     static {
-        System.loadLibrary("checkneon");
+        ReLinker.recursively().loadLibrary(Env.getContext(), "checkneon");
     }
 
     public native static int checkNeonFromJNI();
@@ -309,10 +324,8 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
                 boolean result = setCamera();
 
                 if (!initSuccess) {
-
                     initVideoRecorder();
                     startRecording();
-
                     initSuccess = true;
                 }
 
@@ -322,7 +335,6 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
             @Override
             protected void onPostExecute(Boolean result) {
                 if (!result || cameraDevice == null) {
-                    //FuncCore.showToast(FFmpegRecorderActivity.this, "无法连接到相机");
                     finish();
                     return;
                 }
@@ -337,8 +349,6 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
                 //设置surface的宽高
                 RelativeLayout.LayoutParams layoutParam1 = new RelativeLayout.LayoutParams(screenWidth, (int) (screenWidth * (previewWidth / (previewHeight * 1f))));
                 layoutParam1.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-                //int margin = Util.calculateMargin(previewWidth, screenWidth);
-                //layoutParam1.setMargins(0,margin,0,margin);
 
                 RelativeLayout.LayoutParams layoutParam2 = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
                 layoutParam2.topMargin = screenWidth;
@@ -394,14 +404,15 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
 
 
     private void initVideoRecorder() {
-        strVideoPath = Util.createFinalPath(this);//Util.createTempPath(tempFolderPath);
+        strVideoPath = Util.createFinalPath(this);
+        LogUtil.e("strVideoPath=" + strVideoPath);
 
         RecorderParameters recorderParameters = Util.getRecorderParameter(RecorderParameters.RESOLUTION_MEDIUM_VALUE);
         int sampleRate = recorderParameters.getAudioSamplingRate();
         frameRate = recorderParameters.getVideoFrameRate();
         frameTime = (1000000L / frameRate);
 
-        videoRecorder = new NewFFmpegFrameRecorder(strVideoPath, recorderParameters.getVidioWidth(), recorderParameters.getVidioHeight(), 1);
+        videoRecorder = new FFmpegFrameRecorder(strVideoPath, recorderParameters.getVidioWidth(), recorderParameters.getVidioHeight(), 1);
         videoRecorder.setFormat(recorderParameters.getVideoOutputFormat());
         videoRecorder.setSampleRate(recorderParameters.getAudioSamplingRate());
         videoRecorder.setFrameRate(recorderParameters.getVideoFrameRate());
@@ -416,12 +427,10 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
     }
 
     public void startRecording() {
-
         try {
             videoRecorder.start();
             audioRecordRunnable.start();
-
-        } catch (NewFFmpegFrameRecorder.Exception e) {
+        } catch (FFmpegFrameRecorder.Exception e) {
             e.printStackTrace();
         }
     }
@@ -476,9 +485,7 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
 
             publishProgress(10);
 
-            String captureBitmapPath = Environment.getExternalStorageDirectory().toString() + "/DCIM/video";
-
-            captureBitmapPath = Util.createImagePath(FFmpegRecorderActivity.this);
+            String captureBitmapPath = Util.createImagePath(FFmpegRecorderActivity.this);
             YuvImage localYuvImage = new YuvImage(data, 17, previewWidth, previewHeight, null);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             FileOutputStream outStream = null;
@@ -555,24 +562,9 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
 
     }
 
-    /**
-     * 放弃视频时弹出框
-     */
-    private void showCancellDialog() {
-        Util.showDialog(FFmpegRecorderActivity.this, "提示", "确定要放弃本视频吗？", 2, new Handler() {
-            @Override
-            public void dispatchMessage(Message msg) {
-                if (msg.what == 1)
-                    videoTheEnd(false);
-            }
-        });
-    }
-
     @Override
     public void onBackPressed() {
-        if (recording)
-            showCancellDialog();
-        else
+        if (!recording)
             videoTheEnd(false);
     }
 
@@ -663,7 +655,7 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
 
             //录制视频
             synchronized (mVideoRecordLock) {
-                if (recording && rec && lastSavedframe != null && lastSavedframe.getFrameBytesData() != null && yuvIplImage != null) {
+                if (recording && rec && mLastFrameData != null && mLastFrameData.frameBytesData != null) {
                     //保存某一幀的图片
                     if (isFirstFrame) {
                         isFirstFrame = false;
@@ -686,23 +678,22 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
                     }
 
                     mVideoTimestamp += frameTime;
-                    if (lastSavedframe.getTimeStamp() > mVideoTimestamp) {
-                        mVideoTimestamp = lastSavedframe.getTimeStamp();
+                    if (mLastFrameData.timeStamp > mVideoTimestamp) {
+                        mVideoTimestamp = mLastFrameData.timeStamp;
                     }
                     try {
-                        yuvIplImage.getByteBuffer().put(lastSavedframe.getFrameBytesData());
-                        videoRecorder.setTimestamp(lastSavedframe.getTimeStamp());
-                        long time = System.currentTimeMillis();
-                        videoRecorder.record(yuvIplImage);
+                        ((ByteBuffer)mFrameData.image[0].position(0)).put(mLastFrameData.frameBytesData);
+                        videoRecorder.setTimestamp(mLastFrameData.timeStamp);
+                        videoRecorder.record(mFrameData);
                     } catch (FrameRecorder.Exception e) {
-                        Log.i("recorder", "录制错误" + e.getMessage());
-//                        e.printStackTrace();
+                        Log.i("recorder", "录制错误: " + e.getMessage());
                     }
                 }
                 byte[] tempData = rotateYUV420Degree90(data, previewWidth, previewHeight);
                 if (cameraSelection == 1)
                     tempData = rotateYUV420Degree270(data, previewWidth, previewHeight);
-                lastSavedframe = new SavedFrames(tempData, frameTimeStamp);
+                mLastFrameData.timeStamp = frameTimeStamp;
+                mLastFrameData.frameBytesData = tempData;
             }
         }
     }
@@ -750,7 +741,6 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
 
     private void handleSurfaceChanged() {
         if (mCamera == null) {
-            //showToast(this, "无法连接到相机");
             finish();
             return;
         }
@@ -797,9 +787,6 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
         Log.e("preview", "previewWidth=" + previewWidth + "; previewHeight=" + previewHeight);
         //设置预览帧率
         cameraParameters.setPreviewFrameRate(frameRate);
-        //构建一个IplImage对象，用于录制视频
-        //和opencv中的cvCreateImage方法一样
-        yuvIplImage = IplImage.create(previewHeight, previewWidth, IPL_DEPTH_8U, 2);
 
         //系统版本为8一下的不支持这种对焦
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
@@ -863,9 +850,7 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
                 }
             }
         } else if (v.getId() == R.id.recorder_cancel) {
-            if (recording)
-                showCancellDialog();
-            else
+            if (!recording)
                 videoTheEnd(false);
         }
     }
@@ -958,9 +943,7 @@ public class FFmpegRecorderActivity extends Activity implements OnClickListener,
             e.printStackTrace();
         }
 
-        yuvIplImage = null;
         videoRecorder = null;
-        lastSavedframe = null;
 
         //progressView.putProgressList((int) totalTime);
         //停止刷新进度

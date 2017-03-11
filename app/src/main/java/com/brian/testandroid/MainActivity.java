@@ -13,6 +13,8 @@ import com.brian.testandroid.activity.CameraActivity;
 import com.brian.testandroid.activity.DayNightActivity;
 import com.brian.testandroid.activity.DialogFragmentActivity;
 import com.brian.testandroid.activity.DrawerArrowActivity;
+import com.brian.testandroid.activity.FFmpegCmdActivity;
+import com.brian.testandroid.activity.FFmpegRecorderActivity;
 import com.brian.testandroid.activity.FtpFilesActivity;
 import com.brian.testandroid.activity.MarkableProgressBarActivity;
 import com.brian.testandroid.activity.PermissionsActivity;
@@ -22,7 +24,6 @@ import com.brian.testandroid.activity.ScrollingImageActivity;
 import com.brian.testandroid.activity.TabLayoutActivity;
 import com.brian.testandroid.activity.TranslucentStatusBarActivity;
 import com.brian.testandroid.activity.VRImageActivity;
-import com.brian.testandroid.activity.FFmpegRecorderActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class MainActivity extends BaseActivity {
         initListView();
 
         // 需要在AndroidManifest.xml注册activity
+        mDatas.add(new Item(FFmpegCmdActivity.class, "测试ffmpeg录制"));
         mDatas.add(new Item(FFmpegRecorderActivity.class, "测试ffmpeg录制"));
         mDatas.add(new Item(FtpFilesActivity.class, "测试ftp访问"));
         mDatas.add(new Item(VRImageActivity.class, "测试图片处理"));
