@@ -177,7 +177,7 @@ public class VRImageActivity extends BaseActivity {
 
     private Bitmap getDealedImage(Bitmap sourceBitmap, int bright, int transparent, float blurR, int offset) {
 
-        dealPixels(sourceBitmap);
+//        dealPixels(sourceBitmap);
 
         Bitmap secondBitmap = getTransparentBitmap(sourceBitmap, transparent);
         Bitmap bitmap = Bitmap.createBitmap(sourceBitmap.getWidth(), sourceBitmap.getHeight() + offset, Bitmap.Config.ARGB_8888);

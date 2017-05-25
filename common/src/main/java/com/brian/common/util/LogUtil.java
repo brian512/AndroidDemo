@@ -43,7 +43,7 @@ public class LogUtil {
     public static void log(String tag, String mess) {
         if (mIsDebugMode) { Log.i(tag, buildMessageSafe(mess)); }
     }
-    public static void log(String mess) {
+    public static void log(CharSequence mess) {
         if (mIsDebugMode) { Log.i(getTag(), buildMessageSafe(mess)); }
     }
 
@@ -123,15 +123,15 @@ public class LogUtil {
         }
     }
 
-    private static String buildMessageSafe(String msg) {
+    private static String buildMessageSafe(CharSequence msg) {
         try {
-            return buildMessage(msg);
+            return buildMessage(msg).toString();
         } catch (Exception e) {
             printError(e);
         }
-        return msg;
+        return msg.toString();
     }
-    private static String buildMessage(String msg) {
+    private static CharSequence buildMessage(CharSequence msg) {
         StackTraceElement[] trace = new Throwable().fillInStackTrace().getStackTrace();
         String caller = "";
         for (int i = 3; i < trace.length; i++) {

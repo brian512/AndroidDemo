@@ -21,6 +21,7 @@ android {
                 GETUI_APP_KEY : "jkWflfH5Zn9tmmngiBTl17",
                 GETUI_APP_SECRET : "cnN6MSJuzM7TtSWg1Q83z1"
         ]
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -28,6 +29,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+//    externalNativeBuild {
+//        ndkBuild {
+//            path file("src\\main\\jni\\Android.mk")
+//        }
+//    }
+
+    sourceSets.main {
+        jni.srcDirs = [] //屏蔽gradle的jni生成过程
+        jniLibs.srcDir 'src/main/libs'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.properties'
+        pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.xml'
+        pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.properties'
+        pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.xml'
+
+        pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.xml'
+    }
+
 }
 
 dependencies {
@@ -35,7 +58,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(":common")
     compile project(":androidpush")
+    compile project(":ffmpegkit")
 
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    compile 'com.android.support:multidex:1.0.1'
+
+    compile 'com.getkeepsafe.relinker:relinker:1.2.2'
 }

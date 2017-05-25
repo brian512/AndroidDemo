@@ -36,6 +36,10 @@
         <activity android:name=".activity.PermissionsActivity"/>
         <activity android:name=".activity.VRImageActivity"/>
         <activity android:name=".activity.PushActivity"/>
+        <activity android:name=".activity.FtpFilesActivity"/>
+        <activity android:name=".activity.FFmpegRecorderActivity"/>
+        <activity android:name=".activity.FFmpegPreviewActivity"/>
+        <activity android:name=".activity.FFmpegCmdActivity"/>
     </application>
 
 </manifest>
