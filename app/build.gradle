@@ -10,7 +10,17 @@ android {
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
         versionCode 1
-        versionName "image1.0"
+        versionName "1.0"
+
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
+
+        manifestPlaceholders = [
+                GETUI_APP_ID : "umLrbKvIj29k2ReQ4qDOi2",
+                GETUI_APP_KEY : "jkWflfH5Zn9tmmngiBTl17",
+                GETUI_APP_SECRET : "cnN6MSJuzM7TtSWg1Q83z1"
+        ]
     }
     buildTypes {
         release {
@@ -24,6 +34,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile project(":common")
+    compile project(":androidpush")
 
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'

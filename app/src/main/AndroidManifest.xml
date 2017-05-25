@@ -35,6 +35,7 @@
         <activity android:name=".activity.CameraActivity"/>
         <activity android:name=".activity.PermissionsActivity"/>
         <activity android:name=".activity.VRImageActivity"/>
+        <activity android:name=".activity.PushActivity"/>
     </application>
 
 </manifest>
