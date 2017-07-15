@@ -84,11 +84,11 @@ public class RomUtil {
             return mTarget;
         }
 
-        mTarget = Target.JPUSH;
+        mTarget = Target.GETUI;
         return mTarget;
     }
 
     public enum Target {
-        MIUI, EMUI, FLYME, JPUSH
+        MIUI, EMUI, FLYME, GETUI
     }
 }

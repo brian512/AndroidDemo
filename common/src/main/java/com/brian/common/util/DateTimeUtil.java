@@ -16,6 +16,8 @@
 
 package com.brian.common.util;
 
+import android.text.TextUtils;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -67,7 +69,7 @@ public class DateTimeUtil {
 
     public static String formatDate(long time, String pattern) {
         SimpleDateFormat formatter = null;
-        if (StringUtil.isEmptyString(pattern)) {
+        if (TextUtils.isEmpty(pattern)) {
             formatter = new SimpleDateFormat(DEFAULT_DATE_PATTERN, Locale.CHINA);
         } else {
             formatter = new SimpleDateFormat(pattern, Locale.CHINA);
@@ -78,7 +80,7 @@ public class DateTimeUtil {
 
     public static String getCurrentDate(String pattern) {
         SimpleDateFormat formatter = null;
-        if (StringUtil.isEmptyString(pattern)) {
+        if (TextUtils.isEmpty(pattern)) {
             formatter = new SimpleDateFormat(DEFAULT_DATE_PATTERN, Locale.CHINA);
         } else {
             formatter = new SimpleDateFormat(pattern, Locale.CHINA);

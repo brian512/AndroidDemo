@@ -2,6 +2,7 @@ package com.brian.common.util;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 
 import com.brian.common.Env;
 
@@ -25,7 +26,7 @@ public class ResourceUtil {
      * @return
      */
     public static String geFileFromAssets(Context context, String fileName) {
-        if (context == null || StringUtil.isEmpty(fileName)) {
+        if (context == null || TextUtils.isEmpty(fileName)) {
             return null;
         }
 

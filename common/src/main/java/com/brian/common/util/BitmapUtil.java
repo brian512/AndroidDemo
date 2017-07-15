@@ -91,9 +91,7 @@ public class BitmapUtil {
         // matrix.postRotate(45);
 
         // 创建新的图片
-        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
-
-        return resizedBitmap;
+        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
     }
 
     /**
@@ -149,7 +147,7 @@ public class BitmapUtil {
             outputStream.close();
             return 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            JDLog.printError(e);
             return -1;
         }
     }
@@ -211,8 +209,10 @@ public class BitmapUtil {
                     break;
             }
         } catch (IOException e) {
-            LogUtil.e(TAG, "Can't read EXIF tags from file " + imagePath);
+            JDLog.printError(e);
+            JDLog.logError(TAG, "Can't read EXIF tags from file " + imagePath);
         }
+        JDLog.log("rotation=" + rotation);
         return new ExifInfo(rotation, flip);
     }
 
@@ -267,25 +267,27 @@ public class BitmapUtil {
             fis = new FileInputStream(imagePath);
 
             bitmap = BitmapFactory.decodeStream(fis, null, options);
-            if (bitmap != null) {
-                try {
-                    ExifInfo exif = getExifInfo(imagePath);
-                    bitmap = correctExifOrientation(bitmap, exif); // 旋转
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+//            if (bitmap != null) {
+//                try {
+//                    ExifInfo exif = getExifInfo(imagePath);
+//
+//                    bitmap = correctExifOrientation(bitmap, exif); // 旋转
+//                } catch (Exception e) {
+//                    JDLog.logError("imagePath=" + imagePath);
+//                    JDLog.printError(e);
+//                }
+//            }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            JDLog.printError(e);
         } catch (OutOfMemoryError e) {
-            e.printStackTrace();
+            JDLog.printError(e);
         } finally {
             if (fis != null) {
                 try {
                     fis.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    JDLog.printError(e);
                 }
             }
         }
@@ -294,10 +296,6 @@ public class BitmapUtil {
 
     /**
      * 读取图片资源
-     *
-//     * @param context
-     * @param resID
-     * @return
      */
     public static Bitmap readBitmap(Resources res, int resID) {
         return readBitmap(res, resID, null);
@@ -318,11 +316,11 @@ public class BitmapUtil {
         try {
             return BitmapFactory.decodeResource(res, resID, options);
         } catch (OutOfMemoryError e) {
-            e.printStackTrace();
+            JDLog.printError(e);
             System.gc();
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+            JDLog.printError(e);
             return null;
         }
     }
@@ -385,6 +383,12 @@ public class BitmapUtil {
         return outStream.toByteArray();
     }
 
+    public static byte[] bitmap2Bytes(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
+    }
+
     /**
      * 读取图片，考虑缩放、裁剪和旋转
      *
@@ -433,7 +437,7 @@ public class BitmapUtil {
             return null;
         }
 
-        String imagePath = UriUtil.getAbsoluteImagePath(activity, uri);
+        String imagePath = UriUtil.getPath(activity, uri);
         Bitmap bitmap = null;
         if (!TextUtils.isEmpty(imagePath)) {
             bitmap = readBitmap(imagePath, maxWidth, maxHeight);
@@ -453,7 +457,7 @@ public class BitmapUtil {
      * @return
      */
     public static Bitmap readBitmap(String imagePath, int width, int height) {
-        Options options = new Options();
+        BitmapFactory.Options options = new Options();
         options.inJustDecodeBounds = true;
         options.inPurgeable = true;
         // 解析出图片大小
@@ -473,7 +477,7 @@ public class BitmapUtil {
             }
 
         } catch (OutOfMemoryError e) {
-            e.printStackTrace();
+            JDLog.printError(e);
             System.gc();
         }
 
@@ -494,7 +498,7 @@ public class BitmapUtil {
             return null;
         }
 
-        Options options = new Options();
+        BitmapFactory.Options options = new Options();
         options.inJustDecodeBounds = true;
         options.inPurgeable = true;
         options.inInputShareable = true;
@@ -517,12 +521,12 @@ public class BitmapUtil {
             bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, options);
 
             // 根据文件旋转信息旋转图片
-            String imagePath = UriUtil.getAbsoluteImagePath(activity, uri);
+            String imagePath = UriUtil.getPath(activity, uri);
             BitmapUtil.ExifInfo exif = BitmapUtil.getExifInfo(imagePath);
             bitmap = BitmapUtil.correctExifOrientation(bitmap, exif);
 
         } catch (Exception e) {
-
+            JDLog.printError(e);
         } finally {
             if (fis != null) {
                 try {
@@ -566,7 +570,7 @@ public class BitmapUtil {
 
         /*
          * 处理流程
-		 * image1、处理旋转
+		 * 1、处理旋转
 		 * 2、缩放到合适尺寸
 		 * 3、居中截取指定的范围
 		 *
@@ -637,7 +641,7 @@ public class BitmapUtil {
             return null;
         }
 
-        if (width <= 0 || height <= 0) {
+        if (width <= 0 || height <= 0 || x >= width || y >= height) {
             throw new IllegalArgumentException("size is error");
         }
         try {
@@ -657,7 +661,7 @@ public class BitmapUtil {
      * @return
      */
     @TargetApi(17)
-    public static Bitmap blurBitmapUseSysApi(Bitmap bitmap, float blurR) {
+    public static Bitmap blurBitmapUseSysApi(Bitmap bitmap, float radius) {
 
         //Let's create an empty bitmap with the same size of the bitmap we want to blur
         Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
@@ -680,7 +684,7 @@ public class BitmapUtil {
             Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
 
             // Set the radius of the blur
-            blurScript.setRadius(blurR);
+            blurScript.setRadius(radius);
 
             // Perform the Renderscript
             blurScript.setInput(allIn);
@@ -717,7 +721,7 @@ public class BitmapUtil {
         Drawable imageDrawable = new BitmapDrawable(image);
 
         // 新建一个新的输出图片
-        Bitmap output = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
 
         // 新建一个矩形
@@ -753,7 +757,7 @@ public class BitmapUtil {
         Drawable imageDrawable = new BitmapDrawable(image);
 
         // 新建一个新的输出图片
-        Bitmap output = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
 
         // 新建一个矩形
@@ -792,17 +796,34 @@ public class BitmapUtil {
     }
 
     /**
-     * 获取镜像Bitmap
-     *
-     * @param bitmap
-     * @return
+     * 设置水印图片在右下角
      */
-    public static Bitmap getMirrorBitmap(Bitmap bitmap) {
-        if (bitmap == null) {
-            return null;
+    public static Bitmap createWaterMaskRightBottom(Bitmap src, Bitmap watermark, int paddingRight, int paddingBottom) {
+        if (src == null || src.isRecycled() || watermark == null || watermark.isRecycled()) {
+            return src;
         }
+        return createWaterMaskBitmap(src, watermark,
+                src.getWidth() - watermark.getWidth() - paddingRight,
+                src.getHeight() - watermark.getHeight() - paddingBottom);
+    }
 
-        return null;
+
+    private static Bitmap createWaterMaskBitmap(Bitmap src, Bitmap watermark, int paddingLeft, int paddingTop) {
+        int width = src.getWidth();
+        int height = src.getHeight();
+        //创建一个bitmap
+        Bitmap newb = Bitmap.createBitmap(width, height, Config.ARGB_8888);// 创建一个新的和SRC长度宽度一样的位图
+        //将该图片作为画布
+        Canvas canvas = new Canvas(newb);
+        //在画布 0，0坐标上开始绘制原始图片
+        canvas.drawBitmap(src, 0, 0, null);
+        //在画布上绘制水印图片
+        canvas.drawBitmap(watermark, paddingLeft, paddingTop, null);
+        // 保存
+        canvas.save(Canvas.ALL_SAVE_FLAG);
+        // 存储
+        canvas.restore();
+        return newb;
     }
 
     /**
@@ -815,11 +836,11 @@ public class BitmapUtil {
     public static Bitmap mergeBitmap(Bitmap backBitmap, Bitmap frontBitmap) {
 
         if (backBitmap == null || backBitmap.isRecycled()) {
-            LogUtil.e(TAG, "backBitmap=" + backBitmap);
+            JDLog.logError(TAG, "backBitmap=" + backBitmap);
             return null;
         }
         if (frontBitmap == null || frontBitmap.isRecycled()) {
-            LogUtil.e(TAG, "frontBitmap=" + frontBitmap);
+            JDLog.logError(TAG, "frontBitmap=" + frontBitmap);
             return backBitmap;
         }
         Bitmap bitmap = backBitmap.copy(Config.ARGB_8888, true);
@@ -844,7 +865,7 @@ public class BitmapUtil {
 
         if (leftBitmap == null || leftBitmap.isRecycled()
                 || rightBitmap == null || rightBitmap.isRecycled()) {
-            LogUtil.e(TAG, "leftBitmap=" + leftBitmap + ";rightBitmap=" + rightBitmap);
+            JDLog.logError(TAG, "leftBitmap=" + leftBitmap + ";rightBitmap=" + rightBitmap);
             return null;
         }
         int height = 0; // 拼接后的高度，按照参数取大或取小
@@ -896,7 +917,7 @@ public class BitmapUtil {
 
         if (topBitmap == null || topBitmap.isRecycled()
                 || bottomBitmap == null || bottomBitmap.isRecycled()) {
-            LogUtil.e(TAG, "topBitmap=" + topBitmap + ";bottomBitmap=" + bottomBitmap);
+            JDLog.logError(TAG, "topBitmap=" + topBitmap + ";bottomBitmap=" + bottomBitmap);
             return null;
         }
         int width = 0;
@@ -938,7 +959,7 @@ public class BitmapUtil {
      * @return
      */
     public static Bitmap getProperBitmap(String imagePath, int width, int height) {
-        Options options = new Options();
+        BitmapFactory.Options options = new Options();
         options.inJustDecodeBounds = true;
         options.inPurgeable = true;
         // 解析出图片大小
@@ -969,9 +990,9 @@ public class BitmapUtil {
 //    private static int getOption(int bitmapWidth ,int bitmapHeight){
 //        int max = bitmapWidth > bitmapHeight ? bitmapWidth:bitmapHeight;
 //        if(max < MAX_VALUE){
-//            return image1;
+//            return 1;
 //        }else{
-//            return max / MAX_VALUE + image1;
+//            return max / MAX_VALUE + 1;
 //        }
 //    }
 
@@ -981,8 +1002,8 @@ public class BitmapUtil {
         int scaleShort = (bitmapWidth < bitmapHeight ? bitmapWidth : bitmapHeight) / (needWidth < needHeight ? needWidth : needHeight) + 1;
 
         int scale = scaleLong >= scaleShort ? scaleLong : scaleShort;
-        LogUtil.log(TAG, "bitmapWidth:" + bitmapWidth + "|bitmapHeight" + bitmapHeight + "needWidth:" + needWidth + "|needHeight:" + needHeight);
-        LogUtil.log(TAG, "scale" + scale);
+        JDLog.log(TAG, "bitmapWidth:" + bitmapWidth + "|bitmapHeight" + bitmapHeight + "needWidth:" + needWidth + "|needHeight:" + needHeight);
+        JDLog.log(TAG, "scale" + scale);
 
         return scale;
     }
@@ -1040,7 +1061,7 @@ public class BitmapUtil {
      */
 
     public static Bitmap getProperBitmap(Context context, Uri uri, int width, int height) {
-        Options options = new Options();
+        BitmapFactory.Options options = new Options();
         options.inJustDecodeBounds = true;
         options.inPurgeable = true;
         options.inInputShareable = true;
@@ -1068,7 +1089,7 @@ public class BitmapUtil {
             bitmap = formatBitmap(bitmap);
 
         } catch (Exception e) {
-            LogUtil.log(TAG, "exception BitmapUtil.createBitmap ");
+            JDLog.log(TAG, "exception BitmapUtil.createBitmap ");
         } finally {
             if (fis != null) {
                 try {
@@ -1125,7 +1146,7 @@ public class BitmapUtil {
      */
     public static boolean saveImageToGallery(Context context, Bitmap bmp, String path) {
         // 首先保存图片
-        FileUtil.checkFileDirExists(path);
+        FileUtil.ensureFileParentDir(path);
         File file = new File(path);
         try {
             FileOutputStream fos = new FileOutputStream(file);
@@ -1142,10 +1163,123 @@ public class BitmapUtil {
             context.sendBroadcast(new Intent("com.android.camera.NEW_PICTURE", uri));
             return true;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            JDLog.printError(e);
         } catch (IOException e) {
-            e.printStackTrace();
+            JDLog.printError(e);
         }
         return false;
+    }
+
+    public static void releaseBitmap(Bitmap bitmap) {
+        if (bitmap != null && !bitmap.isRecycled()) {
+            bitmap.recycle();
+        }
+    }
+
+    /**
+     * 提取yuv分量
+     * @param src
+     * @param yArray
+     * @param uArray
+     * @param vArray
+     * @param width
+     * @param height
+     */
+    public static void extractYUV(byte [] src, byte [] yArray, byte [] uArray, byte [] vArray, int width, int height){
+
+        int nFrameSize = width * height;
+
+        //提取y分量
+        System.arraycopy(src, 0, yArray, 0,nFrameSize);
+
+        int k          = 0;
+        int uvCount    = nFrameSize>>1;
+
+        //取分量y值
+//		for(int i = 0;i < nFrameSize;i++ )
+//		{
+//			yArray[ k ] = src[ i ];
+//			k++;
+//		}
+
+        k = 0;
+
+//		System.arraycopy(src, nFrameSize, uArray, 0,nFrameSize/4);
+//		System.arraycopy(src, nFrameSize*5/4, vArray, 0,nFrameSize/4);
+        //取分量uv值
+        for( int i = 0;i < uvCount ;i+=2 )
+        {
+            vArray[ k ] = src[ nFrameSize +  i ]; //v
+            uArray[ k ] = src[ nFrameSize +  i + 1 ];//u
+            k++;
+        }
+
+    }
+
+    /**
+     *将yuv图像逆时针旋转90度
+     * @param src
+     * @param width
+     * @param height
+     * @return
+     */
+    public static byte[] rotateYuv420(byte[] src,int width, int height){
+
+        int wh = width * height;
+        byte[] des = new byte[src.length];
+        //旋转Y
+        int k = 0;
+        for(int i=0;i<width;i++) {
+            for(int j=0;j<height;j++)
+            {
+                des[k] = src[width*j + i];
+                k++;
+            }
+        }
+
+        for(int i=0;i<width;i+=2) {
+            for(int j=0;j<height/2;j++)
+            {
+                des[k] = src[wh+ width*j + i];
+                des[k+1]=src[wh + width*j + i+1];
+                k+=2;
+            }
+        }
+
+//        int nWidth = 0, nHeight = 0;
+//        int wh = 0;
+//        int uvHeight = 0;
+//        if(width != nWidth || height != nHeight)
+//        {
+//            nWidth = width;
+//            nHeight = height;
+//            wh = width * height;
+//            uvHeight = height >> 1;//uvHeight = height / 2
+//        }
+//        int s = (int) (wh*1.5f);
+//        byte[] dst = new byte[s];
+//        //旋转Y
+//        int k = 0;
+//        for(int i = 0; i < width; i++){
+//            int nPos = width - 1;
+//            for(int j = 0; j < height; j++)
+//            {
+//                dst[k] = src[nPos - i];
+//                k++;
+//                nPos += width;
+//            }
+//        }
+//
+//        for(int i = 0; i < width; i+=2){
+//            int nPos = wh + width - 1;
+//            for(int j = 0; j < uvHeight; j++) {
+//                dst[k] = src[nPos - i - 1];
+//                dst[k + 1] = src[nPos - i];
+//                k += 2;
+//                nPos += width;
+//            }
+//        }
+
+        return des;
     }
 }

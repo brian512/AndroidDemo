@@ -9,7 +9,7 @@ public class PathConfig {
      */
     public static String getCameraOutputDir() {
         String dir = PathUtil.getCacheDir() + "/camera";
-        FileUtil.ensureFolderExists(dir);
+        FileUtil.ensureDir(dir);
         if (FileUtil.isDirExist(dir)) {
             return dir;
         }
@@ -23,7 +23,7 @@ public class PathConfig {
      */
     public static String getVideoPosterOutputDir() {
         String dir = PathUtil.getCacheDir() + "/poster";
-        FileUtil.ensureFolderExists(dir);
+        FileUtil.ensureDir(dir);
         if (FileUtil.isDirExist(dir)) {
             return dir;
         }
@@ -55,7 +55,7 @@ public class PathConfig {
      */
     public static String getMediaUploadDir() {
         String dir = PathUtil.getCacheDir() + "/upload";
-        FileUtil.ensureFolderExists(dir);
+        FileUtil.ensureDir(dir);
         if (FileUtil.isDirExist(dir)) {
             return dir;
         }
@@ -73,7 +73,7 @@ public class PathConfig {
     public static String getMediaSaveDir() {
         // 如果不行，再到data目录下创建缓存目录 PS：问题在于程序被卸载后，照片也会被删除
         String dir = PathUtil.getCacheDir() + "/save";
-        FileUtil.ensureFolderExists(dir);
+        FileUtil.ensureDir(dir);
         if (FileUtil.isDirExist(dir)) {
             return dir;
         }
@@ -89,7 +89,7 @@ public class PathConfig {
      */
     public static String getAudioDir() {
         String dir = PathUtil.getCacheDir() + "/audio";
-        FileUtil.ensureFolderExists(dir);
+        FileUtil.ensureDir(dir);
 
         if (FileUtil.isDirExist(dir)) {
             return dir;
@@ -104,7 +104,7 @@ public class PathConfig {
      */
     public static String getMusicOutputDir(){
         String dir = PathUtil.getCacheDir() + "/music";
-        FileUtil.ensureFolderExists(dir);
+        FileUtil.ensureDir(dir);
 
         if (FileUtil.isDirExist(dir)) {
             return dir;
