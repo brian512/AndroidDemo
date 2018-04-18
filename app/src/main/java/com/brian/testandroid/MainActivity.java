@@ -13,9 +13,8 @@ import com.brian.testandroid.activity.CameraActivity;
 import com.brian.testandroid.activity.DayNightActivity;
 import com.brian.testandroid.activity.DialogFragmentActivity;
 import com.brian.testandroid.activity.DrawerArrowActivity;
-import com.brian.testandroid.activity.FFmpegCmdActivity;
-import com.brian.testandroid.activity.FFmpegRecorderActivity;
 import com.brian.testandroid.activity.FtpFilesActivity;
+import com.brian.testandroid.activity.KeyBoardActivity;
 import com.brian.testandroid.activity.MarkableProgressBarActivity;
 import com.brian.testandroid.activity.PermissionsActivity;
 import com.brian.testandroid.activity.PraiseViewActivity;
@@ -25,7 +24,6 @@ import com.brian.testandroid.activity.ScalableImageViewActivity;
 import com.brian.testandroid.activity.ScrollingImageActivity;
 import com.brian.testandroid.activity.TabLayoutActivity;
 import com.brian.testandroid.activity.TranslucentStatusBarActivity;
-import com.brian.testandroid.activity.VRImageActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,12 +47,10 @@ public class MainActivity extends BaseActivity {
         initListView();
 
         // 需要在AndroidManifest.xml注册activity
+        mDatas.add(new Item(KeyBoardActivity.class, "测试软键盘相关"));
         mDatas.add(new Item(ScalableImageViewActivity.class, "测试可缩放，拖拽的imageview"));
         mDatas.add(new Item(PushActivity.class, "测试消息推送"));
-        mDatas.add(new Item(FFmpegCmdActivity.class, "测试ffmpeg录制"));
-        mDatas.add(new Item(FFmpegRecorderActivity.class, "测试ffmpeg录制"));
         mDatas.add(new Item(FtpFilesActivity.class, "测试ftp访问"));
-        mDatas.add(new Item(VRImageActivity.class, "测试图片处理"));
         mDatas.add(new Item(PermissionsActivity.class, "测试权限请求"));
         mDatas.add(new Item(CameraActivity.class, "测试相机预览"));
         mDatas.add(new Item(RecyclerViewActivity.class, "测试RecyclerView"));

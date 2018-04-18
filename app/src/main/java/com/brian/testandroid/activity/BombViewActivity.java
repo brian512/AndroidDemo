@@ -31,4 +31,10 @@ public class BombViewActivity extends BaseActivity {
 
         getUIHandler().postDelayed(task, 1000);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBombView.release();
+    }
 }
