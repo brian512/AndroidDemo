@@ -1,1 +1,1 @@
-include ':app', ':common', ':androidpush', ':ffmpegkit'
+include ':app', ':common', ':androidpush'

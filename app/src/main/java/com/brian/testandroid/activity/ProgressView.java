@@ -35,7 +35,7 @@ public class ProgressView extends View {
     private float firstWidth = 4f, threeWidth = 1f;//断点的宽度
     private LinkedList<Integer> linkedList = new LinkedList<Integer>();
     private float perPixel = 0l;
-    private float countRecorderTime = FFmpegRecorderActivity.recordingTime;//总的录制时间
+    private float countRecorderTime = 15_000;//总的录制时间
 
     public void setTotalTime(float time) {
         countRecorderTime = time;

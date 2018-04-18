@@ -58,10 +58,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(":common")
     compile project(":androidpush")
-    compile project(":ffmpegkit")
 
-    compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    apt 'com.jakewharton:butterknife-compiler:8.5.1'
 
     compile 'com.android.support:multidex:1.0.1'
 
