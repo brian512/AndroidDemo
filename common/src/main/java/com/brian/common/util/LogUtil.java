@@ -20,6 +20,9 @@ import java.util.Locale;
 public class LogUtil {
     public static boolean mIsDebugMode = true;// 获取堆栈信息会影响性能，发布应用时记得关闭DebugMode
 
+    private static final String TAG = LogUtil.class.getSimpleName();
+    private static String FILTER = "DEMO";
+
     private static final int JSON_INDENT = 2;
 
     private static boolean LOGW = true;
@@ -184,5 +187,22 @@ public class LogUtil {
                 }
             }
         }
+    }
+
+    /**
+     * 显示方法的调用轨迹，过滤关键字“showCallStack”
+     */
+    public static void showCallStack() {
+        StackTraceElement[] trace = new Throwable().fillInStackTrace().getStackTrace();
+        StringBuilder builder = new StringBuilder(FILTER);
+        String tmp;
+        for (int i = trace.length - 1; i > 0; i--) {
+            tmp = "(" + trace[i].getFileName() + ":" + trace[i].getLineNumber() + ") "
+                    + trace[i].getMethodName()
+                    + "\n ——> ";
+            builder.append(tmp);
+        }
+        builder.append(TAG + ".showCallStack()");
+        Log.e(TAG, "showCallStack:" + builder.toString());
     }
 }
