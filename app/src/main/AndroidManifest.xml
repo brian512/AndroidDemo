@@ -40,6 +40,8 @@
         <activity android:name=".activity.ScalableImageViewActivity"/>
         <activity android:name=".activity.KeyBoardActivity"
             android:windowSoftInputMode="stateHidden|adjustNothing"/>
+        <activity android:name=".activity.RecyclerListActivity"/>
+        <activity android:name=".activity.TextViewClickActivity"/>
     </application>
 
 </manifest>
