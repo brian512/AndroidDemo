@@ -7,18 +7,21 @@ import android.widget.ListView;
 
 import com.brian.common.BaseActivity;
 import com.brian.common.CommonAdapter;
+import com.brian.testandroid.activity.AudioStateActivity;
 import com.brian.testandroid.activity.BannerViewActivity;
 import com.brian.testandroid.activity.BombViewActivity;
 import com.brian.testandroid.activity.CameraActivity;
 import com.brian.testandroid.activity.DayNightActivity;
 import com.brian.testandroid.activity.DialogFragmentActivity;
 import com.brian.testandroid.activity.DrawerArrowActivity;
+import com.brian.testandroid.activity.FrameAnimActivity;
 import com.brian.testandroid.activity.FtpFilesActivity;
 import com.brian.testandroid.activity.KeyBoardActivity;
 import com.brian.testandroid.activity.MarkableProgressBarActivity;
 import com.brian.testandroid.activity.PermissionsActivity;
 import com.brian.testandroid.activity.PraiseViewActivity;
 import com.brian.testandroid.activity.PushActivity;
+import com.brian.testandroid.activity.QMUITextViewActivity;
 import com.brian.testandroid.activity.RecyclerListActivity;
 import com.brian.testandroid.activity.RecyclerViewActivity;
 import com.brian.testandroid.activity.ScalableImageViewActivity;
@@ -49,6 +52,9 @@ public class MainActivity extends BaseActivity {
         initListView();
 
         // 需要在AndroidManifest.xml注册activity
+        mDatas.add(new Item(FrameAnimActivity.class, "FrameAnimActivity"));
+        mDatas.add(new Item(AudioStateActivity.class, "AudioStateActivity"));
+        mDatas.add(new Item(QMUITextViewActivity.class, "测试QMUI中的TextView控件"));
         mDatas.add(new Item(TextViewClickActivity.class, "测试TextView点击事件"));
         mDatas.add(new Item(RecyclerListActivity.class, "测试列表刷新和加载"));
         mDatas.add(new Item(KeyBoardActivity.class, "测试软键盘相关"));

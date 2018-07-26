@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.brian.common.view.VoiceChatInputBar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/input_layout"
+    android:layout_width="match_parent"
+    android:layout_height="49dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="#aaa">
+
+    <EditText
+        android:id="@+id/msg_input"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:hint="请输入消息内容"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColorHint="#FF9B9B9B"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/msg_send"
+        android:layout_width="50dp"
+        android:layout_height="35dp"
+        android:layout_marginRight="2dp"
+        android:gravity="center"
+        android:text="发送"
+        android:textColor="#FFFF2C55"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+</com.brian.common.view.VoiceChatInputBar>

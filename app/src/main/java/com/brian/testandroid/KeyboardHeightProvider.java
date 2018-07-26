@@ -5,13 +5,18 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+
+import com.brian.common.util.LogUtil;
+import com.brian.common.util.SDKUtil;
 
 /**
  * The keyboard height provider, this class uses a PopupWindow
@@ -75,10 +80,13 @@ public class KeyboardHeightProvider extends PopupWindow {
 
         setSoftInputMode(LayoutParams.SOFT_INPUT_ADJUST_RESIZE | LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            setWindowLayoutType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+//        }
 
         parentView = activity.findViewById(android.R.id.content);
 
-        setWidth(0);
+        setWidth(100);
         setHeight(LayoutParams.MATCH_PARENT);
 
         popupView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
@@ -168,6 +176,9 @@ public class KeyboardHeightProvider extends PopupWindow {
             this.keyboardLandscapeHeight = keyboardHeight;
             notifyKeyboardHeightChanged(keyboardLandscapeHeight, orientation);
         }
+        LogUtil.d("rect.bottom=" + rect.bottom);
+        LogUtil.d("displayBottom=" + displayBottom);
+        LogUtil.d("keyboardLandscapeHeight=" + keyboardLandscapeHeight);
     }
 
     /**

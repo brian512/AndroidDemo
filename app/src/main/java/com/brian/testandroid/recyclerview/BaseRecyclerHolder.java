@@ -1,58 +1,57 @@
 package com.brian.testandroid.recyclerview;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by dengqu on 2018/1/3.
+ * Created by huamm on 2018/1/3.
  */
 
 public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
-    private SparseArray<View> views;
-    private View mItemView;
+    private SparseArray<View> mViews;
 
     public BaseRecyclerHolder(View itemView) {
         super(itemView);
-        views = new SparseArray<>();
-        mItemView = itemView;
+        mViews = new SparseArray<>();
 
     }
 
     /**
      * 获取ItemView
-     *
-     * @return
      */
     public View getItemView() {
-        return mItemView;
+        return itemView;
     }
 
     public View getView(int resId) {
-        return retrieveView(resId);
+        return getViewById(resId);
     }
 
     public TextView getTextView(int resId) {
-        return retrieveView(resId);
+        return getViewById(resId);
     }
 
     public ImageView getImageView(int resId) {
-        return retrieveView(resId);
+        return getViewById(resId);
     }
 
     public Button getButton(int resId) {
-        return retrieveView(resId);
+        return getViewById(resId);
     }
 
-    @SuppressWarnings("unchecked")
-    protected <V extends View> V retrieveView(int viewId) {
-        View view = views.get(viewId);
+    public <V extends View> V getViewById(int viewId) {
+        View view = mViews.get(viewId);
         if (view == null) {
-            view = mItemView.findViewById(viewId);
-            views.put(viewId, view);
+            view = itemView.findViewById(viewId);
+            mViews.put(viewId, view);
         }
         return (V) view;
     }

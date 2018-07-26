@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/input_ly"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/ok_btn1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="bottom"
-        android:layout_marginBottom="0dp"
-        android:orientation="horizontal">
+        android:text="显示输入框"/>
 
-        <EditText
-            android:id="@+id/input"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-        <Button
-            android:id="@+id/ok_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@android:string/ok"/>
+    <Button
+        android:id="@+id/ok_btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="显示输入框"/>
 
-    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-</FrameLayout>
+    <Button
+        android:id="@+id/ok_btn3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="显示输入框"/>
+
+</LinearLayout>
