@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.brian.common.view.ShapeTextView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="afdsafsfsdfsfsdfsdfs"
+        android:padding="12dp"
+        android:textSize="18sp"
+        app:sCornersRadius="24dp"
+        app:sUseSelector="true"
+        app:sSelectorPressedColor="@color/com_text_gray_0"
+        app:sSelectorNormalColor="@color/com_text_red"
+        app:sSelectorDisableColor="@color/com_text_white"
+        app:sStrokeColor="#ff0000"
+        app:sStrokeWidth="1dp"
+        />
+
+    <com.brian.common.view.ShapeTextView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="afdsafsfsdfsfsdfsdfs"
+        android:padding="12dp"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        app:sCornersRadius="24dp"
+        app:sStrokeColor="@color/com_text_red"
+        app:sStrokeWidth="1dp"
+        />
+
+    <com.brian.common.view.ShapeTextView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="afdsafsfsdfsfsdfsdfs"
+        android:padding="12dp"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        app:sCornersRadius="24dp"
+        app:sStrokeColor="@color/com_text_red"
+        app:sStrokeWidth="1dp"
+        app:sStrokeDashGap="3dp"
+        app:sStrokeDashWidth="5dp"
+        />
+
+    <com.brian.common.view.ShapeTextView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="afdsafsfsdfsfsdfsdfs"
+        android:padding="12dp"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        app:sCornersRadius="8dp"
+        app:sGradientOrientation="LEFT_RIGHT"
+        app:sGradientStartColor="#00ff00"
+        app:sGradientEndColor="#0000ff"
+        />
+
+</LinearLayout>

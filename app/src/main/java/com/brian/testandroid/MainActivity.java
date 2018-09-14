@@ -26,6 +26,7 @@ import com.brian.testandroid.activity.RecyclerListActivity;
 import com.brian.testandroid.activity.RecyclerViewActivity;
 import com.brian.testandroid.activity.ScalableImageViewActivity;
 import com.brian.testandroid.activity.ScrollingImageActivity;
+import com.brian.testandroid.activity.ShapedButtonActivity;
 import com.brian.testandroid.activity.TabLayoutActivity;
 import com.brian.testandroid.activity.TextViewClickActivity;
 import com.brian.testandroid.activity.TranslucentStatusBarActivity;
@@ -52,6 +53,7 @@ public class MainActivity extends BaseActivity {
         initListView();
 
         // 需要在AndroidManifest.xml注册activity
+        mDatas.add(new Item(ShapedButtonActivity.class, "ShapedButtonActivity"));
         mDatas.add(new Item(FrameAnimActivity.class, "FrameAnimActivity"));
         mDatas.add(new Item(AudioStateActivity.class, "AudioStateActivity"));
         mDatas.add(new Item(QMUITextViewActivity.class, "测试QMUI中的TextView控件"));

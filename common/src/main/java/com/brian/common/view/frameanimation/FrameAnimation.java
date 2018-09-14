@@ -1,5 +1,6 @@
 package com.brian.common.view.frameanimation;
 
+import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -116,6 +117,22 @@ public class FrameAnimation {
         mImageList.clear();
         mImageList.addAll(imagePathList);
         mFrameInterval = frameInterval;
+
+        final ValueAnimator animator = ValueAnimator.ofInt(0, 100);
+        animator.setDuration(5000);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                /*
+                 * 通过这样一个监听事件，我们就可以获取
+                 * 到ValueAnimator每一步所产生的值。
+                 *
+                 * 通过调用getAnimatedValue()获取到每个时间因子所产生的Value。
+                 * */
+                Integer value = (Integer) animation.getAnimatedValue();
+            }
+        });
+        animator.start();
 
         mBitmapHashMap.clear();
 

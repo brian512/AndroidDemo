@@ -47,6 +47,7 @@
         <activity android:name=".activity.QMUITextViewActivity"/>
         <activity android:name=".activity.AudioStateActivity"/>
         <activity android:name=".activity.FrameAnimActivity"/>
+        <activity android:name=".activity.ShapedButtonActivity"/>
     </application>
 
 </manifest>
