@@ -7,15 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.brian.testandroid.R;
 import com.brian.common.BaseActivity;
 import com.brian.common.PermissionHelper;
 import com.brian.common.util.LogUtil;
 import com.brian.common.util.PermissionUtil;
 import com.brian.common.util.ToastUtil;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.brian.testandroid.R;
 
 /**
  * 测试权限请求
@@ -24,35 +21,34 @@ import butterknife.ButterKnife;
 
 public class PermissionsActivity extends BaseActivity {
 
-    @BindView(R.id.request_location)
-    Button mRequestLocation;
+    private Button mRequestLocation;
 
-    @BindView(R.id.request_audio)
-    Button mRequestAudio;
+    private Button mRequestAudio;
 
-    @BindView(R.id.request_camera)
-    Button mRequestCamera;
+    private Button mRequestCamera;
 
-    @BindView(R.id.request_record)
-    Button mRequestRecord;
+    private Button mRequestRecord;
 
-    @BindView(R.id.request_location_result)
-    TextView mRequestLocationResult;
+    private TextView mRequestLocationResult;
 
-    @BindView(R.id.request_audio_result)
-    TextView mRequestAudioResult;
+    private TextView mRequestAudioResult;
 
-    @BindView(R.id.request_camera_result)
-    TextView mRequestCameraResult;
+    private TextView mRequestCameraResult;
 
-    @BindView(R.id.request_record_result)
-    TextView mRequestRecordResult;
+    private TextView mRequestRecordResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_permissions);
-        ButterKnife.bind(this);
+        mRequestLocation = (Button) findViewById(R.id.request_location);
+        mRequestAudio = (Button) findViewById(R.id.request_audio);
+        mRequestCamera = (Button) findViewById(R.id.request_camera);
+        mRequestRecord = (Button) findViewById(R.id.request_record);
+        mRequestLocationResult = (TextView) findViewById(R.id.request_location_result);
+        mRequestCameraResult = (TextView) findViewById(R.id.request_camera_result);
+        mRequestAudioResult = (TextView) findViewById(R.id.request_audio_result);
+        mRequestRecordResult = (TextView) findViewById(R.id.request_record_result);
 
         refreshPermissionState();
 

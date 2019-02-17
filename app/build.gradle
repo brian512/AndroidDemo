@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
 
 android {
     compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
@@ -51,20 +50,21 @@ android {
         pickFirst  'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.xml'
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile project(":common")
-    compile project(":androidpush")
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(":common")
+    implementation project(":androidpush")
+    implementation project(":ffmpegkit")
 
-    compile 'com.jakewharton:butterknife:8.5.1'
-    apt 'com.jakewharton:butterknife-compiler:8.5.1'
+    implementation 'com.android.support:multidex:1.0.1'
 
-    compile 'com.android.support:multidex:1.0.1'
-
-    compile 'com.getkeepsafe.relinker:relinker:1.2.2'
-
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    implementation 'com.getkeepsafe.relinker:relinker:1.2.2'
 }

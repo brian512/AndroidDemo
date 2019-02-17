@@ -34,12 +34,9 @@ import com.brian.testandroid.activity.TranslucentStatusBarActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.listview) ListView mListView;
+    private ListView mListView;
 
     private CommonAdapter<Item> mAdapter;
 
@@ -49,7 +46,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        mListView = (ListView) findViewById(R.id.listview);
         initListView();
 
         // 需要在AndroidManifest.xml注册activity

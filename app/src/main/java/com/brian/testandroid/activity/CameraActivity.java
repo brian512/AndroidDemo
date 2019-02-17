@@ -18,8 +18,6 @@ import com.brian.common.PermissionHelper;
 
 import java.io.File;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 测试相机预览
@@ -28,11 +26,11 @@ import butterknife.ButterKnife;
 
 public class CameraActivity extends BaseActivity {
 
-    @BindView(R.id.camera) CameraSurfaceView mCameraSurfaceView;
-    @BindView(R.id.flash) Button mFlashBtn;
-    @BindView(R.id.facing) Button mFacingBtn;
-    @BindView(R.id.photo) Button mPhotoBtn;
-    @BindView(R.id.record) Button mRecordBtn;
+    private CameraSurfaceView mCameraSurfaceView;
+    private Button mFlashBtn;
+    private Button mFacingBtn;
+    private Button mPhotoBtn;
+    private Button mRecordBtn;
 
     private boolean mIsFlashOn = false;
 
@@ -40,7 +38,11 @@ public class CameraActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        ButterKnife.bind(this);
+        mCameraSurfaceView = (CameraSurfaceView) findViewById(R.id.camera);
+        mFlashBtn = (Button) findViewById(R.id.flash);
+        mFacingBtn = (Button) findViewById(R.id.facing);
+        mPhotoBtn = (Button) findViewById(R.id.photo);
+        mRecordBtn = (Button) findViewById(R.id.record);
 
 //        mCameraSurfaceView.setAspectRatio(3, 4);
 

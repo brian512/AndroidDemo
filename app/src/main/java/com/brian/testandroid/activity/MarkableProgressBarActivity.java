@@ -9,22 +9,22 @@ import com.brian.common.BaseActivity;
 import com.brian.common.view.AnimImageButton;
 import com.brian.common.view.MarkableProgressBar;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class MarkableProgressBarActivity extends BaseActivity {
 
-    @BindView(R.id.progressbar) MarkableProgressBar progressBar;
-    @BindView(R.id.button) Button textView;
-    @BindView(R.id.button_reset) Button resetView;
+    private MarkableProgressBar progressBar;
+    private Button textView;
+    private Button resetView;
 
-    @BindView(R.id.anim_button) AnimImageButton mAnimButton;
+    private AnimImageButton mAnimButton;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_markable_progressbar);
-        ButterKnife.bind(this);
+        progressBar = (MarkableProgressBar) findViewById(R.id.progressbar);
+        textView = (Button) findViewById(R.id.button);
+        resetView = (Button) findViewById(R.id.button_reset);
+        mAnimButton = (AnimImageButton) findViewById(R.id.anim_button);
 
         progressBar.setTime(15_000, 3_000);
         textView.setSelected(false);

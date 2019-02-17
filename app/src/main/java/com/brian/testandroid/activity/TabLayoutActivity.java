@@ -15,15 +15,12 @@ import com.brian.testandroid.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by huamm on 2016/6/29 0029.
  */
 public class TabLayoutActivity extends Activity {
-    @BindView(R.id.tabs) TabLayout mTabLayout;
-    @BindView(R.id.vp_view) ViewPager mViewPager;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
 
     private TextView view1, view2, view3;//页卡视图
     private List<View> mViewList = new ArrayList<>();//页卡视图集合
@@ -32,7 +29,8 @@ public class TabLayoutActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabview);
-        ButterKnife.bind(this);
+        mTabLayout = findViewById(R.id.tabs);
+        mViewPager = findViewById(R.id.vp_view);
 
         mViewPager = (ViewPager) findViewById(R.id.vp_view);
         mTabLayout = (TabLayout) findViewById(R.id.tabs);

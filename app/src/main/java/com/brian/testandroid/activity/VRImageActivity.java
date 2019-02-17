@@ -29,9 +29,6 @@ import com.brian.testandroid.common.BasePreference;
 
 import java.io.File;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * 解析支付宝VR红包
  * Created by brian on 2016/12/23.
@@ -46,28 +43,27 @@ public class VRImageActivity extends BaseActivity {
     private Button mOK;
     private Button mSelect;
 
-    @BindView(R.id.startx)
-    EditText mStartX;
-    @BindView(R.id.starty)
-    EditText mStartY;
-    @BindView(R.id.width)
-    EditText mWidth;
-    @BindView(R.id.height)
-    EditText mHeight;
-    @BindView(R.id.bright)
-    EditText mBright;
-    @BindView(R.id.blurRadio)
-    EditText mBlurR;
-    @BindView(R.id.offset)
-    EditText mOffset;
-    @BindView(R.id.imagePath)
-    TextView mImagePath;
+    private EditText mStartX;
+    private EditText mStartY;
+    private EditText mWidth;
+    private EditText mHeight;
+    private EditText mBright;
+    private EditText mBlurR;
+    private EditText mOffset;
+    private TextView mImagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vrimage);
-        ButterKnife.bind(this);
+        mStartX = (EditText) findViewById(R.id.startx);
+        mStartY = (EditText) findViewById(R.id.starty);
+        mWidth = (EditText) findViewById(R.id.width);
+        mHeight = (EditText) findViewById(R.id.height);
+        mBright = (EditText) findViewById(R.id.bright);
+        mBlurR = (EditText) findViewById(R.id.blurRadio);
+        mOffset = (EditText) findViewById(R.id.offset);
+        mImagePath = (TextView) findViewById(R.id.imagePath);
 
         initData();
 

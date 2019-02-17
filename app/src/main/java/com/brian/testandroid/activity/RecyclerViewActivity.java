@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * 测试
  * Created by huamm on 2016/11/4 0004.
@@ -25,14 +22,13 @@ import butterknife.ButterKnife;
 
 public class RecyclerViewActivity extends BaseActivity {
 
-    @BindView(R.id.recycler_view)
-    HorizontalRecyclerView mRecyclerView;
+    private HorizontalRecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
-        ButterKnife.bind(this);
+        mRecyclerView = (HorizontalRecyclerView) findViewById(R.id.recycler_view);
 
         //创建默认的线性LayoutManager
         mRecyclerView.setHasFixedSize(true); // 如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
