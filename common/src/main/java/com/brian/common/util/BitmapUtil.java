@@ -820,7 +820,7 @@ public class BitmapUtil {
         //在画布上绘制水印图片
         canvas.drawBitmap(watermark, paddingLeft, paddingTop, null);
         // 保存
-        canvas.save(Canvas.ALL_SAVE_FLAG);
+        canvas.save();
         // 存储
         canvas.restore();
         return newb;

@@ -61,9 +61,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(":common")
     implementation project(":androidpush")
-    implementation project(":ffmpegkit")
 
-    implementation 'com.android.support:multidex:1.0.1'
+    implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     implementation 'com.getkeepsafe.relinker:relinker:1.2.2'
