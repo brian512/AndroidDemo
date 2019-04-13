@@ -11,6 +11,7 @@ import com.brian.testandroid.activity.AudioStateActivity;
 import com.brian.testandroid.activity.BannerViewActivity;
 import com.brian.testandroid.activity.BombViewActivity;
 import com.brian.testandroid.activity.CameraActivity;
+import com.brian.testandroid.activity.CustomClickActivity;
 import com.brian.testandroid.activity.DayNightActivity;
 import com.brian.testandroid.activity.DialogFragmentActivity;
 import com.brian.testandroid.activity.DrawerArrowActivity;
@@ -50,6 +51,7 @@ public class MainActivity extends BaseActivity {
         initListView();
 
         // 需要在AndroidManifest.xml注册activity
+        mDatas.add(new Item(CustomClickActivity.class, "CustomClickActivity"));
         mDatas.add(new Item(ShapedButtonActivity.class, "ShapedButtonActivity"));
         mDatas.add(new Item(FrameAnimActivity.class, "FrameAnimActivity"));
         mDatas.add(new Item(AudioStateActivity.class, "AudioStateActivity"));

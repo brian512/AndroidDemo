@@ -48,6 +48,7 @@
         <activity android:name=".activity.AudioStateActivity"/>
         <activity android:name=".activity.FrameAnimActivity"/>
         <activity android:name=".activity.ShapedButtonActivity"/>
+        <activity android:name=".activity.CustomClickActivity"/>
     </application>
 
 </manifest>
