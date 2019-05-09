@@ -49,6 +49,9 @@
         <activity android:name=".activity.FrameAnimActivity"/>
         <activity android:name=".activity.ShapedButtonActivity"/>
         <activity android:name=".activity.CustomClickActivity"/>
+        <activity android:name=".activity.LottieAnimActivity"/>
+        <activity android:name=".activity.LimitedLengthTextViewActivity"/>
+>>>>>>> 更新gradle版本
     </application>
 
 </manifest>

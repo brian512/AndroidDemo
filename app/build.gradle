@@ -1,19 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
-    buildToolsVersion project.BUILD_TOOLS_VERSION
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "com.brian.testandroid"
-        minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
-        targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
-        ndk {
-            abiFilters "armeabi-v7a", "x86"
-        }
 
         manifestPlaceholders = [
                 GETUI_APP_ID : "umLrbKvIj29k2ReQ4qDOi2",
@@ -27,17 +22,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-//    externalNativeBuild {
-//        ndkBuild {
-//            path file("src\\main\\jni\\Android.mk")
-//        }
-//    }
-
-    sourceSets.main {
-        jni.srcDirs = [] //屏蔽gradle的jni生成过程
-        jniLibs.srcDir 'src/main/libs'
     }
 
     packagingOptions {
@@ -66,4 +50,23 @@ dependencies {
 
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     implementation 'com.getkeepsafe.relinker:relinker:1.2.2'
+
+    implementation project(path:":common", configuration: 'default')
+    implementation project(path:":androidpush", configuration: 'default')
+
+    implementation 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.getkeepsafe.relinker:relinker:1.2.2'
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+
+    implementation 'com.airbnb.android:lottie:2.6.1'
+
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.6'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.6'
+
+    implementation "com.android.support:design:${rootProject.ext.supportLibraryVersion}"
 }

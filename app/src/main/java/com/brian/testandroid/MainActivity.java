@@ -18,6 +18,8 @@ import com.brian.testandroid.activity.DrawerArrowActivity;
 import com.brian.testandroid.activity.FrameAnimActivity;
 import com.brian.testandroid.activity.FtpFilesActivity;
 import com.brian.testandroid.activity.KeyBoardActivity;
+import com.brian.testandroid.activity.LimitedLengthTextViewActivity;
+import com.brian.testandroid.activity.LottieAnimActivity;
 import com.brian.testandroid.activity.MarkableProgressBarActivity;
 import com.brian.testandroid.activity.PermissionsActivity;
 import com.brian.testandroid.activity.PraiseViewActivity;
@@ -52,6 +54,8 @@ public class MainActivity extends BaseActivity {
 
         // 需要在AndroidManifest.xml注册activity
         mDatas.add(new Item(CustomClickActivity.class, "CustomClickActivity"));
+        mDatas.add(new Item(LimitedLengthTextViewActivity.class, "LimitedLengthTextViewActivity"));
+        mDatas.add(new Item(LottieAnimActivity.class, "Lottie动画"));
         mDatas.add(new Item(ShapedButtonActivity.class, "ShapedButtonActivity"));
         mDatas.add(new Item(FrameAnimActivity.class, "FrameAnimActivity"));
         mDatas.add(new Item(AudioStateActivity.class, "AudioStateActivity"));

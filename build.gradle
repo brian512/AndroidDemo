@@ -6,7 +6,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.1'
+        classpath 'com.android.tools.build:gradle:3.4.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -20,9 +20,19 @@ allprojects {
         maven {
             url "http://mvn.gt.igexin.com/nexus/content/repositories/releases/"
         }
+        google()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    compileSdkVersion = 28
+    buildToolsVersion = "28.0.0"
+    supportLibraryVersion="28.0.0"
+
+    minSdkVersion = 23
+    targetSdkVersion = 28
 }

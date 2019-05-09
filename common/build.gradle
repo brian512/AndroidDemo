@@ -1,24 +1,30 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
-    buildToolsVersion project.BUILD_TOOLS_VERSION
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
-        targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
     }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.android.support:appcompat-v7:28.0.0'
+    api fileTree(dir: 'libs', include: ['*.jar'])
 
-    api 'com.android.support:design:28.0.0'
-
-    api 'com.android.support:recyclerview-v7:28.0.0'
+    api "com.android.support:support-v4:${rootProject.ext.supportLibraryVersion}"
+    api "com.android.support:appcompat-v7:${rootProject.ext.supportLibraryVersion}"
+    api "com.android.support:recyclerview-v7:${rootProject.ext.supportLibraryVersion}"
 
     api 'com.squareup.okhttp3:okhttp:3.13.1'
+
+    implementation 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

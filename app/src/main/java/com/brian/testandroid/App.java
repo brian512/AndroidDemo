@@ -7,6 +7,7 @@ import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
 import com.brian.common.Env;
+import com.didichuxing.doraemonkit.DoraemonKit;
 
 public class App extends Application {
 
@@ -26,6 +27,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         setStrictModeEnable(false);
+        DoraemonKit.install(this);
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
