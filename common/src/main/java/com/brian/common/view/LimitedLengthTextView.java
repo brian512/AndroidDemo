@@ -2,12 +2,6 @@ package com.brian.common.view;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
-import android.text.Layout;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.TextDirectionHeuristic;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.ViewTreeObserver;
@@ -15,6 +9,11 @@ import android.view.ViewTreeObserver;
 import com.brian.common.util.LogUtil;
 
 public class LimitedLengthTextView extends AppCompatTextView {
+
+
+    private int mFitTextStart = 0;
+    private int mFitTextEnd = 0;
+
 
     private ViewTreeObserver.OnGlobalLayoutListener mLayoutListener;
 
@@ -47,20 +46,38 @@ public class LimitedLengthTextView extends AppCompatTextView {
      * 在利用自定义的监听器返回给待操作的对象；
      */
     private void analyzeProcess() {
-        final String name = "卡卡西的超级超级超级小跟班";
-        final String str = "欢迎 %s 来到 超级心动女友";
-        CharSequence text = TextUtils.ellipsize(String.format(str, name), getPaint(), getWidth(), TextUtils.TruncateAt.END, false, new TextUtils.EllipsizeCallback() {
+        final CharSequence originalText = getText();
+        LogUtil.d("originalText=" + originalText);
+        TextUtils.ellipsize(originalText, getPaint(), getWidth(), TextUtils.TruncateAt.END, false, new TextUtils.EllipsizeCallback() {
             @Override
             public void ellipsized(int start, int end) {
                 LogUtil.d("start=" + start + "; end=" + end);
-                String cutOut = String.format(str, name).substring(start, end);
-                float avail = getPaint().measureText(name) - getPaint().measureText(cutOut);
-                CharSequence n = TextUtils.ellipsize(name, getPaint(), avail, TextUtils.TruncateAt.END);
-                setText(String.format(str, n));
+                if (start >= end || mFitTextStart >= mFitTextEnd) {
+                    return;
+                }
+                if (mFitTextEnd > originalText.length()) {
+                    mFitTextEnd = originalText.length();
+                }
+                CharSequence originalCutOut = originalText.subSequence(start, end);
+                CharSequence fitText = originalText.subSequence(mFitTextStart, mFitTextEnd);
+                float targetTextWidth = getPaint().measureText(fitText.toString());
+                float cutOutWidth = getPaint().measureText(originalCutOut.toString());
+                if (cutOutWidth > targetTextWidth) {
+                }
+                float avail = targetTextWidth - cutOutWidth + getPaint().measureText("\u2026");
+                CharSequence newKeep = TextUtils.ellipsize(fitText, getPaint(), avail, TextUtils.TruncateAt.END);
+                StringBuilder builder = new StringBuilder();
+                builder.append(originalText.subSequence(0, mFitTextStart))
+                        .append(newKeep)
+                        .append(originalText.subSequence(mFitTextEnd, originalText.length()));
+                LogUtil.d("mFitTextStart=" + originalText.subSequence(0, mFitTextStart));
+                LogUtil.d("newKeep=" + newKeep);
+                LogUtil.d("mFitTextEnd=" + originalText.subSequence(mFitTextEnd, originalText.length()));
+                mFitTextStart = 0;
+                mFitTextEnd = 0;
+                setText(builder.toString());
             }
         });
-        LogUtil.d("textView.getText()=" + getText());
-        LogUtil.d("text=" + text);
     }
 
     @Override
@@ -73,6 +90,14 @@ public class LimitedLengthTextView extends AppCompatTextView {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         getViewTreeObserver().removeOnGlobalLayoutListener(mLayoutListener);
+    }
+
+
+    public void setFitTextRange(int start, int end) {
+        if (start <= end) {
+            mFitTextStart = start;
+            mFitTextEnd = end;
+        }
     }
 
 }
