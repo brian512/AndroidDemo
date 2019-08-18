@@ -11,6 +11,7 @@ import com.brian.testandroid.activity.AudioStateActivity;
 import com.brian.testandroid.activity.BannerViewActivity;
 import com.brian.testandroid.activity.BombViewActivity;
 import com.brian.testandroid.activity.CameraActivity;
+import com.brian.testandroid.activity.ConstrainLayoutDemoAcitivty;
 import com.brian.testandroid.activity.CustomClickActivity;
 import com.brian.testandroid.activity.DayNightActivity;
 import com.brian.testandroid.activity.DialogFragmentActivity;
@@ -21,6 +22,7 @@ import com.brian.testandroid.activity.KeyBoardActivity;
 import com.brian.testandroid.activity.LimitedLengthTextViewActivity;
 import com.brian.testandroid.activity.LottieAnimActivity;
 import com.brian.testandroid.activity.MarkableProgressBarActivity;
+import com.brian.testandroid.activity.NotificationActivity;
 import com.brian.testandroid.activity.PermissionsActivity;
 import com.brian.testandroid.activity.PraiseViewActivity;
 import com.brian.testandroid.activity.PushActivity;
@@ -53,6 +55,8 @@ public class MainActivity extends BaseActivity {
         initListView();
 
         // 需要在AndroidManifest.xml注册activity
+        mDatas.add(new Item(NotificationActivity.class, "NotificationActivity"));
+        mDatas.add(new Item(ConstrainLayoutDemoAcitivty.class, "ConstrainLayoutDemoAcitivty"));
         mDatas.add(new Item(CustomClickActivity.class, "CustomClickActivity"));
         mDatas.add(new Item(LimitedLengthTextViewActivity.class, "LimitedLengthTextViewActivity"));
         mDatas.add(new Item(LottieAnimActivity.class, "Lottie动画"));

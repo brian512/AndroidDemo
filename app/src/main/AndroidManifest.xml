@@ -6,6 +6,8 @@
 
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -51,6 +53,17 @@
         <activity android:name=".activity.CustomClickActivity"/>
         <activity android:name=".activity.LottieAnimActivity"/>
         <activity android:name=".activity.LimitedLengthTextViewActivity"/>
+        <activity android:name=".activity.ConstrainLayoutDemoAcitivty"/>
+        <activity android:name=".activity.NotificationActivity"/>
+
+        <service android:name=".TestService" />
+
+        <receiver android:name=".activity.NotificaitonBroadcast">
+            <intent-filter>
+                <action android:name="ACTION_CANCEL" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
